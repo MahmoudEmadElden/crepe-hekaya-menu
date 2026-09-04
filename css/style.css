@@ -924,24 +924,25 @@ body {
   border: 1px solid var(--color-border);
   border-radius: var(--radius-full);
   padding: 0.25rem;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.2rem;
+  display: flex;
+  gap: 0.25rem;
   margin-bottom: 1rem;
 }
 
 .variant-btn {
+  flex: 1;
   background: none;
   border: none;
   color: var(--color-text-muted);
   font-family: var(--font-family);
-  font-size: 0.78rem;
+  font-size: 0.8rem;
   font-weight: 700;
-  padding: 0.4rem 0.2rem;
+  padding: 0.4rem 0.4rem;
   border-radius: var(--radius-full);
   cursor: pointer;
   transition: var(--transition-fast);
   text-align: center;
+  white-space: nowrap;
 }
 
 .variant-btn:hover {

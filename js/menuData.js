@@ -57,8 +57,8 @@ const menuItems = [
   {
     id: "ch-4",
     category: "chicken",
-    name: "كريب كتشوشا",
-    description: "خلطة كتشوشا الشهيرة بقطع الفراخ المتبلة بطريقة خاصة.",
+    name: "كريب كتيوشا",
+    description: "خلطة كتيوشا الشهيرة بقطع الفراخ المتبلة بطريقة خاصة.",
     variants: { plain: 85, roumi: 90, mozzarella: 90 },
     defaultVariant: "mozzarella"
   },
@@ -443,14 +443,11 @@ const menuItems = [
   {
     id: "pot-2",
     category: "potatoes-seafood",
-    name: "باكت بطاطس فارم فريتس",
-    description: "بطاطس مقلية مقرمشة سريعة.",
-    isFixedVariant: true,
-    sizeOptions: [
-      { name: "صغير", price: 20 },
-      { name: "كبير", price: 25 }
-    ],
-    price: 20
+    name: "باكت بطاطس",
+    description: "باكت بطاطس مقلية ذهبية مقرمشة وشهية.",
+    variants: { small: 20, large: 25 },
+    variantLabels: { small: "صغير", large: "كبير" },
+    defaultVariant: "small"
   },
   {
     id: "sea-1",
@@ -490,33 +487,27 @@ const menuItems = [
     category: "cheese-addons",
     name: "كريب جبنة موزاريلا",
     description: "كريب محشو بجبنة موزاريلا طبيعية مطاطية.",
-    options: [
-      { name: "سادة", price: 70 },
-      { name: "مع خضار فريش", price: 75 }
-    ],
-    price: 70
+    variants: { plain: 70, veggies: 75 },
+    variantLabels: { plain: "سادة", veggies: "خضار" },
+    defaultVariant: "plain"
   },
   {
     id: "chz-2",
     category: "cheese-addons",
     name: "كريب جبنة رومي",
     description: "كريب محشو بجبنة رومي قديمة غنية النكهة والمذاق.",
-    options: [
-      { name: "سادة", price: 70 },
-      { name: "مع خضار فريش", price: 75 }
-    ],
-    price: 70
+    variants: { plain: 70, veggies: 75 },
+    variantLabels: { plain: "سادة", veggies: "خضار" },
+    defaultVariant: "plain"
   },
   {
     id: "chz-3",
     category: "cheese-addons",
     name: "كريب ميكس جبن",
     description: "مزيج فاخر من (جبنة موزاريلا - جبنة رومي - جبنة شيدر).",
-    options: [
-      { name: "سادة", price: 75 },
-      { name: "مع خضار فريش", price: 80 }
-    ],
-    price: 75
+    variants: { plain: 75, veggies: 80 },
+    variantLabels: { plain: "سادة", veggies: "خضار" },
+    defaultVariant: "plain"
   }
 ];
 

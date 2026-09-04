@@ -68,7 +68,7 @@ function initApp() {
   // 1. Initial State for variants
   menuItems.forEach(item => {
     if (item.variants) {
-      state.selectedVariants[item.id] = item.defaultVariant || 'mozzarella';
+      state.selectedVariants[item.id] = item.defaultVariant || Object.keys(item.variants)[0];
     }
   });
 
@@ -291,14 +291,17 @@ function renderMenuItems(items) {
     let variantSwitcherHtml = '';
 
     if (item.variants) {
-      const selectedVariant = state.selectedVariants[item.id] || item.defaultVariant || 'mozzarella';
-      currentPrice = item.variants[selectedVariant] || item.variants.mozzarella || 0;
+      const selectedVariant = state.selectedVariants[item.id] || item.defaultVariant || Object.keys(item.variants)[0];
+      currentPrice = item.variants[selectedVariant] !== undefined ? item.variants[selectedVariant] : item.price;
+
+      const labels = item.variantLabels || { plain: 'سادة', roumi: 'رومي', mozzarella: 'موزاريلا' };
+      const variantButtonsHtml = Object.keys(item.variants).map(vKey => `
+        <button class="variant-btn ${selectedVariant === vKey ? 'active' : ''}" data-variant="${vKey}">${labels[vKey] || vKey}</button>
+      `).join('');
 
       variantSwitcherHtml = `
         <div class="variant-switcher" data-item-id="${item.id}">
-          <button class="variant-btn ${selectedVariant === 'plain' ? 'active' : ''}" data-variant="plain">سادة</button>
-          <button class="variant-btn ${selectedVariant === 'roumi' ? 'active' : ''}" data-variant="roumi">رومي</button>
-          <button class="variant-btn ${selectedVariant === 'mozzarella' ? 'active' : ''}" data-variant="mozzarella">موزاريلا</button>
+          ${variantButtonsHtml}
         </div>
       `;
     }
@@ -415,8 +418,8 @@ function openItemModal(itemId) {
 
   let currentPrice = item.price;
   if (item.variants) {
-    const v = state.selectedVariants[item.id] || item.defaultVariant || 'mozzarella';
-    currentPrice = item.variants[v];
+    const v = state.selectedVariants[item.id] || item.defaultVariant || Object.keys(item.variants)[0];
+    currentPrice = item.variants[v] !== undefined ? item.variants[v] : item.price;
   }
 
   elements.modalItemName.textContent = item.name;
