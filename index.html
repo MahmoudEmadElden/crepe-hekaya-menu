@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>كريب حكاية — Crepe Hekaya | المنيو الرقمي الرسمي</title>
+  
+  <!-- SEO & Social Meta Tags -->
+  <meta name="description" content="تصفح المنيو الرقمي الرسمي لمطعم كريب حكاية — Crepe Hekaya. كل قطمة في كريبنا حكاية ولها حكاية. كريب فراخ ولحمة ومكسات فاخرة.">
+  <meta name="keywords" content="كريب حكاية, Crepe Hekaya, منيو كريب حكاية, كريب فراخ, كريب لحمة, كريب نوتيلا">
+  <meta name="theme-color" content="#0C0C0E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  
+  <!-- Google Fonts Import (Cairo, Outfit, Poppins, Manrope, Tajawal) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      
+      <!-- Authentic Crepe Brand Logo with Official Image -->
+      <a href="#" class="nav-brand" aria-label="كريب حكاية الرئيسية">
+        <div class="brand-crepe-icon">
+          <img src="assets/images/logo.jpeg?v=2" alt="لوجو مطعم كريب حكاية" class="brand-logo-img">
+        </div>
+        <div class="brand-names">
+          <span class="brand-ar">كريب حكاية</span>
+          <span class="brand-en">CREPE HEKAYA</span>
+        </div>
+      </a>
+
+      <!-- Center Navigation Links -->
+      <ul class="nav-links">
+        <li class="nav-link-item active"><a href="#hero">الرئيسية</a></li>
+        <li class="nav-link-item"><a href="#menuSection">المنيو</a></li>
+        <li class="nav-link-item"><a href="#addonsSection">الإضافات</a></li>
+        <li class="nav-link-item"><a href="#branchesSection">موقعنا</a></li>
+      </ul>
+
+      <!-- Left Status & Info (Enhanced Eye-Comfort Time Badge) -->
+      <div class="nav-actions">
+        <div class="nav-time-badge" aria-label="مواعيد العمل">
+          <span class="status-pulse-dot"></span>
+          <span class="time-text-prefix">يومياً</span>
+          <span class="time-text-digits">12:00 م - 4:00 ص</span>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Hero Section (Spacious 2-Column Hero) -->
+  <section class="hero-section" id="hero">
+    <div class="container hero-grid">
+      
+      <!-- Right Column: Hero Texts & CTA -->
+      <div class="hero-content">
+        <div class="hero-tagline-badge">FRESH • TASTY • CREPE</div>
+        <h2 class="hero-title-en">CREPE HEKAYA</h2>
+        <h1 class="hero-title-ar">كريب حكاية</h1>
+        <h3 class="hero-catchphrase">كل قطمة في كريبنا حكاية ولها حكاية</h3>
+        
+        <p class="hero-desc">
+          استمتع بمذاق الكريب المقرمش الفاخر مع أفضل وأجود المكونات الطازجة. تصفح قائمتنا الكاملة للأسعار والأصناف بكل سهولة ووضوح.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="hero-cta-group">
+          <a href="#menuSection" class="btn-hero-primary">تصفح المنيو</a>
+        </div>
+      </div>
+
+      <!-- Left Column: Unified Video Stage (Single Window with Nav Arrows & Center Play/Pause) -->
+      <div class="hero-video-stage">
+        <div class="video-player-frame" id="videoFrame">
+          <!-- Video Element -->
+          <video id="heroVideoPlayer" playsinline preload="metadata" poster="assets/images/gallery/photo-6.jpeg">
+            <source id="heroVideoSource" src="assets/videos/cheese-bomb.mp4" type="video/mp4">
+            متصفحك لا يدعم تشغيل الفيديو.
+          </video>
+
+          <!-- Center Play / Pause Button Overlay -->
+          <button class="video-center-btn" id="videoCenterBtn" aria-label="تشغيل / إيقاف الفيديو">
+            <svg id="playIconSvg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg id="pauseIconSvg" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display: none;">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+          </button>
+
+          <!-- Right Navigation Arrow -->
+          <button class="video-nav-arrow arrow-right" id="videoPrevBtn" aria-label="الفيديو السابق">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+
+          <!-- Left Navigation Arrow -->
+          <button class="video-nav-arrow arrow-left" id="videoNextBtn" aria-label="الفيديو التالي">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Video Stage Bottom Info & Dots -->
+        <div class="video-stage-bottom">
+          <div class="video-dots-indicator" id="videoDots">
+            <span class="vdot active" data-vidx="0"></span>
+            <span class="vdot" data-vidx="1"></span>
+            <span class="vdot" data-vidx="2"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Real Photo Showcase (Clean Minimalist Gallery) -->
+  <section class="gallery-section" id="gallerySection" aria-label="استعراض الصور الحية">
+    <div class="container">
+      <div class="gallery-stage-box">
+        
+        <!-- Main Featured Photo Viewport -->
+        <div class="gallery-featured-view" id="galleryFeaturedView">
+          <img id="galleryMainImg" src="assets/images/gallery/photo-9.jpeg" alt="صورة حية من مطعم كريب حكاية" class="gallery-featured-img">
+          
+          <!-- Prev Arrow (Right in RTL) -->
+          <button class="gallery-arrow-btn gallery-prev" id="galleryPrevBtn" aria-label="الصورة السابقة">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+
+          <!-- Next Arrow (Left in RTL) -->
+          <button class="gallery-arrow-btn gallery-next" id="galleryNextBtn" aria-label="الصورة التالية">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+          </button>
+        </div>
+
+        <!-- Thumbnail Navigation Strip -->
+        <div class="gallery-thumb-strip" id="galleryThumbStrip">
+          <!-- Populated by JavaScript -->
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Bar (Search & Category Navigation) -->
+  <div class="sticky-bar-wrapper" id="menuSection">
+    <div class="container">
+      <div class="search-and-filter">
+        <!-- Search Input -->
+        <div class="search-box">
+          <svg class="search-icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input 
+            type="search" 
+            id="searchInput" 
+            class="search-input" 
+            placeholder="ابحث عن صنف أو مكون (كرسبي، استربس، شيدر، نوتيلا...)" 
+            autocomplete="off"
+            aria-label="البحث في قائمة الطعام"
+          >
+          <button id="searchClearBtn" class="search-clear-btn" aria-label="مسح البحث">✕</button>
+        </div>
+
+        <!-- Horizontal Scrollable Category Filter -->
+        <nav class="category-nav" id="categoryNav" aria-label="أقسام المنيو">
+          <!-- Populated by JavaScript -->
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content (Menu Items Grid) -->
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="section-header">
+        <h2 class="section-title">
+          <span>قائمة الأصناف</span>
+        </h2>
+        <span class="items-counter" id="itemsCounter">جارٍ التحميل...</span>
+      </div>
+
+      <!-- Menu Grid -->
+      <div class="menu-grid" id="menuGrid">
+        <!-- Populated by JavaScript -->
+      </div>
+
+      <!-- Zero-state UI (When no search match) -->
+      <div class="zero-state" id="zeroState" style="display: none;">
+        <h3 class="zero-state-title">لم نجد أي صنف يطابق بحثك</h3>
+        <p class="zero-state-desc">جرب البحث بكلمات أخرى أو استعرض جميع الأقسام المتاحة.</p>
+        <button class="btn-reset" id="zeroStateResetBtn">عرض جميع الأصناف</button>
+      </div>
+
+      <!-- Addons Section -->
+      <section class="addons-section" id="addonsSection" aria-label="ركن الإضافات والصوصات">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span>ركن الإضافات والصوصات</span>
+          </h2>
+        </div>
+        <div class="addons-grid" id="addonsGrid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Branch Location Section -->
+      <section class="info-section" id="branchesSection" aria-label="موقع مطعم كريب حكاية">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span>موقع مطعم كريب حكاية</span>
+          </h2>
+        </div>
+        <div class="branches-grid" id="branchesGrid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">كريب حكاية — Crepe Hekaya</div>
+      <p>أصل الكريب والميكسات الفاخرة على أصولها</p>
+      <p class="copyright">جميع الحقوق محفوظة © 2026 لمطعم كريب حكاية</p>
+    </div>
+  </footer>
+
+  <!-- Item Details Modal Dialog (Pure View) -->
+  <div class="modal-overlay" id="itemModal" role="dialog" aria-modal="true" aria-labelledby="modalItemName">
+    <div class="modal-dialog">
+      <button class="modal-close-btn" id="modalCloseBtn" aria-label="إغلاق النافذة">✕</button>
+      
+      <!-- Centered Header -->
+      <div class="modal-header-centered">
+        <h3 class="modal-item-name" id="modalItemName">تفاصيل الصنف</h3>
+        <p class="modal-desc" id="modalDesc"></p>
+      </div>
+
+      <!-- Ingredients Section (Stacked on the right) -->
+      <div class="modal-body-section" id="modalIngredientsSection" style="display: none;">
+        <span class="modal-section-heading">المكونات:</span>
+        <div class="modal-tags-list" id="modalIngredientsList"></div>
+      </div>
+
+      <!-- Price Details Block -->
+      <div class="modal-price-block">
+        <div class="modal-price-row">
+          <span class="modal-price-label">السعر:</span>
+          <div class="modal-price-display">
+            <span class="modal-price-num" id="modalPriceNum">80</span>
+            <span class="modal-price-curr">جنيه</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- JavaScript Scripts -->
+  <script src="js/menuData.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

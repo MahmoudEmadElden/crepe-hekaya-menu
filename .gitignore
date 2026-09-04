@@ -1,0 +1,13 @@
+# Temporary & Local files
+fix_docker.bat
+scratch_test.ps1
+server.ps1
+*.docx
+SOP_CREPE_HEKAYA.md
+
+# Raw root videos (already in assets/videos/)
+/*.mp4
+
+# Raw root WhatsApp images (already in assets/images/gallery/)
+/WhatsApp Image*.jpeg
+/WhatsApp Image*.jpg
