@@ -76,31 +76,50 @@
     </div>
   </header>
 
-  <!-- Hero Section (Spacious 2-Column Hero) -->
-  <section class="hero-section" id="hero">
-    <div class="container hero-grid">
-      
-      <!-- Right Column: Hero Texts & CTA -->
-      <div class="hero-content">
-        <div class="hero-tagline-badge">FRESH • TASTY • CREPE</div>
-        <h2 class="hero-title-en">CREPE HEKAYA</h2>
-        <h1 class="hero-title-ar">كريب حكاية</h1>
-        <h3 class="hero-catchphrase">كل قطمة في كريبنا حكاية ولها حكاية</h3>
-        
-        <p class="hero-desc">
-          استمتع بمذاق الكريب المقرمش الفاخر مع أفضل وأجود المكونات الطازجة. تصفح قائمتنا الكاملة للأسعار والأصناف بكل سهولة ووضوح.
-        </p>
+  <!-- Fullscreen Atmospheric Landing Hero Section -->
+  <section class="hero-landing-section" id="hero">
+    <div class="hero-landing-bg" style="background-image: url('assets/images/crepe-hero-bg.jpeg');"></div>
+    <div class="hero-landing-overlay"></div>
 
-        <!-- CTA Buttons -->
-        <div class="hero-cta-group">
-          <a href="#menuSection" class="btn-hero-primary">تصفح المنيو</a>
+    <div class="container hero-landing-container">
+      <div class="hero-landing-content">
+        <div class="hero-brand-badge">
+          <span class="badge-dot"></span>
+          <span class="badge-text">CREPE HEKAYA</span>
+        </div>
+        
+        <h1 class="hero-main-title">كريب حكاية</h1>
+        <p class="hero-main-catchphrase">كل قطمة في كريبنا حكاية ولها حكاية</p>
+        <p class="hero-main-subtext">أفضل المكونات الطازجة، قرمشة مظبوطة، وحشوات غنية بالطعم الأصلي</p>
+
+        <div class="hero-landing-actions">
+          <a href="#menuSection" class="btn-hero-order">اطلب كريب</a>
+          <a href="#menuSection" class="btn-hero-menu">تصفح المنيو</a>
         </div>
       </div>
 
-      <!-- Left Column: Unified Video Stage (Single Window with Nav Arrows & Center Play/Pause) -->
+      <!-- Clean Minimal Scroll Down Indicator (No Emojis) -->
+      <a href="#experienceSection" class="hero-scroll-indicator" aria-label="الانتقال للمحتوى">
+        <span class="scroll-text">اكتشف المزيد</span>
+        <svg class="scroll-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- Live Video Experience Section -->
+  <section class="experience-section" id="experienceSection" aria-label="فيديوهات كريب حكاية">
+    <div class="container">
+      <div class="experience-header">
+        <span class="experience-tag">تحضير مباشر</span>
+        <h2 class="experience-title">سر القرمشة والخلطة</h2>
+        <p class="experience-desc">شاهد لقطات حية من داخل المطبخ ولحظات تحضير الكريب ساخن ومقرمش</p>
+      </div>
+
+      <!-- Unified Video Stage Window -->
       <div class="hero-video-stage">
         <div class="video-player-frame" id="videoFrame">
-          <!-- Video Element -->
           <video id="heroVideoPlayer" playsinline preload="metadata" poster="assets/images/gallery/photo-6.jpeg">
             <source id="heroVideoSource" src="assets/videos/cheese-bomb.mp4" type="video/mp4">
             متصفحك لا يدعم تشغيل الفيديو.
