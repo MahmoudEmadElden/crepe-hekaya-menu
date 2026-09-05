@@ -67,8 +67,41 @@
         <a href="/" class="btn-back-to-menu">تصفح المنيو</a>
       </div>
 
-      <!-- Cart Footer (Notes + Total + Checkout) -->
+      <!-- Cart Footer (Delivery Details + Notes + Total + Checkout) -->
       <div class="cart-footer" id="cartFooter" style="display: none;">
+        
+        <!-- Delivery Details Form -->
+        <div class="checkout-delivery-card">
+          <div class="checkout-card-header">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <h3>بيانات التوصيل</h3>
+          </div>
+
+          <div class="checkout-form-grid">
+            <div class="form-group">
+              <label for="orderCustomerName">الاسم بالكامل <span class="required">*</span></label>
+              <input type="text" id="orderCustomerName" placeholder="ادخل اسمك بالكامل" required>
+            </div>
+            <div class="form-group">
+              <label for="orderCustomerPhone">رقم التليفون <span class="required">*</span></label>
+              <input type="tel" id="orderCustomerPhone" placeholder="01xxxxxxxxx" required dir="ltr">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="orderDeliveryAddress">عنوان التوصيل بالتفصيل <span class="required">*</span></label>
+            <input type="text" id="orderDeliveryAddress" placeholder="المنطقة، الشارع، رقم العمارة، رقم الشقة، علامة مميزة" required>
+          </div>
+
+          <div class="payment-method-pill">
+            <span class="pay-dot"></span>
+            <span>طريقة الدفع: <strong>الدفع نقداً عند الاستلام (كاش) 💵</strong></span>
+          </div>
+        </div>
+
         <div class="cart-notes-group">
           <label for="orderNotes">ملاحظات على الطلب (اختياري)</label>
           <textarea id="orderNotes" placeholder="مثال: من غير بصل، إكسترا صوص..." maxlength="500" rows="2"></textarea>

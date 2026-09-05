@@ -120,6 +120,37 @@
   text-align: center;
 }
 
+/* ---- Password Eye Toggle ---- */
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-input-wrapper input {
+  padding-left: 2.8rem;
+}
+
+.btn-toggle-pw {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  transition: var(--transition-fast);
+}
+
+.btn-toggle-pw:hover {
+  color: var(--color-primary);
+}
+
 /* ---- Submit Button ---- */
 .auth-submit-btn {
   width: 100%;

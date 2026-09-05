@@ -19,7 +19,7 @@ module.exports = async function handler(req, res) {
     const decoded = verifyToken(req.headers.authorization);
     await connectDB();
 
-    const { items, notes } = req.body;
+    const { items, notes, deliveryAddress: inputAddress, customerPhone: inputPhone, customerName: inputName } = req.body;
 
     // Validate items
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -33,6 +33,26 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({
         success: false,
         message: 'الطلب الواحد ممكن يحتوي على 20 صنف كحد أقصى'
+      });
+    }
+
+    // Get customer profile info
+    const user = await User.findById(decoded.userId).select('displayName username phone address');
+    const customerName = (inputName && inputName.trim()) || (user ? (user.displayName || user.username) : decoded.username);
+    const customerPhone = (inputPhone && inputPhone.trim()) || (user ? user.phone : '');
+    const deliveryAddress = (inputAddress && inputAddress.trim()) || (user ? user.address : '');
+
+    if (!customerPhone || customerPhone.length < 10) {
+      return res.status(400).json({
+        success: false,
+        message: 'رقم التليفون مطلوب لإتمام الطلب'
+      });
+    }
+
+    if (!deliveryAddress || deliveryAddress.length < 5) {
+      return res.status(400).json({
+        success: false,
+        message: 'عنوان التوصيل بالتفصيل مطلوب لإتمام الطلب'
       });
     }
 
@@ -69,10 +89,6 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Get customer display name
-    const user = await User.findById(decoded.userId).select('displayName username');
-    const customerName = user ? (user.displayName || user.username) : decoded.username;
-
     // Generate order number
     const orderNumber = await Counter.getNextSequence('orderNumber');
 
@@ -81,6 +97,8 @@ module.exports = async function handler(req, res) {
       orderNumber,
       customer: decoded.userId,
       customerName,
+      customerPhone,
+      deliveryAddress,
       items: orderItems,
       totalAmount,
       status: 'pending',
@@ -92,6 +110,9 @@ module.exports = async function handler(req, res) {
       order: {
         id: order._id,
         orderNumber: order.orderNumber,
+        customerName: order.customerName,
+        customerPhone: order.customerPhone,
+        deliveryAddress: order.deliveryAddress,
         items: order.items,
         totalAmount: order.totalAmount,
         status: order.status,

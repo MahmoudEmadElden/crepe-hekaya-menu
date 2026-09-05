@@ -17,27 +17,56 @@ module.exports = async function handler(req, res) {
   try {
     await connectDB();
 
-    const { username, password, displayName, phone } = req.body;
+    const { username, password, displayName, address, phone } = req.body;
 
     // Validation
-    if (!username || !password) {
+    if (!displayName || !displayName.trim()) {
       return res.status(400).json({
         success: false,
-        message: 'اسم المستخدم وكلمة المرور مطلوبين'
+        message: 'الاسم بالكامل مطلوب'
       });
     }
 
-    if (username.length < 3 || username.length > 30) {
+    if (!address || !address.trim() || address.trim().length < 5) {
+      return res.status(400).json({
+        success: false,
+        message: 'العنوان بالتفصيل مطلوب (المنطقة، الشارع، رقم العمارة/الشقة)'
+      });
+    }
+
+    if (!phone || !phone.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'رقم التليفون مطلوب'
+      });
+    }
+
+    const cleanPhone = phone.trim().replace(/[\s-]/g, '');
+    if (!/^01[0125][0-9]{8}$/.test(cleanPhone) && cleanPhone.length < 10) {
+      return res.status(400).json({
+        success: false,
+        message: 'رقم التليفون غير صحيح. يرجى إدخال رقم هاتف صحيح (مثال: 01xxxxxxxxx)'
+      });
+    }
+
+    if (!username || !username.trim()) {
+      return res.status(400).json({
+        success: false,
+        message: 'اسم المستخدم مطلوب'
+      });
+    }
+
+    if (username.trim().length < 3 || username.trim().length > 30) {
       return res.status(400).json({
         success: false,
         message: 'اسم المستخدم لازم يكون من 3 لـ 30 حرف'
       });
     }
 
-    if (password.length < 6) {
+    if (!password || password.length < 6) {
       return res.status(400).json({
         success: false,
-        message: 'كلمة المرور لازم تكون 6 حروف على الأقل'
+        message: 'كلمة المرور لازم تكون 6 حروف أو أرقام على الأقل'
       });
     }
 
@@ -58,8 +87,9 @@ module.exports = async function handler(req, res) {
     const user = await User.create({
       username: username.trim().toLowerCase(),
       password: hashedPassword,
-      displayName: displayName ? displayName.trim() : username.trim(),
-      phone: phone ? phone.trim() : '',
+      displayName: displayName.trim(),
+      address: address.trim(),
+      phone: cleanPhone,
       role: 'customer'
     });
 
@@ -81,6 +111,8 @@ module.exports = async function handler(req, res) {
         id: user._id,
         username: user.username,
         displayName: user.displayName,
+        address: user.address,
+        phone: user.phone,
         role: user.role
       }
     });

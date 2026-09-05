@@ -77,11 +77,27 @@
     }
   });
 
+  /* ---- Prefill Customer Delivery Info ---- */
+  function prefillCustomerInfo() {
+    const user = CrepeAPI.getUser();
+    if (user) {
+      const nameInput = document.getElementById('orderCustomerName');
+      const phoneInput = document.getElementById('orderCustomerPhone');
+      const addressInput = document.getElementById('orderDeliveryAddress');
+      if (nameInput && user.displayName) nameInput.value = user.displayName;
+      if (phoneInput && user.phone) phoneInput.value = user.phone;
+      if (addressInput && user.address) addressInput.value = user.address;
+    }
+  }
+
   /* ---- Checkout ---- */
   checkoutBtn.addEventListener('click', async () => {
     // Check if logged in
     if (!CrepeAPI.isLoggedIn()) {
-      window.location.href = '/auth.html?returnTo=/cart.html';
+      CrepeAPI.showToast('لازم تسجل دخول أولاً لتأكيد طلبك', 'error');
+      setTimeout(() => {
+        window.location.href = '/auth.html?returnTo=/cart.html';
+      }, 1000);
       return;
     }
 
@@ -91,7 +107,30 @@
       return;
     }
 
+    const customerName = document.getElementById('orderCustomerName').value.trim();
+    const customerPhone = document.getElementById('orderCustomerPhone').value.trim();
+    const deliveryAddress = document.getElementById('orderDeliveryAddress').value.trim();
     const notes = document.getElementById('orderNotes').value.trim();
+
+    // Validation for delivery info
+    if (!customerName) {
+      CrepeAPI.showToast('الاسم بالكامل مطلوب لإتمام الطلب', 'error');
+      document.getElementById('orderCustomerName').focus();
+      return;
+    }
+
+    const cleanPhone = customerPhone.replace(/[\s-]/g, '');
+    if (!cleanPhone || cleanPhone.length < 10) {
+      CrepeAPI.showToast('يرجى إدخال رقم هاتف صحيح للتواصل معك وقت التوصيل', 'error');
+      document.getElementById('orderCustomerPhone').focus();
+      return;
+    }
+
+    if (!deliveryAddress || deliveryAddress.length < 5) {
+      CrepeAPI.showToast('عنوان التوصيل بالتفصيل مطلوب (المنطقة والشارع ورقم العمارة)', 'error');
+      document.getElementById('orderDeliveryAddress').focus();
+      return;
+    }
 
     // Set loading state
     checkoutBtn.disabled = true;
@@ -99,7 +138,7 @@
     checkoutBtn.querySelector('.btn-loading').style.display = 'inline';
 
     try {
-      const data = await CrepeAPI.apiCreateOrder(cart, notes);
+      const data = await CrepeAPI.apiCreateOrder(cart, notes, deliveryAddress, cleanPhone, customerName);
 
       if (data.success) {
         // Clear cart
@@ -122,4 +161,5 @@
 
   /* ---- Init ---- */
   renderCart();
+  prefillCustomerInfo();
 })();

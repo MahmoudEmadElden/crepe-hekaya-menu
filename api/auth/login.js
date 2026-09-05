@@ -64,6 +64,8 @@ module.exports = async function handler(req, res) {
         id: user._id,
         username: user.username,
         displayName: user.displayName,
+        address: user.address || '',
+        phone: user.phone || '',
         role: user.role
       }
     });

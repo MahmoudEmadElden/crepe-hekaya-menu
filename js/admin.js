@@ -155,6 +155,23 @@
               <span class="order-status-badge" style="background:${statusColors[order.status] || '#6B7280'};">${statusLabels[order.status] || order.status}</span>
             </div>
             <div class="order-items-list">${itemsHtml}</div>
+            
+            <div class="order-customer-details">
+              ${order.customerPhone ? `
+                <div class="order-detail-line">
+                  <span>📞 هاتف:</span>
+                  <a href="tel:${order.customerPhone}" class="detail-link">${order.customerPhone}</a>
+                  <a href="https://wa.me/2${order.customerPhone.replace(/^0/, '')}" target="_blank" class="detail-wa-btn">واتساب</a>
+                </div>
+              ` : ''}
+              ${order.deliveryAddress ? `
+                <div class="order-detail-line">
+                  <span>📍 العنوان:</span>
+                  <span style="color:var(--color-text);font-weight:600;">${order.deliveryAddress}</span>
+                </div>
+              ` : ''}
+            </div>
+
             ${order.notes ? `<div class="order-notes">ملاحظات: ${order.notes}</div>` : ''}
             <div class="order-card-footer">
               <span class="order-total">${order.totalAmount} جنيه</span>

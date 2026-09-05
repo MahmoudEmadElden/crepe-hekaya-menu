@@ -183,12 +183,12 @@
      API METHODS
      =========================== */
 
-  async function apiRegister(username, password, displayName, phone) {
+  async function apiRegister(username, password, displayName, address, phone) {
     const data = await apiFetch('/auth/register', {
       method: 'POST',
-      body: JSON.stringify({ username, password, displayName, phone })
+      body: JSON.stringify({ username, password, displayName, address, phone })
     });
-    if (data.success) {
+    if (data.token) {
       setToken(data.token);
       setUser(data.user);
     }
@@ -211,10 +211,10 @@
     return await apiFetch('/auth/me', { method: 'GET' });
   }
 
-  async function apiCreateOrder(items, notes) {
+  async function apiCreateOrder(items, notes, deliveryAddress, customerPhone, customerName) {
     return await apiFetch('/orders/create', {
       method: 'POST',
-      body: JSON.stringify({ items, notes })
+      body: JSON.stringify({ items, notes, deliveryAddress, customerPhone, customerName })
     });
   }
 

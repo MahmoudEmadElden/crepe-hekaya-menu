@@ -1,7 +1,22 @@
 /**
  * Auth Page Logic — Crepe Hekaya
- * Handles login/register tab switching and form submissions.
+ * Handles login/register tab switching, form submissions, and password visibility toggles.
  */
+
+// Global password visibility toggle
+window.togglePasswordVisibility = function (inputId, btn) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const isPassword = input.type === 'password';
+  input.type = isPassword ? 'text' : 'password';
+  const openIcon = btn.querySelector('.eye-open');
+  const closedIcon = btn.querySelector('.eye-closed');
+  if (openIcon && closedIcon) {
+    openIcon.style.display = isPassword ? 'none' : 'block';
+    closedIcon.style.display = isPassword ? 'block' : 'none';
+  }
+};
+
 (function () {
   'use strict';
 
@@ -62,12 +77,11 @@
 
     try {
       await CrepeAPI.apiLogin(username, password);
-      // Redirect: admin goes to dashboard, customer goes to menu
+      // Redirect: admin goes to dashboard, customer goes to returnTo or menu
       const user = CrepeAPI.getUser();
       if (user && user.role === 'admin') {
         window.location.href = '/admin.html';
       } else {
-        // Go back to previous page or menu
         const returnTo = new URLSearchParams(window.location.search).get('returnTo');
         window.location.href = returnTo || '/';
       }
@@ -82,23 +96,48 @@
     e.preventDefault();
     registerError.textContent = '';
 
+    const displayName = document.getElementById('regDisplayName').value.trim();
+    const address = document.getElementById('regAddress').value.trim();
+    const phone = document.getElementById('regPhone').value.trim();
     const username = document.getElementById('regUsername').value.trim();
     const password = document.getElementById('regPassword').value;
-    const displayName = document.getElementById('regDisplayName').value.trim();
-    const phone = document.getElementById('regPhone').value.trim();
+    const confirmPassword = document.getElementById('regConfirmPassword').value;
 
-    if (!username || !password) {
-      registerError.textContent = 'اسم المستخدم وكلمة المرور مطلوبين';
+    // Strict Validations matching reference system
+    if (!displayName) {
+      registerError.textContent = 'الاسم بالكامل مطلوب';
+      document.getElementById('regDisplayName').focus();
       return;
     }
 
-    if (username.length < 3) {
+    if (!address || address.length < 5) {
+      registerError.textContent = 'العنوان بالتفصيل مطلوب (المنطقة، الشارع، رقم العمارة/الشقة)';
+      document.getElementById('regAddress').focus();
+      return;
+    }
+
+    const cleanPhone = phone.replace(/[\s-]/g, '');
+    if (!cleanPhone || !/^01[0125][0-9]{8}$/.test(cleanPhone)) {
+      registerError.textContent = 'يرجى إدخال رقم هاتف صحيح مكون من 11 رقم يبدأ بـ 01';
+      document.getElementById('regPhone').focus();
+      return;
+    }
+
+    if (!username || username.length < 3) {
       registerError.textContent = 'اسم المستخدم لازم يكون 3 حروف على الأقل';
+      document.getElementById('regUsername').focus();
       return;
     }
 
-    if (password.length < 6) {
-      registerError.textContent = 'كلمة المرور لازم تكون 6 حروف على الأقل';
+    if (!password || password.length < 6) {
+      registerError.textContent = 'كلمة المرور لازم تكون 6 خانات على الأقل';
+      document.getElementById('regPassword').focus();
+      return;
+    }
+
+    if (password !== confirmPassword) {
+      registerError.textContent = 'كلمتا المرور غير متطابقتين، يرجى التأكد وإعادة الكتابة';
+      document.getElementById('regConfirmPassword').focus();
       return;
     }
 
@@ -106,7 +145,7 @@
     setLoading(btn, true);
 
     try {
-      await CrepeAPI.apiRegister(username, password, displayName, phone);
+      await CrepeAPI.apiRegister(username, password, displayName, address, cleanPhone);
       const returnTo = new URLSearchParams(window.location.search).get('returnTo');
       window.location.href = returnTo || '/';
     } catch (error) {
@@ -118,8 +157,10 @@
   /* ---- Loading State ---- */
   function setLoading(btn, isLoading) {
     btn.disabled = isLoading;
-    btn.querySelector('.btn-text').style.display = isLoading ? 'none' : 'inline';
-    btn.querySelector('.btn-loading').style.display = isLoading ? 'inline' : 'none';
+    const textSpan = btn.querySelector('.btn-text');
+    const loadingSpan = btn.querySelector('.btn-loading');
+    if (textSpan) textSpan.style.display = isLoading ? 'none' : 'inline';
+    if (loadingSpan) loadingSpan.style.display = isLoading ? 'inline' : 'none';
   }
 
 })();

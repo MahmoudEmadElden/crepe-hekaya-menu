@@ -31,6 +31,7 @@ module.exports = async function handler(req, res) {
         username: user.username,
         displayName: user.displayName,
         phone: user.phone,
+        address: user.address || '',
         role: user.role
       }
     });

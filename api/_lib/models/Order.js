@@ -27,6 +27,18 @@ const orderSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  customerPhone: {
+    type: String,
+    required: [true, 'رقم التليفون مطلوب للطلب'],
+    trim: true,
+    default: ''
+  },
+  deliveryAddress: {
+    type: String,
+    required: [true, 'عنوان التوصيل بالتفصيل مطلوب للطلب'],
+    trim: true,
+    default: ''
+  },
   items: {
     type: [orderItemSchema],
     required: true,
