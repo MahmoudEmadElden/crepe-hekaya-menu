@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>لوحة التحكم — كريب حكاية | Crepe Hekaya Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0C0C0E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+
+  <!-- Admin Login Screen -->
+  <div class="admin-login-screen" id="adminLoginScreen">
+    <div class="auth-card" style="max-width:380px;">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <img src="assets/images/logo.jpeg?v=3" alt="لوجو كريب حكاية" style="width:64px;height:64px;border-radius:50%;border:2px solid var(--color-border-gold);margin-bottom:0.75rem;">
+        <h2 style="font-size:1.2rem;font-weight:800;">لوحة تحكم كريب حكاية</h2>
+        <p style="font-size:0.8rem;color:var(--color-text-muted);">مخصصة لإدارة المطعم فقط</p>
+      </div>
+      <form id="adminLoginForm" style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="form-group">
+          <label for="adminUser">اسم المستخدم</label>
+          <input type="text" id="adminUser" placeholder="admin" required autocomplete="username">
+        </div>
+        <div class="form-group">
+          <label for="adminPass">كلمة المرور</label>
+          <input type="password" id="adminPass" placeholder="كلمة المرور" required>
+        </div>
+        <div class="form-error" id="adminLoginError"></div>
+        <button type="submit" class="auth-submit-btn">دخول</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Admin Dashboard (hidden until login) -->
+  <div class="admin-dashboard" id="adminDashboard" style="display:none;">
+
+    <!-- Admin Navbar -->
+    <header class="navbar">
+      <div class="container navbar-container">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+          <img src="assets/images/logo.jpeg?v=3" alt="لوجو" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border-gold);">
+          <span style="font-weight:800;font-size:1rem;">لوحة تحكم كريب حكاية</span>
+        </div>
+        <button class="admin-logout-btn" id="adminLogoutBtn">خروج</button>
+      </div>
+    </header>
+
+    <main class="admin-main">
+      <div class="container">
+
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="statsBar">
+          <div class="stat-card">
+            <span class="stat-num" id="statTotalOrders">-</span>
+            <span class="stat-label">طلبات اليوم</span>
+          </div>
+          <div class="stat-card stat-card--revenue">
+            <span class="stat-num" id="statRevenue">-</span>
+            <span class="stat-label">إيرادات اليوم (ج)</span>
+          </div>
+          <div class="stat-card stat-card--pending">
+            <span class="stat-num" id="statPending">-</span>
+            <span class="stat-label">في الانتظار</span>
+          </div>
+          <div class="stat-card stat-card--preparing">
+            <span class="stat-num" id="statPreparing">-</span>
+            <span class="stat-label">جارٍ التحضير</span>
+          </div>
+        </div>
+
+        <!-- Status Filter -->
+        <div class="admin-filter-bar">
+          <button class="admin-filter-btn active" data-filter="">الكل</button>
+          <button class="admin-filter-btn" data-filter="pending">في الانتظار</button>
+          <button class="admin-filter-btn" data-filter="accepted">مقبول</button>
+          <button class="admin-filter-btn" data-filter="preparing">تحضير</button>
+          <button class="admin-filter-btn" data-filter="ready">جاهز</button>
+          <button class="admin-filter-btn" data-filter="delivered">تم التوصيل</button>
+          <button class="admin-filter-btn" data-filter="cancelled">ملغي</button>
+        </div>
+
+        <!-- Orders List -->
+        <div class="admin-orders-list" id="adminOrdersList">
+          <p style="text-align:center;color:var(--color-text-muted);padding:2rem;">جارٍ تحميل الطلبات...</p>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
+</body>
+</html>

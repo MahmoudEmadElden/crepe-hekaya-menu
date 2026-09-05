@@ -333,14 +333,23 @@ function renderMenuItems(items) {
             <span class="price-currency">جنيه</span>
           </div>
 
-          <button class="btn-details" data-open-modal="${item.id}" aria-label="عرض تفاصيل ${item.name}">
-            <span>المكونات</span>
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <line x1="12" y1="16" x2="12" y2="12"></line>
-              <line x1="12" y1="8" x2="12.01" y2="8"></line>
-            </svg>
-          </button>
+          <div class="card-actions">
+            <button class="btn-add-cart" data-add-cart="${item.id}" aria-label="أضف ${item.name} للسلة">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              <span>أضف للسلة</span>
+            </button>
+            <button class="btn-details" data-open-modal="${item.id}" aria-label="عرض تفاصيل ${item.name}">
+              <span>المكونات</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="16" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12.01" y2="8"></line>
+              </svg>
+            </button>
+          </div>
         </div>
       </article>
     `;
@@ -521,6 +530,38 @@ function setupEventListeners() {
       if (modalBtn) {
         const itemId = modalBtn.dataset.openModal;
         openItemModal(itemId);
+        return;
+      }
+
+      // Add to Cart
+      const addCartBtn = e.target.closest('[data-add-cart]');
+      if (addCartBtn) {
+        const itemId = addCartBtn.dataset.addCart;
+        const item = menuItems.find(i => i.id === itemId);
+        if (!item) return;
+
+        const selectedVariant = state.selectedVariants[itemId];
+        let unitPrice = item.price;
+        let variant = '';
+        let variantLabel = '';
+
+        if (item.variants && selectedVariant) {
+          unitPrice = item.variants[selectedVariant];
+          variant = selectedVariant;
+          const labels = item.variantLabels || { plain: 'سادة', roumi: 'رومي', mozzarella: 'موزاريلا' };
+          variantLabel = labels[selectedVariant] || selectedVariant;
+        }
+
+        if (typeof CrepeAPI !== 'undefined') {
+          CrepeAPI.addToCart({
+            itemId: item.id,
+            name: item.name,
+            variant,
+            variantLabel,
+            unitPrice
+          });
+          CrepeAPI.showToast('تمت الإضافة للسلة ✓', 'success', 1500);
+        }
       }
     });
   }
@@ -543,9 +584,30 @@ function setupEventListeners() {
   });
 }
 
+// Update Auth Button State in Navbar
+function updateNavAuthState() {
+  if (typeof CrepeAPI === 'undefined') return;
+  const authBtn = document.getElementById('navAuthBtn');
+  const authBtnText = document.getElementById('authBtnText');
+  if (!authBtn || !authBtnText) return;
+
+  if (CrepeAPI.isLoggedIn()) {
+    const user = CrepeAPI.getUser();
+    authBtnText.textContent = user ? (user.displayName || user.username) : 'حسابي';
+    authBtn.href = '#';
+    authBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (confirm('عايز تسجل خروج؟')) {
+        CrepeAPI.logout();
+      }
+    });
+  }
+}
+
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initApp);
+  document.addEventListener('DOMContentLoaded', () => { initApp(); updateNavAuthState(); });
 } else {
   initApp();
+  updateNavAuthState();
 }
 })();

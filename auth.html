@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>تسجيل الدخول — كريب حكاية | Crepe Hekaya</title>
+
+  <meta name="description" content="سجل دخولك أو أنشئ حساب جديد لتقدر تطلب من مطعم كريب حكاية أونلاين.">
+  <meta name="theme-color" content="#0C0C0E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+
+  <!-- Minimal Navbar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="/" class="nav-brand" aria-label="كريب حكاية الرئيسية">
+        <div class="brand-crepe-icon">
+          <img src="assets/images/logo.jpeg?v=3" alt="لوجو مطعم كريب حكاية" class="brand-logo-img">
+        </div>
+        <div class="brand-names">
+          <span class="brand-ar">كريب حكاية</span>
+          <span class="brand-en">CREPE HEKAYA</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="/" class="auth-nav-link">← الرجوع للمنيو</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Container -->
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <!-- Tab Switcher -->
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="loginTab" data-tab="login">تسجيل الدخول</button>
+        <button class="auth-tab" id="registerTab" data-tab="register">حساب جديد</button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginUsername">اسم المستخدم</label>
+          <input type="text" id="loginUsername" name="username" placeholder="ادخل اسم المستخدم" required autocomplete="username" minlength="3" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="loginPassword">كلمة المرور</label>
+          <input type="password" id="loginPassword" name="password" placeholder="ادخل كلمة المرور" required minlength="6">
+        </div>
+        <div class="form-error" id="loginError"></div>
+        <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+          <span class="btn-text">دخول</span>
+          <span class="btn-loading" style="display:none;">جارٍ التحميل...</span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form" id="registerForm" style="display: none;">
+        <div class="form-group">
+          <label for="regUsername">اسم المستخدم <span class="required">*</span></label>
+          <input type="text" id="regUsername" name="username" placeholder="اختار اسم مستخدم (3 حروف على الأقل)" required autocomplete="username" minlength="3" maxlength="30">
+        </div>
+        <div class="form-group">
+          <label for="regPassword">كلمة المرور <span class="required">*</span></label>
+          <input type="password" id="regPassword" name="password" placeholder="اختار كلمة مرور (6 حروف على الأقل)" required minlength="6">
+        </div>
+        <div class="form-group">
+          <label for="regDisplayName">الاسم (اختياري)</label>
+          <input type="text" id="regDisplayName" name="displayName" placeholder="اسمك اللي هيظهر في الطلبات" maxlength="50">
+        </div>
+        <div class="form-group">
+          <label for="regPhone">رقم الموبايل (اختياري)</label>
+          <input type="tel" id="regPhone" name="phone" placeholder="01xxxxxxxxx" dir="ltr">
+        </div>
+        <div class="form-error" id="registerError"></div>
+        <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
+          <span class="btn-text">إنشاء الحساب</span>
+          <span class="btn-loading" style="display:none;">جارٍ التحميل...</span>
+        </button>
+      </form>
+
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

@@ -1,0 +1,333 @@
+/* ============================================================
+   ADMIN DASHBOARD — STYLES (Crepe Hekaya Design System)
+   ============================================================ */
+
+/* Login Screen */
+.admin-login-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  box-shadow: var(--shadow-md);
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  transition: var(--transition-fast);
+  outline: none;
+}
+
+.form-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.15);
+}
+
+.form-group input::placeholder {
+  color: var(--color-text-muted);
+}
+
+.form-error {
+  color: #FF4D4D;
+  font-size: 0.82rem;
+  font-weight: 600;
+  min-height: 1.2rem;
+  text-align: center;
+}
+
+.auth-submit-btn {
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-normal);
+}
+
+.auth-submit-btn:hover {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+  box-shadow: var(--shadow-glow);
+}
+
+/* Admin Logout Button */
+.admin-logout-btn {
+  background: rgba(255, 77, 77, 0.15);
+  color: #FF4D4D;
+  border: 1px solid rgba(255, 77, 77, 0.3);
+  padding: 0.4rem 1rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.admin-logout-btn:hover {
+  background: rgba(255, 77, 77, 0.25);
+}
+
+/* Admin Main */
+.admin-main {
+  padding: 1.5rem 0;
+}
+
+/* Stats Bar */
+.stats-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.stat-num {
+  font-size: 1.8rem;
+  font-weight: 900;
+  color: var(--color-text);
+}
+
+.stat-card--revenue .stat-num { color: #10B981; }
+.stat-card--pending .stat-num { color: #F59E0B; }
+.stat-card--preparing .stat-num { color: #8B5CF6; }
+
+.stat-label {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-weight: 600;
+}
+
+/* Filter Bar */
+.admin-filter-bar {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-filter-btn {
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.admin-filter-btn.active {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+.admin-filter-btn:not(.active):hover {
+  border-color: var(--color-border-hover);
+  color: var(--color-text-secondary);
+}
+
+/* Orders List */
+.admin-orders-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-order-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  transition: var(--transition-fast);
+}
+
+.admin-order-card:hover {
+  border-color: var(--color-border-hover);
+}
+
+.order-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.order-num {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.order-customer {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  font-weight: 600;
+}
+
+.order-status-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.order-items-list {
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.order-item-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.25rem 0;
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+}
+
+.order-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--color-border);
+  padding-top: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.order-total {
+  font-weight: 800;
+  font-size: 1rem;
+  color: var(--color-primary);
+}
+
+.order-time {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.order-notes {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  font-style: italic;
+  padding-top: 0.4rem;
+}
+
+/* Status Actions */
+.order-status-actions {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.status-action-btn {
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-family);
+  font-size: 0.7rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border: 1px solid;
+}
+
+.status-action-btn--accept {
+  background: rgba(59, 130, 246, 0.15);
+  color: #3B82F6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.status-action-btn--prepare {
+  background: rgba(139, 92, 246, 0.15);
+  color: #8B5CF6;
+  border-color: rgba(139, 92, 246, 0.3);
+}
+
+.status-action-btn--ready {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10B981;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.status-action-btn--deliver {
+  background: rgba(107, 114, 128, 0.15);
+  color: #9CA3AF;
+  border-color: rgba(107, 114, 128, 0.3);
+}
+
+.status-action-btn--cancel {
+  background: rgba(239, 68, 68, 0.15);
+  color: #EF4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.status-action-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stats-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-bar {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .stat-num { font-size: 1.4rem; }
+  .stat-card { padding: 1rem; }
+}

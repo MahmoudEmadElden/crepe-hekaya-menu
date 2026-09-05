@@ -257,6 +257,117 @@ body {
   }
 }
 
+/* Nav Cart Button */
+.nav-cart-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.nav-cart-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-border-hover);
+  background: rgba(255, 107, 0, 0.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(255, 107, 0, 0.4);
+}
+
+/* Nav Auth Button */
+.nav-auth-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: var(--transition-fast);
+}
+
+.nav-auth-btn:hover {
+  color: var(--color-primary);
+  border-color: var(--color-border-hover);
+  background: rgba(255, 107, 0, 0.1);
+}
+
+.auth-btn-text {
+  white-space: nowrap;
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 480px) {
+  .nav-time-badge {
+    display: none;
+  }
+  .auth-btn-text {
+    display: none;
+  }
+}
+
+/* Card Actions (Add to Cart + Details) */
+.card-actions {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+}
+
+.btn-add-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+  color: #fff;
+  border: none;
+  font-family: var(--font-family);
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.4rem 0.7rem;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.btn-add-cart:hover {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+  box-shadow: 0 0 12px rgba(255, 107, 0, 0.3);
+  transform: translateY(-1px);
+}
+
+.btn-add-cart:active {
+  transform: translateY(0);
+}
+
 /* ============================================================
    HERO SECTION (2-Column Hero & Unified Interactive Video Window)
    ============================================================ */

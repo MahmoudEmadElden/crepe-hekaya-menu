@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>طلباتي — كريب حكاية | Crepe Hekaya</title>
+  <meta name="theme-color" content="#0C0C0E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cart.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="/" class="nav-brand" aria-label="كريب حكاية الرئيسية">
+        <div class="brand-crepe-icon">
+          <img src="assets/images/logo.jpeg?v=3" alt="لوجو مطعم كريب حكاية" class="brand-logo-img">
+        </div>
+        <div class="brand-names">
+          <span class="brand-ar">كريب حكاية</span>
+          <span class="brand-en">CREPE HEKAYA</span>
+        </div>
+      </a>
+      <div class="nav-actions">
+        <a href="/" class="auth-nav-link">← الرجوع للمنيو</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="cart-main">
+    <div class="container">
+      <div class="cart-header">
+        <h1 class="cart-title">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+          </svg>
+          طلباتي
+        </h1>
+      </div>
+
+      <div id="ordersContainer">
+        <p style="text-align:center;color:var(--color-text-muted);padding:2rem;">جارٍ تحميل الطلبات...</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/orders.js"></script>
+</body>
+</html>

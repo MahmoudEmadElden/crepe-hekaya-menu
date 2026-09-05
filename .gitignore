@@ -4,6 +4,11 @@ scratch_test.ps1
 server.ps1
 *.docx
 SOP_CREPE_HEKAYA.md
+SOP_CREPE_HEKAYA_V2.md
+
+# Node.js
+node_modules/
+.env
 
 # Raw root videos (already in assets/videos/)
 /*.mp4
