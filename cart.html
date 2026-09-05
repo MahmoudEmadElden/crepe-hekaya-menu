@@ -98,7 +98,7 @@
 
           <div class="payment-method-pill">
             <span class="pay-dot"></span>
-            <span>طريقة الدفع: <strong>الدفع نقداً عند الاستلام (كاش) 💵</strong></span>
+            <span>طريقة الدفع: <strong>الدفع نقداً عند الاستلام (كاش)</strong></span>
           </div>
         </div>
 
@@ -123,14 +123,18 @@
 
       <!-- Order Confirmation (shown after successful order) -->
       <div class="order-confirmation" id="orderConfirmation" style="display: none;">
-        <div class="confirm-icon">✓</div>
-        <h2>تم استلام طلبك بنجاح!</h2>
+        <div class="confirm-icon">
+          <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FFA000" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2>تم استلام طلبك بنجاح</h2>
         <div class="confirm-order-num">
           رقم طلبك: <strong id="confirmOrderNum">#0000</strong>
         </div>
         <p class="confirm-desc">طلبك قيد المراجعة وهيتم قبوله في أقرب وقت.</p>
         <div class="confirm-actions">
-          <a href="/" class="btn-back-to-menu">الرجوع للمنيو</a>
+          <a href="/menu.html" class="btn-back-to-menu">الرجوع للمنيو</a>
           <a href="/orders.html" class="btn-view-orders">طلباتي</a>
         </div>
       </div>

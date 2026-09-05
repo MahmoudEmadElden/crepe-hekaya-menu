@@ -560,7 +560,7 @@ function setupEventListeners() {
             variantLabel,
             unitPrice
           });
-          CrepeAPI.showToast('تمت الإضافة للسلة ✓', 'success', 1500);
+          CrepeAPI.showToast('تمت إضافة الصنف للسلة', 'success', 1500);
         }
       }
     });

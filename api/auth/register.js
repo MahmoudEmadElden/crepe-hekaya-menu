@@ -42,10 +42,10 @@ module.exports = async function handler(req, res) {
     }
 
     const cleanPhone = phone.trim().replace(/[\s-]/g, '');
-    if (!/^01[0125][0-9]{8}$/.test(cleanPhone) && cleanPhone.length < 10) {
+    if (!/^01[0125][0-9]{8}$/.test(cleanPhone)) {
       return res.status(400).json({
         success: false,
-        message: 'رقم التليفون غير صحيح. يرجى إدخال رقم هاتف صحيح (مثال: 01xxxxxxxxx)'
+        message: 'رقم التليفون غير صحيح. يرجى إدخال رقم هاتف محمول مصري صحيح مكون من 11 رقماً (مثال: 01012345678)'
       });
     }
 

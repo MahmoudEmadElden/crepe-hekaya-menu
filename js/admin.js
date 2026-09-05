@@ -159,14 +159,14 @@
             <div class="order-customer-details">
               ${order.customerPhone ? `
                 <div class="order-detail-line">
-                  <span>📞 هاتف:</span>
+                  <span>الهاتف:</span>
                   <a href="tel:${order.customerPhone}" class="detail-link">${order.customerPhone}</a>
                   <a href="https://wa.me/2${order.customerPhone.replace(/^0/, '')}" target="_blank" class="detail-wa-btn">واتساب</a>
                 </div>
               ` : ''}
               ${order.deliveryAddress ? `
                 <div class="order-detail-line">
-                  <span>📍 العنوان:</span>
+                  <span>العنوان:</span>
                   <span style="color:var(--color-text);font-weight:600;">${order.deliveryAddress}</span>
                 </div>
               ` : ''}
