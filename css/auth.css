@@ -184,13 +184,27 @@
 }
 
 /* ---- Responsive ---- */
+@media (max-width: 768px) {
+  .form-group input {
+    font-size: 16px;
+    min-height: 48px;
+  }
+
+  .auth-submit-btn {
+    min-height: 50px;
+    font-size: 1.05rem;
+  }
+}
+
 @media (max-width: 480px) {
   .auth-card {
     padding: 1.5rem 1.25rem;
     border-radius: var(--radius-md);
+    margin: 1rem auto;
   }
 
   .auth-tab {
-    font-size: 0.82rem;
+    font-size: 0.85rem;
+    min-height: 42px;
   }
 }

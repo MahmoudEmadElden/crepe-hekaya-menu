@@ -364,6 +364,18 @@
 @media (max-width: 768px) {
   .stats-bar {
     grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .form-group input {
+    font-size: 16px;
+    min-height: 48px;
+  }
+
+  .status-action-btn {
+    padding: 0.45rem 0.85rem;
+    font-size: 0.78rem;
+    min-height: 38px;
   }
 }
 
@@ -373,5 +385,7 @@
     gap: 0.5rem;
   }
   .stat-num { font-size: 1.4rem; }
-  .stat-card { padding: 1rem; }
+  .stat-card { padding: 0.85rem 0.6rem; }
+  .order-card { padding: 1rem 0.85rem; }
+  .order-card-header { flex-wrap: wrap; gap: 0.4rem; }
 }

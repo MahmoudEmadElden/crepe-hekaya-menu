@@ -87,6 +87,25 @@ body {
   padding: 0 1.5rem;
 }
 
+@media (min-width: 1441px) {
+  .container {
+    max-width: 1440px;
+    padding: 0 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .container {
+    padding: 0 0.75rem;
+  }
+}
+
 /* ============================================================
    TOP NAVBAR & CUSTOM CREPE LOGO
    ============================================================ */
@@ -252,7 +271,37 @@ body {
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    padding: 0.55rem 0;
+  }
+  .navbar-container {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .brand-crepe-icon {
+    width: 38px;
+    height: 38px;
+  }
+  .brand-ar {
+    font-size: 1.05rem;
+  }
+  .brand-en {
+    font-size: 0.62rem;
+  }
   .nav-links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 0.35rem;
+    padding-top: 0.45rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin: 0;
+  }
+  .nav-link-item a {
+    font-size: 0.8rem;
+    padding: 0.32rem 0.75rem;
+  }
+  .nav-time-badge {
     display: none;
   }
 }
@@ -331,6 +380,20 @@ body {
   }
   .auth-btn-text {
     display: none;
+  }
+  .nav-link-item a {
+    font-size: 0.74rem;
+    padding: 0.28rem 0.5rem;
+  }
+  .brand-crepe-icon {
+    width: 34px;
+    height: 34px;
+  }
+  .brand-ar {
+    font-size: 0.95rem;
+  }
+  .brand-en {
+    font-size: 0.58rem;
   }
 }
 
@@ -690,29 +753,39 @@ body.landing-page-body .navbar {
   font-size: 0.75rem;
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 680px) {
+/* Responsive Landing Page */
+@media (max-height: 680px), (max-width: 768px) {
   body.landing-page-body {
     height: auto;
     min-height: 100vh;
+    min-height: 100dvh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .landing-hero-wrapper {
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
     height: auto;
   }
 
   .landing-hero-container {
     height: auto;
-    min-height: calc(100vh - 65px);
+    min-height: calc(100vh - 60px);
+    min-height: calc(100dvh - 60px);
     padding-bottom: 1.5rem;
   }
+}
 
+@media (max-width: 768px) {
   .landing-bottom-strip {
     grid-template-columns: 1fr;
-    gap: 0.5rem;
+    gap: 0.6rem;
     margin-top: 1.25rem;
+  }
+
+  .strip-card {
+    padding: 0.65rem 0.85rem;
   }
 
   .strip-subtitle {
@@ -722,8 +795,52 @@ body.landing-page-body .navbar {
   .btn-landing-order,
   .btn-landing-browse {
     width: 100%;
-    max-width: 300px;
-    padding: 0.75rem 1.25rem;
+    max-width: 320px;
+    padding: 0.8rem 1.25rem;
+  }
+
+  .landing-actions-row {
+    width: 100%;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .landing-bottom-strip {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .strip-card {
+    padding: 0.45rem 0.65rem;
+    gap: 0.5rem;
+  }
+
+  .strip-icon-circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .strip-icon-circle svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .strip-title {
+    font-size: 0.78rem;
+  }
+
+  .strip-subtitle {
+    font-size: 0.68rem;
+  }
+
+  .landing-brand-card {
+    padding: 0.25rem 1rem;
+  }
+
+  .landing-title {
+    font-size: 2.6rem;
   }
 }
 
@@ -1198,9 +1315,54 @@ body.landing-page-body .navbar {
   box-shadow: var(--shadow-md);
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .hero-video-stage {
+    padding: 0.85rem;
+    border-radius: var(--radius-lg);
+  }
+  .video-player-frame {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-md);
+  }
+  .video-center-btn {
+    width: 52px;
+    height: 52px;
+  }
+  .video-nav-arrow {
+    width: 38px;
+    height: 38px;
+  }
+  .gallery-stage-box {
+    padding: 1rem;
+    border-radius: var(--radius-lg);
+  }
   .gallery-featured-view {
-    height: 250px;
+    height: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-video-stage {
+    padding: 0.6rem;
+  }
+  .video-center-btn {
+    width: 46px;
+    height: 46px;
+  }
+  .gallery-stage-box {
+    padding: 0.75rem;
+  }
+  .gallery-featured-view {
+    height: 220px;
+    border-radius: var(--radius-md);
+  }
+  .gallery-strip-item {
+    flex: 0 0 85px;
+    height: 62px;
+  }
+  .gallery-arrow-btn {
+    width: 36px;
+    height: 36px;
   }
 }
 
@@ -1344,6 +1506,13 @@ body.landing-page-body .navbar {
   box-shadow: var(--shadow-sm);
 }
 
+@media (max-width: 768px) {
+  .sticky-bar-wrapper {
+    top: 88px;
+    padding: 0.65rem 0;
+  }
+}
+
 .search-and-filter {
   display: flex;
   flex-direction: column;
@@ -1485,13 +1654,38 @@ body.landing-page-body .navbar {
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.35rem;
 }
 
-@media (max-width: 480px) {
+@media (min-width: 1441px) {
+  .menu-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+}
+
+@media (max-width: 640px) {
   .menu-grid {
     grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .menu-card {
+    padding: 1.15rem;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 }
 
@@ -1698,6 +1892,12 @@ body.landing-page-body .navbar {
   margin-top: 1.25rem;
 }
 
+@media (max-width: 480px) {
+  .addons-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .addon-card {
   display: flex;
   justify-content: space-between;
@@ -1740,6 +1940,12 @@ body.landing-page-body .navbar {
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 1.25rem;
   margin-top: 1.25rem;
+}
+
+@media (max-width: 600px) {
+  .branches-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .branch-card {
@@ -1823,6 +2029,15 @@ body.landing-page-body .navbar {
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
   transform: translateY(20px);
   transition: transform var(--transition-normal);
+}
+
+@media (max-width: 480px) {
+  .modal-dialog {
+    padding: 1.75rem 1.25rem 1.5rem;
+    border-radius: var(--radius-lg);
+    max-height: 90vh;
+    overflow-y: auto;
+  }
 }
 
 .modal-overlay.active .modal-dialog {
