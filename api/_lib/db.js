@@ -25,6 +25,9 @@ async function connectDB() {
   try {
     const conn = await mongoose.connect(uri, {
       bufferCommands: false,
+      maxPoolSize: 10, // Optimize for M0 free tier (prevents exceeding 500 connection limit)
+      serverSelectionTimeoutMS: 5000,
+      socketTimeoutMS: 45000,
     });
     cachedConnection = conn.connection;
     return cachedConnection;
