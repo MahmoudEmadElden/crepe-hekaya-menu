@@ -47,7 +47,13 @@
           <img src="assets/images/logo.jpeg?v=3" alt="لوجو" style="width:36px;height:36px;border-radius:50%;border:1px solid var(--color-border-gold);">
           <span style="font-weight:800;font-size:1rem;">لوحة تحكم كريب حكاية</span>
         </div>
-        <button class="admin-logout-btn" id="adminLogoutBtn">خروج</button>
+        <div style="display:flex;align-items:center;gap:0.5rem;">
+          <button class="admin-sound-btn" id="adminSoundBtn" title="تفعيل صوت الإشعارات">
+            <span class="sound-icon" id="soundIcon">🔇</span>
+            <span class="sound-label" id="soundLabel">تفعيل الصوت</span>
+          </button>
+          <button class="admin-logout-btn" id="adminLogoutBtn">خروج</button>
+        </div>
       </div>
     </header>
 
@@ -92,6 +98,16 @@
 
       </div>
     </main>
+  </div>
+
+  <!-- New Order Notification Overlay -->
+  <div class="notification-overlay" id="notificationOverlay">
+    <div class="notification-popup">
+      <div class="notification-icon">🔔</div>
+      <div class="notification-title" id="notifTitle">طلب جديد!</div>
+      <div class="notification-details" id="notifDetails"></div>
+      <button class="notification-dismiss-btn" id="notifDismissBtn">فهمت ✓</button>
+    </div>
   </div>
 
   <script src="js/api.js"></script>
