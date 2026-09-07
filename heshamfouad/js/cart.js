@@ -1,0 +1,204 @@
+/**
+ * Hesham Fouad — King of Crepe
+ * Cart Management & LocalStorage State
+ */
+(function () {
+  'use strict';
+
+  const CART_STORAGE_KEY = 'hesham_fouad_cart';
+  let cart = [];
+
+  function loadCart() {
+    try {
+      const saved = localStorage.getItem(CART_STORAGE_KEY);
+      cart = saved ? JSON.parse(saved) : [];
+    } catch (e) {
+      cart = [];
+    }
+    updateNavBadge();
+    return cart;
+  }
+
+  function saveCart() {
+    try {
+      localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+    } catch (e) {}
+    updateNavBadge();
+    window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { cart } }));
+  }
+
+  function getCart() {
+    return cart;
+  }
+
+  function addToCart(item, quantity = 1, selectedAddons = [], selectedSauces = [], notes = '') {
+    // Generate unique key based on item ID and customizations
+    const customKey = `${item.id}_${selectedAddons.map(a => a.id).sort().join('_')}_${selectedSauces.map(s => s.id).sort().join('_')}`;
+    const existingIndex = cart.findIndex(ci => ci.customKey === customKey);
+
+    const addonsTotal = selectedAddons.reduce((sum, a) => sum + (Number(a.price) || 0), 0);
+    const saucesTotal = selectedSauces.reduce((sum, s) => sum + (Number(s.price) || 0), 0);
+    const unitPrice = Number(item.price) + addonsTotal + saucesTotal;
+
+    if (existingIndex > -1) {
+      cart[existingIndex].quantity += quantity;
+      cart[existingIndex].totalPrice = cart[existingIndex].quantity * unitPrice;
+    } else {
+      cart.push({
+        customKey,
+        itemId: item.id,
+        name: item.name,
+        basePrice: Number(item.price),
+        unitPrice,
+        quantity,
+        totalPrice: quantity * unitPrice,
+        image: item.image || 'assets/images/logo.png',
+        selectedAddons,
+        selectedSauces,
+        notes
+      });
+    }
+
+    saveCart();
+    showToastNotification(`تمت إضافة "${item.name}" إلى السلة 🌯`);
+  }
+
+  function updateQuantity(customKey, newQty) {
+    const item = cart.find(ci => ci.customKey === customKey);
+    if (!item) return;
+
+    if (newQty <= 0) {
+      removeFromCart(customKey);
+    } else {
+      item.quantity = newQty;
+      item.totalPrice = item.quantity * item.unitPrice;
+      saveCart();
+    }
+  }
+
+  function removeFromCart(customKey) {
+    cart = cart.filter(ci => ci.customKey !== customKey);
+    saveCart();
+  }
+
+  function clearCart() {
+    cart = [];
+    saveCart();
+  }
+
+  function getCartTotals() {
+    const subtotal = cart.reduce((sum, ci) => sum + ci.totalPrice, 0);
+    const deliveryFee = subtotal > 0 ? (window.HeshamFouadData?.restaurantInfo?.deliveryFee || 15) : 0;
+    const total = subtotal + deliveryFee;
+    const totalCount = cart.reduce((sum, ci) => sum + ci.quantity, 0);
+
+    return {
+      subtotal,
+      deliveryFee,
+      total,
+      totalCount
+    };
+  }
+
+  function updateNavBadge() {
+    const badges = document.querySelectorAll('.cart-badge');
+    const totalCount = cart.reduce((sum, ci) => sum + ci.quantity, 0);
+    badges.forEach(b => {
+      b.textContent = totalCount;
+      b.style.display = totalCount > 0 ? 'flex' : 'none';
+    });
+  }
+
+  function showToastNotification(message) {
+    let toast = document.getElementById('hf-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'hf-toast';
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        background: linear-gradient(135deg, #0a8f9a, #032d32);
+        color: #fff;
+        border: 2px solid #ffb703;
+        border-radius: 9999px;
+        padding: 0.85rem 1.75rem;
+        font-weight: 800;
+        font-size: 0.95rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+        z-index: 9999;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        transform: translateY(100px);
+        opacity: 0;
+        transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+      `;
+      document.body.appendChild(toast);
+    }
+    toast.innerHTML = message;
+    toast.style.transform = 'translateY(0)';
+    toast.style.opacity = '1';
+
+    clearTimeout(toast.timeout);
+    toast.timeout = setTimeout(() => {
+      toast.style.transform = 'translateY(100px)';
+      toast.style.opacity = '0';
+    }, 2800);
+  }
+
+  // Generate WhatsApp Order Message
+  function formatWhatsAppOrder(customerInfo = {}) {
+    const { subtotal, deliveryFee, total } = getCartTotals();
+    const info = window.HeshamFouadData?.restaurantInfo || {};
+
+    let msg = `👑 *طلب جديد — هشام فؤاد ملك الكريب*\n`;
+    msg += `------------------------------------\n`;
+    msg += `👤 *الاسم:* ${customerInfo.name || 'عميل'}\n`;
+    msg += `📞 *الموبايل:* ${customerInfo.phone || ''}\n`;
+    msg += `📍 *العنوان:* ${customerInfo.address || 'استلام من الفرع'}\n`;
+    if (customerInfo.notes) {
+      msg += `📝 *ملاحظات:* ${customerInfo.notes}\n`;
+    }
+    msg += `------------------------------------\n`;
+    msg += `🌯 *تفاصيل الطلب:*\n`;
+
+    cart.forEach((item, index) => {
+      msg += `\n${index + 1}. *${item.name}* × ${item.quantity} = ${item.totalPrice} ج\n`;
+      if (item.selectedAddons && item.selectedAddons.length > 0) {
+        msg += `   ➕ إضافات: ${item.selectedAddons.map(a => a.name).join(', ')}\n`;
+      }
+      if (item.selectedSauces && item.selectedSauces.length > 0) {
+        msg += `   🥫 صوصات: ${item.selectedSauces.map(s => s.name).join(', ')}\n`;
+      }
+      if (item.notes) {
+        msg += `   💬 طلب خاص: ${item.notes}\n`;
+      }
+    });
+
+    msg += `\n------------------------------------\n`;
+    msg += `💰 *المجموع:* ${subtotal} ج\n`;
+    msg += `🛵 *التوصيل:* ${deliveryFee} ج\n`;
+    msg += `🔥 *الإجمالي النهائي:* ${total} ج\n`;
+    msg += `------------------------------------\n`;
+    msg += `📢 *عرض الافتتاح:* خصم 15% مشمول في الأسعار!`;
+
+    const encoded = encodeURIComponent(msg);
+    const phone = info.whatsapp || '201554006656';
+    return `https://wa.me/${phone}?text=${encoded}`;
+  }
+
+  // Initial load
+  loadCart();
+
+  window.HeshamFouadCart = {
+    getCart,
+    addToCart,
+    updateQuantity,
+    removeFromCart,
+    clearCart,
+    getCartTotals,
+    formatWhatsAppOrder,
+    loadCart
+  };
+})();

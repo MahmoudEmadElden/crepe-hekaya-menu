@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم والكاشير — هشام فؤاد ملك الكريب</title>
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .admin-wrap {
+      padding: 2.5rem 0 5rem;
+    }
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
+    }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .stat-icon-wrap {
+      width: 52px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      background: rgba(10, 143, 154, 0.15);
+      border: 1px solid var(--teal-glow);
+      color: var(--teal-glow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .stat-icon-wrap.gold {
+      background: rgba(255, 183, 3, 0.15);
+      border-color: var(--gold-primary);
+      color: var(--gold-primary);
+    }
+    .stat-info h5 {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 0.25rem;
+    }
+    .stat-info .stat-val {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #fff;
+      font-family: 'Outfit';
+    }
+    .orders-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem;
+      box-shadow: var(--shadow-card);
+    }
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    .orders-table th {
+      background: rgba(10, 143, 154, 0.15);
+      color: var(--teal-glow);
+      padding: 1rem;
+      font-size: 0.92rem;
+      font-weight: 800;
+      text-align: right;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .orders-table td {
+      padding: 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.92rem;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .status-pending { background: rgba(255, 183, 3, 0.2); color: var(--gold-primary); border: 1px solid var(--gold-primary); }
+    .status-preparing { background: rgba(0, 225, 217, 0.2); color: var(--teal-glow); border: 1px solid var(--teal-glow); }
+    .status-ready { background: rgba(46, 213, 115, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .status-delivered { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+    
+    /* Flashing Overlay Alert for New Orders */
+    .flash-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(6, 17, 22, 0.95);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: alertPulse 1s infinite alternate;
+    }
+    @keyframes alertPulse {
+      0% { box-shadow: inset 0 0 100px rgba(0, 225, 217, 0.8); }
+      100% { box-shadow: inset 0 0 150px rgba(255, 183, 3, 0.9); }
+    }
+    .flash-box {
+      background: var(--bg-surface);
+      border: 3px solid var(--gold-primary);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(255, 183, 3, 0.6);
+    }
+    .btn-sound-toggle {
+      background: rgba(46, 213, 115, 0.2);
+      border: 1px solid var(--accent-green);
+      color: var(--accent-green);
+      padding: 0.5rem 1.1rem;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    @media (max-width: 900px) {
+      .stats-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <span class="tag">لوحة الكاشير 👑</span>
+    <span>نظام متابعة واستلام الطلبات الفوري — فرع أسيوط</span>
+    <span>هشام فؤاد ملك الكريب</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.png" alt="لوجو هشام فؤاد">
+        <div class="brand-text">
+          <h1>هشام فؤاد</h1>
+          <span>لـوحـة الـتـحـكـم 👑</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <button id="btn-enable-audio" class="btn-sound-toggle" onclick="toggleAudioAlerts()">
+          <i class="fas fa-volume-up"></i>
+          <span id="audio-btn-text">تفعيل صوت التنبيه</span>
+        </button>
+        <a href="index.html" class="btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
+          <i class="fas fa-store"></i>
+          <span>عرض الموقع</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Admin Main Content -->
+  <main class="admin-wrap">
+    <div class="container">
+      <div class="admin-header">
+        <div>
+          <h2 style="font-size: 2rem; font-weight: 900; color: #fff;">طلبات المطعم المباشرة 🌯</h2>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">تحديث فوري كل 10 ثوانٍ مع منبه صوتي ووميض عند وصول طلب جديد</p>
+        </div>
+        <div>
+          <button class="btn-primary" onclick="simulateNewOrderDemo()" style="font-size: 0.9rem; padding: 0.65rem 1.4rem;">
+            <i class="fas fa-bell"></i>
+            <span>تجربة تنبيه صوتي فوري</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-icon-wrap"><i class="fas fa-receipt"></i></div>
+          <div class="stat-info">
+            <h5>طلبات اليوم</h5>
+            <span class="stat-val" id="stat-count">12</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap gold"><i class="fas fa-coins"></i></div>
+          <div class="stat-info">
+            <h5>إجمالي المبيعات</h5>
+            <span class="stat-val" id="stat-revenue">1,840 ج</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap" style="color: var(--gold-primary); border-color: var(--gold-primary);"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <h5>قيد الانتظار</h5>
+            <span class="stat-val" id="stat-pending">2</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon-wrap" style="color: var(--accent-green); border-color: var(--accent-green);"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <h5>تم التوصيل</h5>
+            <span class="stat-val" id="stat-delivered">9</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live Orders Table Panel -->
+      <div class="orders-panel">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
+          <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff;">قائمة الأوردرات الحية</h3>
+          <span style="font-size: 0.85rem; color: var(--teal-glow);"><i class="fas fa-sync-alt fa-spin"></i> متصل بالسيرفر الحي</span>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="orders-table">
+            <thead>
+              <tr>
+                <th>رقم الطلب</th>
+                <th>اسم العميل</th>
+                <th>رقم الموبايل</th>
+                <th>عنوان أسيوط</th>
+                <th>الأصناف المطلوبة</th>
+                <th>الإجمالي</th>
+                <th>الحالة</th>
+                <th>إجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="admin-orders-tbody">
+              <!-- Demo Initial Orders -->
+              <tr>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2045</td>
+                <td>محمود عماد الدين</td>
+                <td>01038945555</td>
+                <td>شارع المحافظة أمام مستشفى طيبة</td>
+                <td>1× كريب الوحش (ستيك وشيش) + صوص شيدر</td>
+                <td style="font-weight: 900; font-family: 'Outfit';">175 ج</td>
+                <td><span class="status-badge status-pending">قيد الانتظار</span></td>
+                <td>
+                  <button class="btn-primary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;" onclick="advanceStatus(this, 'status-preparing', 'جاري التحضير')">قبول وتحضير</button>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2044</td>
+                <td>أحمد فؤاد</td>
+                <td>01554006656</td>
+                <td>بجوار الفانوس - الدور الثالث</td>
+                <td>2× كريب زنجر سبايسي + 1× كريب نوتيلا أوريو</td>
+                <td style="font-weight: 900; font-family: 'Outfit';">295 ج</td>
+                <td><span class="status-badge status-preparing">جاري التحضير</span></td>
+                <td>
+                  <button class="btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;" onclick="advanceStatus(this, 'status-ready', 'جاهز للتوصيل')">جاهز</button>
+                </td>
+              </tr>
+              <tr>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2043</td>
+                <td>كريم حسن</td>
+                <td>01221458990</td>
+                <td>شركة فريال - شارع يسري راغب</td>
+                <td>1× كريب ميلانو + 1× كريب بطاطس جبن</td>
+                <td style="font-weight: 900; font-family: 'Outfit';">210 ج</td>
+                <td><span class="status-badge status-delivered">تم التوصيل</span></td>
+                <td><span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل ✓</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Flashing Overlay Notification for New Orders -->
+  <div id="new-order-overlay" class="flash-overlay">
+    <div class="flash-box">
+      <div style="font-size: 4rem; color: var(--gold-primary); margin-bottom: 0.5rem;"><i class="fas fa-bell"></i></div>
+      <h2 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem;">أوردر جديد وصل للكاشير! 🌯</h2>
+      <p id="overlay-order-details" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">
+        طلب رقم <strong style="color: var(--gold-primary);">#2046</strong> — كريب هشام فؤاد الوحش
+      </p>
+      <button class="btn-primary" style="padding: 0.9rem 2.5rem; font-size: 1.1rem;" onclick="dismissAlert()">
+        <i class="fas fa-check"></i>
+        <span>استلام وفحص الأوردر</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Audio Alert Engine via Web Audio API -->
+  <script>
+    let audioContext = null;
+    let audioEnabled = false;
+
+    function initAudio() {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (audioContext.state === 'suspended') {
+        audioContext.resume();
+      }
+      audioEnabled = true;
+      document.getElementById('audio-btn-text').textContent = 'الصوت مفعل ✓';
+      document.getElementById('btn-enable-audio').style.borderColor = 'var(--gold-primary)';
+      document.getElementById('btn-enable-audio').style.color = 'var(--gold-primary)';
+    }
+
+    function toggleAudioAlerts() {
+      initAudio();
+      playLoudAlarm();
+    }
+
+    function playLoudAlarm() {
+      initAudio();
+      const ctx = audioContext;
+      const now = ctx.currentTime;
+
+      // Play double beeping alarm pattern
+      [0, 0.25, 0.5, 0.75].forEach(timeOffset => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(880, now + timeOffset); // A5 note
+        osc.frequency.exponentialRampToValueAtTime(1200, now + timeOffset + 0.15);
+
+        gain.gain.setValueAtTime(0.3, now + timeOffset);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + timeOffset + 0.2);
+
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+
+        osc.start(now + timeOffset);
+        osc.stop(now + timeOffset + 0.22);
+      });
+    }
+
+    function simulateNewOrderDemo() {
+      playLoudAlarm();
+      const overlay = document.getElementById('new-order-overlay');
+      overlay.style.display = 'flex';
+    }
+
+    function dismissAlert() {
+      document.getElementById('new-order-overlay').style.display = 'none';
+    }
+
+    function advanceStatus(btn, nextClass, nextText) {
+      const row = btn.closest('tr');
+      const badge = row.querySelector('.status-badge');
+      badge.className = `status-badge ${nextClass}`;
+      badge.textContent = nextText;
+
+      if (nextText === 'جاري التحضير') {
+        btn.textContent = 'جاهز للتوصيل';
+        btn.onclick = () => advanceStatus(btn, 'status-ready', 'جاهز للتوصيل');
+      } else if (nextText === 'جاهز للتوصيل') {
+        btn.textContent = 'تم التوصيل';
+        btn.onclick = () => advanceStatus(btn, 'status-delivered', 'تم التوصيل');
+      } else {
+        btn.parentElement.innerHTML = '<span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل ✓</span>';
+      }
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سلة المشتريات وإتمام الطلب — هشام فؤاد ملك الكريب</title>
+  <meta name="description" content="إتمام طلب كريب هشام فؤاد في أسيوط. توصيل سريع ومباشر عبر واتساب أو الدفع عند الاستلام.">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .cart-page-wrap {
+      padding: 3.5rem 0 5rem;
+    }
+    .cart-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.85fr;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+    .cart-items-card, .checkout-summary-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      box-shadow: var(--shadow-card);
+    }
+    .cart-item-row {
+      display: flex;
+      gap: 1.25rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      align-items: center;
+    }
+    .cart-item-row:last-child {
+      border-bottom: none;
+    }
+    .cart-item-img {
+      width: 75px;
+      height: 75px;
+      border-radius: var(--radius-md);
+      object-fit: cover;
+      border: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .cart-item-info {
+      flex-grow: 1;
+    }
+    .cart-item-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-pure);
+      margin-bottom: 0.25rem;
+    }
+    .cart-item-customs {
+      font-size: 0.8rem;
+      color: var(--teal-glow);
+      margin-bottom: 0.25rem;
+    }
+    .cart-item-price {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--gold-primary);
+      font-family: 'Outfit', sans-serif;
+    }
+    .qty-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 0.25rem 0.6rem;
+    }
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--teal-gradient);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: transform var(--transition-fast);
+    }
+    .qty-btn:hover {
+      transform: scale(1.1);
+    }
+    .qty-num {
+      font-weight: 900;
+      font-size: 1rem;
+      min-width: 20px;
+      text-align: center;
+      font-family: 'Outfit';
+    }
+    .btn-remove-item {
+      color: var(--text-dim);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: color var(--transition-fast);
+      margin-right: 0.5rem;
+    }
+    .btn-remove-item:hover {
+      color: var(--accent-red);
+    }
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 1.1rem;
+    }
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--text-main);
+      margin-bottom: 0.4rem;
+    }
+    .form-control {
+      width: 100%;
+      padding: 0.85rem 1rem;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: #fff;
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color var(--transition-fast);
+    }
+    .form-control:focus {
+      border-color: var(--teal-glow);
+    }
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+    .summary-row.total {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--text-pure);
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      padding-top: 1rem;
+      margin-top: 1rem;
+    }
+    .summary-row.total .price {
+      color: var(--gold-primary);
+      font-family: 'Outfit';
+      font-size: 1.6rem;
+    }
+    .btn-whatsapp-order {
+      width: 100%;
+      padding: 1rem;
+      background: #25d366;
+      color: #fff;
+      border-radius: var(--radius-full);
+      font-size: 1.05rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      margin-top: 1.5rem;
+      transition: var(--transition-smooth);
+    }
+    .btn-whatsapp-order:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(37, 211, 102, 0.55);
+    }
+    @media (max-width: 900px) {
+      .cart-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <span class="tag">عرض الافتتاح 🔥</span>
+    <span>خصم 15% على جميع الكريبات طوال فترة السوفت! 🤩</span>
+    <span>دليفري أسيوط: 01554006656 - 01038945555</span>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="brand-logo">
+        <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب">
+        <div class="brand-text">
+          <h1>هشام فؤاد</h1>
+          <span>مـلـك الـكـريـب 👑</span>
+        </div>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">الرئيسية</a></li>
+        <li><a href="menu.html">قائمة الطعام</a></li>
+        <li><a href="cart.html" class="active">سلة المشتريات</a></li>
+        <li><a href="index.html#location">الفروع والتوصيل</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <a href="tel:01554006656" class="btn-order-call">
+          <i class="fas fa-phone-alt"></i>
+          <span>اتصل بنا</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Cart Page Content -->
+  <div class="cart-page-wrap">
+    <div class="container">
+      <div class="section-head" style="text-align: right; margin-bottom: 2rem;">
+        <span class="section-subtitle">إتمام طلبك اللذيذ</span>
+        <h2 class="section-title">سلة المشتريات 🌯</h2>
+      </div>
+
+      <div class="cart-grid">
+        <!-- Cart Items List -->
+        <div class="cart-items-card">
+          <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 1.5rem; color: #fff;">الأصناف المختارة</h3>
+          <div id="cart-items-container">
+            <!-- Rendered by Cart JS -->
+          </div>
+          <div style="margin-top: 1.5rem; text-align: left;">
+            <a href="menu.html" class="btn-secondary" style="font-size: 0.9rem; padding: 0.5rem 1.25rem;">
+              <i class="fas fa-plus"></i>
+              <span>إضافة كريب آخر من المنيو</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Customer Info & Order Summary -->
+        <div class="checkout-summary-card">
+          <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 1.25rem; color: #fff;">بيانات التوصيل في أسيوط 🛵</h3>
+
+          <form id="checkout-form" onsubmit="event.preventDefault(); submitOrder();">
+            <div class="form-group">
+              <label class="form-label">الاسم بالكامل *</label>
+              <input type="text" id="cust-name" class="form-control" placeholder="اسمك الكريم" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">رقم الموبايل للتواصل *</label>
+              <input type="tel" id="cust-phone" class="form-control" placeholder="01xxxxxxxxx" required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">عنوان التوصيل بالتفصيل (بأسيوط) *</label>
+              <input type="text" id="cust-address" class="form-control" placeholder="الشارع، رقم العمارة، علامة مميزة..." required>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">ملاحظات للأوردر</label>
+              <input type="text" id="cust-notes" class="form-control" placeholder="أي طلب خاص بالشيف أو التوصيل">
+            </div>
+
+            <!-- Financial Breakdown -->
+            <div style="margin: 1.5rem 0 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem;">
+              <div class="summary-row">
+                <span>مجموع الكريبات:</span>
+                <span id="sum-subtotal" style="font-family: 'Outfit'; font-weight: 800;">0 ج.م</span>
+              </div>
+              <div class="summary-row">
+                <span>خدمة التوصيل (أسيوط):</span>
+                <span id="sum-delivery" style="font-family: 'Outfit'; font-weight: 800;">15 ج.م</span>
+              </div>
+              <div class="summary-row" style="color: var(--accent-green); font-size: 0.85rem;">
+                <span>📢 خصم 15% طوال السوفت:</span>
+                <span>مشمول في الأسعار ✓</span>
+              </div>
+              <div class="summary-row total">
+                <span>المبلغ المطلوب دفعه:</span>
+                <span id="sum-total" class="price">0 ج.م</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <button type="button" class="btn-whatsapp-order" onclick="submitWhatsAppOrder()">
+              <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i>
+              <span>إرسال الطلب عبر واتساب مباشرة</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+        <p>جميع الحقوق محفوظة © 2026 مطعم هشام فؤاد ملك الكريب — أسيوط</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/menuData.js"></script>
+  <script src="js/cart.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', renderCartPage);
+    window.addEventListener('cartUpdated', renderCartPage);
+
+    function renderCartPage() {
+      const cart = window.HeshamFouadCart.getCart();
+      const container = document.getElementById('cart-items-container');
+      if (!container) return;
+
+      if (cart.length === 0) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
+            <i class="fas fa-shopping-basket" style="font-size: 3rem; color: var(--teal-primary); margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">السلة فاضية حالياً</h4>
+            <p>لسه ما اخترتش كريب؟ استكشف منيو هشام فؤاد واطلب أجمد كريب الآن!</p>
+            <a href="menu.html" class="btn-primary" style="margin-top: 1.25rem;">تصفح المنيو</a>
+          </div>
+        `;
+        updateSummary(0, 0, 0);
+        return;
+      }
+
+      container.innerHTML = cart.map(item => `
+        <div class="cart-item-row">
+          <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='assets/images/logo.png'">
+          <div class="cart-item-info">
+            <h4 class="cart-item-title">${item.name}</h4>
+            ${item.selectedAddons && item.selectedAddons.length > 0 ? `
+              <div class="cart-item-customs">➕ إضافات: ${item.selectedAddons.map(a => a.name).join('، ')}</div>
+            ` : ''}
+            ${item.selectedSauces && item.selectedSauces.length > 0 ? `
+              <div class="cart-item-customs">🥫 صصوصات: ${item.selectedSauces.map(s => s.name).join('، ')}</div>
+            ` : ''}
+            ${item.notes ? `<div style="font-size: 0.78rem; color: var(--gold-primary);">💬 ملاحظة: ${item.notes}</div>` : ''}
+            <div class="cart-item-price">${item.totalPrice} ج.م</div>
+          </div>
+
+          <div class="qty-controls">
+            <button class="qty-btn" onclick="window.HeshamFouadCart.updateQuantity('${item.customKey}', ${item.quantity - 1})">-</button>
+            <span class="qty-num">${item.quantity}</span>
+            <button class="qty-btn" onclick="window.HeshamFouadCart.updateQuantity('${item.customKey}', ${item.quantity + 1})">+</button>
+          </div>
+
+          <button class="btn-remove-item" onclick="window.HeshamFouadCart.removeFromCart('${item.customKey}')" title="حذف الصنف">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </div>
+      `).join('');
+
+      const totals = window.HeshamFouadCart.getCartTotals();
+      updateSummary(totals.subtotal, totals.deliveryFee, totals.total);
+    }
+
+    function updateSummary(subtotal, delivery, total) {
+      document.getElementById('sum-subtotal').textContent = `${subtotal} ج.م`;
+      document.getElementById('sum-delivery').textContent = `${delivery} ج.م`;
+      document.getElementById('sum-total').textContent = `${total} ج.م`;
+    }
+
+    function submitWhatsAppOrder() {
+      const cart = window.HeshamFouadCart.getCart();
+      if (cart.length === 0) {
+        alert('سلة المشتريات فارغة! اختر كريبك أولاً من المنيو.');
+        return;
+      }
+
+      const name = document.getElementById('cust-name').value.trim();
+      const phone = document.getElementById('cust-phone').value.trim();
+      const address = document.getElementById('cust-address').value.trim();
+      const notes = document.getElementById('cust-notes').value.trim();
+
+      if (!name || !phone || !address) {
+        alert('من فضلك املأ الاسم ورقم الموبايل وعنوان التوصيل بأسيوط.');
+        return;
+      }
+
+      const url = window.HeshamFouadCart.formatWhatsAppOrder({ name, phone, address, notes });
+      window.open(url, '_blank');
+    }
+  </script>
+</body>
+</html>
