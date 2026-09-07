@@ -2264,3 +2264,48 @@ body.landing-page-body .navbar {
 .fade-in {
   animation: fadeIn 0.25s ease forwards;
 }
+
+/* ==========================================================================
+   Floating WhatsApp Button
+   ========================================================================== */
+.floating-whatsapp {
+  position: fixed;
+  bottom: 25px;
+  left: 25px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background: #10B981;
+  color: #fff !important;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-full);
+  font-weight: 800;
+  font-size: 0.95rem;
+  font-family: var(--font-family);
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.4);
+  transition: var(--transition-normal);
+  text-decoration: none;
+  direction: rtl;
+}
+
+.floating-whatsapp i {
+  font-size: 1.25rem;
+}
+
+.floating-whatsapp:hover {
+  transform: translateY(-3px);
+  background: #059669;
+  color: #fff !important;
+  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.5);
+}
+
+@media (max-width: 640px) {
+  .floating-whatsapp {
+    bottom: 20px;
+    left: 16px;
+    padding: 0.65rem 1.1rem;
+    font-size: 0.85rem;
+  }
+}
+
