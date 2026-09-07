@@ -1,6 +1,6 @@
 /**
  * Hesham Fouad — King of Crepe
- * Cart Management & LocalStorage State
+ * Cart Management & LocalStorage State (No Emojis)
  */
 (function () {
   'use strict';
@@ -32,7 +32,6 @@
   }
 
   function addToCart(item, quantity = 1, selectedAddons = [], selectedSauces = [], notes = '') {
-    // Generate unique key based on item ID and customizations
     const customKey = `${item.id}_${selectedAddons.map(a => a.id).sort().join('_')}_${selectedSauces.map(s => s.id).sort().join('_')}`;
     const existingIndex = cart.findIndex(ci => ci.customKey === customKey);
 
@@ -60,7 +59,7 @@
     }
 
     saveCart();
-    showToastNotification(`تمت إضافة "${item.name}" إلى السلة 🌯`);
+    showToastNotification(`تمت إضافة "${item.name}" إلى السلة`);
   }
 
   function updateQuantity(customKey, newQty) {
@@ -118,12 +117,12 @@
         position: fixed;
         bottom: 30px;
         right: 30px;
-        background: linear-gradient(135deg, #0a8f9a, #032d32);
-        color: #fff;
-        border: 2px solid #ffb703;
+        background: #162226;
+        color: #FFFFFF;
+        border: 1px solid #0A748A;
         border-radius: 9999px;
         padding: 0.85rem 1.75rem;
-        font-weight: 800;
+        font-weight: 700;
         font-size: 0.95rem;
         box-shadow: 0 10px 30px rgba(0,0,0,0.6);
         z-index: 9999;
@@ -136,7 +135,7 @@
       `;
       document.body.appendChild(toast);
     }
-    toast.innerHTML = message;
+    toast.innerHTML = `<i class="fas fa-check-circle" style="color: #F59E0B;"></i> <span>${message}</span>`;
     toast.style.transform = 'translateY(0)';
     toast.style.opacity = '1';
 
@@ -147,48 +146,46 @@
     }, 2800);
   }
 
-  // Generate WhatsApp Order Message
   function formatWhatsAppOrder(customerInfo = {}) {
     const { subtotal, deliveryFee, total } = getCartTotals();
     const info = window.HeshamFouadData?.restaurantInfo || {};
 
-    let msg = `👑 *طلب جديد — هشام فؤاد ملك الكريب*\n`;
+    let msg = `*طلب جديد — هشام فؤاد ملك الكريب*\n`;
     msg += `------------------------------------\n`;
-    msg += `👤 *الاسم:* ${customerInfo.name || 'عميل'}\n`;
-    msg += `📞 *الموبايل:* ${customerInfo.phone || ''}\n`;
-    msg += `📍 *العنوان:* ${customerInfo.address || 'استلام من الفرع'}\n`;
+    msg += `*الاسم:* ${customerInfo.name || 'عميل'}\n`;
+    msg += `*الموبايل:* ${customerInfo.phone || ''}\n`;
+    msg += `*العنوان:* ${customerInfo.address || 'استلام من الفرع'}\n`;
     if (customerInfo.notes) {
-      msg += `📝 *ملاحظات:* ${customerInfo.notes}\n`;
+      msg += `*ملاحظات:* ${customerInfo.notes}\n`;
     }
     msg += `------------------------------------\n`;
-    msg += `🌯 *تفاصيل الطلب:*\n`;
+    msg += `*تفاصيل الطلب:*\n`;
 
     cart.forEach((item, index) => {
       msg += `\n${index + 1}. *${item.name}* × ${item.quantity} = ${item.totalPrice} ج\n`;
       if (item.selectedAddons && item.selectedAddons.length > 0) {
-        msg += `   ➕ إضافات: ${item.selectedAddons.map(a => a.name).join(', ')}\n`;
+        msg += `   + إضافات: ${item.selectedAddons.map(a => a.name).join(', ')}\n`;
       }
       if (item.selectedSauces && item.selectedSauces.length > 0) {
-        msg += `   🥫 صوصات: ${item.selectedSauces.map(s => s.name).join(', ')}\n`;
+        msg += `   + صوصات: ${item.selectedSauces.map(s => s.name).join(', ')}\n`;
       }
       if (item.notes) {
-        msg += `   💬 طلب خاص: ${item.notes}\n`;
+        msg += `   - طلب خاص: ${item.notes}\n`;
       }
     });
 
     msg += `\n------------------------------------\n`;
-    msg += `💰 *المجموع:* ${subtotal} ج\n`;
-    msg += `🛵 *التوصيل:* ${deliveryFee} ج\n`;
-    msg += `🔥 *الإجمالي النهائي:* ${total} ج\n`;
+    msg += `*المجموع:* ${subtotal} ج\n`;
+    msg += `*التوصيل:* ${deliveryFee} ج\n`;
+    msg += `*الإجمالي النهائي:* ${total} ج\n`;
     msg += `------------------------------------\n`;
-    msg += `📢 *عرض الافتتاح:* خصم 15% مشمول في الأسعار!`;
+    msg += `*عرض الافتتاح:* خصم 15% مشمول في الأسعار`;
 
     const encoded = encodeURIComponent(msg);
     const phone = info.whatsapp || '201554006656';
     return `https://wa.me/${phone}?text=${encoded}`;
   }
 
-  // Initial load
   loadCart();
 
   window.HeshamFouadCart = {

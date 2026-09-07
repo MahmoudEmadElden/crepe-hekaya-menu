@@ -28,7 +28,7 @@
     }
     .stat-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-md);
       padding: 1.5rem;
       display: flex;
@@ -36,21 +36,21 @@
       gap: 1.25rem;
     }
     .stat-icon-wrap {
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: var(--radius-sm);
-      background: rgba(10, 143, 154, 0.15);
-      border: 1px solid var(--teal-glow);
-      color: var(--teal-glow);
+      background: var(--primary-subtle);
+      border: 1px solid var(--border-card);
+      color: var(--primary-light);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.35rem;
     }
     .stat-icon-wrap.gold {
-      background: rgba(255, 183, 3, 0.15);
-      border-color: var(--gold-primary);
-      color: var(--gold-primary);
+      background: var(--accent-gold-subtle);
+      border-color: var(--border-gold);
+      color: var(--accent-gold);
     }
     .stat-info h5 {
       font-size: 0.85rem;
@@ -58,14 +58,14 @@
       margin-bottom: 0.25rem;
     }
     .stat-info .stat-val {
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       font-weight: 900;
       color: #fff;
       font-family: 'Outfit';
     }
     .orders-panel {
       background: var(--bg-card);
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-lg);
       padding: 1.75rem;
       box-shadow: var(--shadow-card);
@@ -76,18 +76,18 @@
       margin-top: 1rem;
     }
     .orders-table th {
-      background: rgba(10, 143, 154, 0.15);
-      color: var(--teal-glow);
+      background: var(--primary-subtle);
+      color: var(--primary-light);
       padding: 1rem;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       font-weight: 800;
       text-align: right;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-card);
     }
     .orders-table td {
       padding: 1rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.92rem;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 0.9rem;
     }
     .status-badge {
       display: inline-block;
@@ -96,16 +96,15 @@
       font-size: 0.8rem;
       font-weight: 800;
     }
-    .status-pending { background: rgba(255, 183, 3, 0.2); color: var(--gold-primary); border: 1px solid var(--gold-primary); }
-    .status-preparing { background: rgba(0, 225, 217, 0.2); color: var(--teal-glow); border: 1px solid var(--teal-glow); }
-    .status-ready { background: rgba(46, 213, 115, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
-    .status-delivered { background: rgba(148, 163, 184, 0.2); color: #cbd5e1; }
+    .status-pending { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid var(--border-gold); }
+    .status-preparing { background: rgba(10, 116, 138, 0.2); color: var(--primary-light); border: 1px solid var(--primary-light); }
+    .status-ready { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .status-delivered { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
     
-    /* Flashing Overlay Alert for New Orders */
     .flash-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(6, 17, 22, 0.95);
+      background: rgba(13, 21, 24, 0.95);
       z-index: 9999;
       display: none;
       align-items: center;
@@ -113,20 +112,20 @@
       animation: alertPulse 1s infinite alternate;
     }
     @keyframes alertPulse {
-      0% { box-shadow: inset 0 0 100px rgba(0, 225, 217, 0.8); }
-      100% { box-shadow: inset 0 0 150px rgba(255, 183, 3, 0.9); }
+      0% { box-shadow: inset 0 0 80px rgba(10, 116, 138, 0.8); }
+      100% { box-shadow: inset 0 0 120px rgba(245, 158, 11, 0.8); }
     }
     .flash-box {
-      background: var(--bg-surface);
-      border: 3px solid var(--gold-primary);
+      background: var(--bg-card);
+      border: 2px solid var(--accent-gold);
       border-radius: var(--radius-lg);
       padding: 2.5rem;
-      max-width: 500px;
+      max-width: 480px;
       text-align: center;
-      box-shadow: 0 0 50px rgba(255, 183, 3, 0.6);
+      box-shadow: 0 0 50px rgba(245, 158, 11, 0.4);
     }
     .btn-sound-toggle {
-      background: rgba(46, 213, 115, 0.2);
+      background: rgba(16, 185, 129, 0.15);
       border: 1px solid var(--accent-green);
       color: var(--accent-green);
       padding: 0.5rem 1.1rem;
@@ -146,9 +145,9 @@
 </head>
 <body>
 
-  <!-- Top Announcement Bar -->
+  <!-- Top Bar -->
   <div class="top-bar">
-    <span class="tag">لوحة الكاشير 👑</span>
+    <span class="tag">لوحة الكاشير</span>
     <span>نظام متابعة واستلام الطلبات الفوري — فرع أسيوط</span>
     <span>هشام فؤاد ملك الكريب</span>
   </div>
@@ -160,7 +159,7 @@
         <img src="assets/images/logo.png" alt="لوجو هشام فؤاد">
         <div class="brand-text">
           <h1>هشام فؤاد</h1>
-          <span>لـوحـة الـتـحـكـم 👑</span>
+          <span><i class="fas fa-crown"></i> لوحة الإدارة</span>
         </div>
       </a>
 
@@ -182,11 +181,11 @@
     <div class="container">
       <div class="admin-header">
         <div>
-          <h2 style="font-size: 2rem; font-weight: 900; color: #fff;">طلبات المطعم المباشرة 🌯</h2>
-          <p style="color: var(--text-muted); font-size: 0.95rem;">تحديث فوري كل 10 ثوانٍ مع منبه صوتي ووميض عند وصول طلب جديد</p>
+          <h2 style="font-size: 1.85rem; font-weight: 900; color: #fff;">طلبات المطعم المباشرة</h2>
+          <p style="color: var(--text-muted); font-size: 0.92rem;">متابعة فورية مع تنبيه صوتي ووميض عند وصول طلب جديد</p>
         </div>
         <div>
-          <button class="btn-primary" onclick="simulateNewOrderDemo()" style="font-size: 0.9rem; padding: 0.65rem 1.4rem;">
+          <button class="btn-primary" onclick="simulateNewOrderDemo()" style="font-size: 0.88rem; padding: 0.6rem 1.3rem;">
             <i class="fas fa-bell"></i>
             <span>تجربة تنبيه صوتي فوري</span>
           </button>
@@ -210,7 +209,7 @@
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon-wrap" style="color: var(--gold-primary); border-color: var(--gold-primary);"><i class="fas fa-clock"></i></div>
+          <div class="stat-icon-wrap" style="color: var(--accent-gold); border-color: var(--border-gold);"><i class="fas fa-clock"></i></div>
           <div class="stat-info">
             <h5>قيد الانتظار</h5>
             <span class="stat-val" id="stat-pending">2</span>
@@ -228,8 +227,8 @@
       <!-- Live Orders Table Panel -->
       <div class="orders-panel">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-          <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff;">قائمة الأوردرات الحية</h3>
-          <span style="font-size: 0.85rem; color: var(--teal-glow);"><i class="fas fa-sync-alt fa-spin"></i> متصل بالسيرفر الحي</span>
+          <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff;">قائمة الأوردرات الحية</h3>
+          <span style="font-size: 0.85rem; color: var(--primary-light);"><i class="fas fa-sync-alt fa-spin"></i> متصل بالسيرفر</span>
         </div>
 
         <div style="overflow-x: auto;">
@@ -247,13 +246,12 @@
               </tr>
             </thead>
             <tbody id="admin-orders-tbody">
-              <!-- Demo Initial Orders -->
               <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2045</td>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2045</td>
                 <td>محمود عماد الدين</td>
                 <td>01038945555</td>
                 <td>شارع المحافظة أمام مستشفى طيبة</td>
-                <td>1× كريب الوحش (ستيك وشيش) + صوص شيدر</td>
+                <td>1× كريب الوحش + صوص شيدر</td>
                 <td style="font-weight: 900; font-family: 'Outfit';">175 ج</td>
                 <td><span class="status-badge status-pending">قيد الانتظار</span></td>
                 <td>
@@ -261,11 +259,11 @@
                 </td>
               </tr>
               <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2044</td>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2044</td>
                 <td>أحمد فؤاد</td>
                 <td>01554006656</td>
                 <td>بجوار الفانوس - الدور الثالث</td>
-                <td>2× كريب زنجر سبايسي + 1× كريب نوتيلا أوريو</td>
+                <td>2× كريب زنجر + 1× كريب نوتيلا أوريو</td>
                 <td style="font-weight: 900; font-family: 'Outfit';">295 ج</td>
                 <td><span class="status-badge status-preparing">جاري التحضير</span></td>
                 <td>
@@ -273,14 +271,14 @@
                 </td>
               </tr>
               <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--gold-primary);">#2043</td>
+                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2043</td>
                 <td>كريم حسن</td>
                 <td>01221458990</td>
                 <td>شركة فريال - شارع يسري راغب</td>
                 <td>1× كريب ميلانو + 1× كريب بطاطس جبن</td>
                 <td style="font-weight: 900; font-family: 'Outfit';">210 ج</td>
                 <td><span class="status-badge status-delivered">تم التوصيل</span></td>
-                <td><span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل ✓</span></td>
+                <td><span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل</span></td>
               </tr>
             </tbody>
           </table>
@@ -292,14 +290,14 @@
   <!-- Flashing Overlay Notification for New Orders -->
   <div id="new-order-overlay" class="flash-overlay">
     <div class="flash-box">
-      <div style="font-size: 4rem; color: var(--gold-primary); margin-bottom: 0.5rem;"><i class="fas fa-bell"></i></div>
-      <h2 style="font-size: 2rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem;">أوردر جديد وصل للكاشير! 🌯</h2>
-      <p id="overlay-order-details" style="color: var(--text-muted); font-size: 1.1rem; margin-bottom: 1.5rem;">
-        طلب رقم <strong style="color: var(--gold-primary);">#2046</strong> — كريب هشام فؤاد الوحش
+      <div style="font-size: 3.5rem; color: var(--accent-gold); margin-bottom: 0.5rem;"><i class="fas fa-bell"></i></div>
+      <h2 style="font-size: 1.85rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem;">طلب جديد وصل للكاشير</h2>
+      <p id="overlay-order-details" style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem;">
+        طلب رقم <strong style="color: var(--accent-gold);">#2046</strong> — كريب هشام فؤاد الوحش
       </p>
-      <button class="btn-primary" style="padding: 0.9rem 2.5rem; font-size: 1.1rem;" onclick="dismissAlert()">
+      <button class="btn-primary" style="padding: 0.85rem 2.25rem; font-size: 1rem;" onclick="dismissAlert()">
         <i class="fas fa-check"></i>
-        <span>استلام وفحص الأوردر</span>
+        <span>استلام وفحص الطلب</span>
       </button>
     </div>
   </div>
@@ -317,9 +315,9 @@
         audioContext.resume();
       }
       audioEnabled = true;
-      document.getElementById('audio-btn-text').textContent = 'الصوت مفعل ✓';
-      document.getElementById('btn-enable-audio').style.borderColor = 'var(--gold-primary)';
-      document.getElementById('btn-enable-audio').style.color = 'var(--gold-primary)';
+      document.getElementById('audio-btn-text').textContent = 'الصوت مفعل';
+      document.getElementById('btn-enable-audio').style.borderColor = 'var(--accent-gold)';
+      document.getElementById('btn-enable-audio').style.color = 'var(--accent-gold)';
     }
 
     function toggleAudioAlerts() {
@@ -332,13 +330,12 @@
       const ctx = audioContext;
       const now = ctx.currentTime;
 
-      // Play double beeping alarm pattern
       [0, 0.25, 0.5, 0.75].forEach(timeOffset => {
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
 
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(880, now + timeOffset); // A5 note
+        osc.frequency.setValueAtTime(880, now + timeOffset);
         osc.frequency.exponentialRampToValueAtTime(1200, now + timeOffset + 0.15);
 
         gain.gain.setValueAtTime(0.3, now + timeOffset);
@@ -375,7 +372,7 @@
         btn.textContent = 'تم التوصيل';
         btn.onclick = () => advanceStatus(btn, 'status-delivered', 'تم التوصيل');
       } else {
-        btn.parentElement.innerHTML = '<span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل ✓</span>';
+        btn.parentElement.innerHTML = '<span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل</span>';
       }
     }
   </script>

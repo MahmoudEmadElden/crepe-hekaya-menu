@@ -1,41 +1,41 @@
 /**
  * Hesham Fouad — King of Crepe (هشام فؤاد — ملك الكريب)
- * Authentic Menu Data extracted from official restaurant menu cards
+ * Authentic Menu Data — Clean Pro Version (No Emojis)
  */
 (function () {
   'use strict';
 
   const restaurantInfo = {
     name: 'هشام فؤاد',
-    subtitle: 'ملك الكريب 👑',
-    slogan: 'مولع الدنيا بأجمد كريبات معموله بحب 🫶 علشان تستمتع بتجربة كريب مش هتلاقيها إلا عند هشام فؤاد 👌',
+    subtitle: 'ملك الكريب',
+    slogan: 'أجود كريب في أسيوط معمول بحب وعناية لتستمتع بأفضل تجربة طعام.',
     address: 'أسيوط — شارع المحافظة بجوار الفانوس أمام مستشفى طيبة',
     locationShort: 'أسيوط، شارع المحافظة',
     phones: ['01554006656', '01038945555'],
     primaryPhone: '01554006656',
     secondaryPhone: '01038945555',
     whatsapp: '201554006656',
-    discountNote: 'الأسعار تشمل خصم 15% طوال فترة السوفت بمناسبة الافتتاح 🤩',
+    discountNote: 'الأسعار تشمل خصم 15% طوال فترة الافتتاح',
     openingHours: 'يومياً من 12:00 ظهراً حتى 3:00 فجراً',
     deliveryFee: 15,
     minOrder: 50,
   };
 
   const categories = [
-    { id: 'signature', name: 'الميكسات والوحش 👑', icon: 'fa-crown', badge: 'الأكثر طلباً' },
-    { id: 'chicken', name: 'كريب الفراخ 🍗', icon: 'fa-drumstick-bite', badge: 'مقرمش ومشوي' },
-    { id: 'meat', name: 'كريب اللحوم 🥩', icon: 'fa-bacon', badge: 'بلدي ومدخن' },
-    { id: 'fries', name: 'البطاطس والجبن 🍟', icon: 'fa-cheese', badge: 'غرقان صوصات' },
-    { id: 'sweet', name: 'كريب حلو 🍫', icon: 'fa-cookie-bite', badge: 'بستري ومكسرات' },
-    { id: 'sauces', name: 'الصوصات والإكسترا 🥫', icon: 'fa-pepper-hot', badge: 'حسب مزاجك' }
+    { id: 'signature', name: 'الميكسات والوحش', icon: 'fa-crown', badge: 'الأكثر طلباً' },
+    { id: 'chicken', name: 'كريب الدجاج', icon: 'fa-drumstick-bite', badge: 'مقرمش ومشوي' },
+    { id: 'meat', name: 'كريب اللحوم', icon: 'fa-bacon', badge: 'بلدي ومدخن' },
+    { id: 'fries', name: 'البطاطس والجبن', icon: 'fa-cheese', badge: 'غرقان صوصات' },
+    { id: 'sweet', name: 'كريب حلو', icon: 'fa-cookie-bite', badge: 'بستري ومكسرات' },
+    { id: 'sauces', name: 'الصوصات والإكسترا', icon: 'fa-pepper-hot', badge: 'إضافات مميزة' }
   ];
 
   const extraAddons = [
     { id: 'extra-romi', name: 'جبنة رومي مبشورة', price: 20 },
     { id: 'extra-mozzarella', name: 'موتزاريلا سايحة إكسترا', price: 20 },
     { id: 'extra-mix-cheese', name: 'ميكس جبن (شيدر + رومي + موتزاريلا)', price: 20 },
-    { id: 'extra-fries', name: 'بطاطس كرسبي', price: 20 },
-    { id: 'extra-jalapeno', name: 'هالابينو سبايسي', price: 20 },
+    { id: 'extra-fries', name: 'بطاطس مقرمشة', price: 20 },
+    { id: 'extra-jalapeno', name: 'هالابينو حار', price: 20 },
     { id: 'extra-crepe-bread', name: 'فطيرة كريب إضافية', price: 25 }
   ];
 
@@ -47,7 +47,7 @@
     { id: 'sauce-sweet-chili', name: 'سويت تشيلي', price: 20 },
     { id: 'sauce-cocktail', name: 'صوص كوكتيل ميكس', price: 20 },
     { id: 'sauce-big-tasty', name: 'صوص بيج تايستي الشهير', price: 20 },
-    { id: 'sauce-harissa', name: 'هريسة شطة سبايسي نار', price: 20 }
+    { id: 'sauce-harissa', name: 'هريسة شطة حارة', price: 20 }
   ];
 
   const sweetSauces = [
@@ -60,7 +60,7 @@
   ];
 
   const menuItems = [
-    // 👑 1. SIGNATURE & MIXES
+    // 1. SIGNATURE & MIXES
     {
       id: 'hesham-fouad-signature',
       categoryId: 'signature',
@@ -80,7 +80,7 @@
       price: 135,
       description: 'صدور فراخ مشوية على الجريل + قطع زنجر حار مقرمش + بطاطس فارم فريتس + هالابينو مع صوص بافلو حار وصوص بيج تايستي الغني.',
       image: 'assets/images/crispy-chicken-crepe.png',
-      tags: ['سبايسي', 'زنجر وشوي']
+      tags: ['حار', 'زنجر وشوي']
     },
     {
       id: 'mix-milano',
@@ -160,7 +160,7 @@
     {
       id: 'mix-smoked',
       categoryId: 'signature',
-      name: 'كريب ميكس سموكد (مدخن)',
+      name: 'كريب ميكس مدخن',
       price: 120,
       description: 'روز بيف مدخن + سلامي فاخر + تركي مدخن + ميكس جبن شيدر وموتزاريلا ورومي سايح.',
       image: 'assets/images/hesham-governorate.png',
@@ -176,7 +176,7 @@
       tags: ['كرانشي', 'استربس وسلامي']
     },
 
-    // 🍗 2. CHICKEN CREPES
+    // 2. CHICKEN CREPES
     {
       id: 'chk-ranch',
       categoryId: 'chicken',
@@ -219,7 +219,7 @@
       categoryId: 'chicken',
       name: 'كريب فاهيتا فراخ',
       price: 115,
-      description: 'شرائح دجاج مع فلفل ألوان وبصل وتوابل مكسيكية حارة على الجريل وصوص لذيذ.',
+      description: 'شرائح دجاج مع فلفل ألوان وبصل وتوابل مكسيكية على الجريل وصوص لذيذ.',
       image: 'assets/images/crepe-varieties.png',
       tags: ['فاهيتا مكسيكي']
     },
@@ -259,9 +259,9 @@
       name: 'كريب زنجر حار',
       popular: true,
       price: 95,
-      description: 'قطع زنجر حارة ومقرمشة لعشاق السبايسي مع صوص المايونيز الحار والموتزاريلا.',
+      description: 'قطع زنجر حارة ومقرمشة لعشاق الحار مع صوص المايونيز الحار والموتزاريلا.',
       image: 'assets/images/crunchy-chicken-cheese.png',
-      tags: ['حار نار', 'زنجر']
+      tags: ['حار', 'زنجر']
     },
     {
       id: 'chk-pane',
@@ -282,7 +282,7 @@
       tags: ['ناجتس']
     },
 
-    // 🥩 3. MEAT & STEAK CREPES
+    // 3. MEAT & STEAK CREPES
     {
       id: 'meat-steak',
       categoryId: 'meat',
@@ -291,7 +291,7 @@
       price: 120,
       description: 'شرائح لحم بقري ستيك مشوية على الجريل بتتبيلة الزبدة والثوم مع المشروم والجبنة الموتزاريلا.',
       image: 'assets/images/hesham-holding-crepe.png',
-      tags: ['ستيك بقري', 'فخامة']
+      tags: ['ستيك بقري', 'فاخر']
     },
     {
       id: 'meat-burger',
@@ -359,7 +359,7 @@
       tags: ['سوسيس']
     },
 
-    // 🍟 4. FRIES & CHEESE CREPES
+    // 4. FRIES & CHEESE CREPES
     {
       id: 'fries-mix-cheese',
       categoryId: 'fries',
@@ -380,7 +380,7 @@
       tags: ['بطاطس مقرمشة', 'سعر اقتصادي']
     },
 
-    // 🍫 5. SWEET CREPES (الحلو بالكريمة والمكسرات)
+    // 5. SWEET CREPES
     {
       id: 'swt-apple-cinnamon',
       categoryId: 'sweet',
@@ -432,12 +432,12 @@
     {
       id: 'swt-nutella-oreo',
       categoryId: 'sweet',
-      name: 'كريب نوتيلا أوريو بومب',
+      name: 'كريب نوتيلا أوريو',
       popular: true,
       price: 105,
       description: 'شوكولاتة نوتيلا أصلية مع قطع بسكويت أوريو المطحونة وكريمة باستري ومكسرات.',
       image: 'assets/images/crepe-varieties.png',
-      tags: ['نوتيلا وأوريو', 'إدمان']
+      tags: ['نوتيلا وأوريو']
     },
     {
       id: 'swt-nutella-classic',
@@ -461,7 +461,7 @@
     {
       id: 'swt-pistachio',
       categoryId: 'sweet',
-      name: 'كريب بستاشيو ملكي',
+      name: 'كريب بستاشيو فاخر',
       popular: true,
       price: 90,
       description: 'زبدة فستق حلبي بيستاشيو خضراء كريمية مع فستق مطحون وكريمة باستري خفيفة.',
@@ -509,21 +509,21 @@
   const galleryVideos = [
     {
       id: 'reel-1',
-      title: 'تحضير أضخم كريب مشكل في أسيوط 🌯',
+      title: 'تحضير أضخم كريب مشكل في أسيوط',
       src: 'assets/videos/reel-1.mp4',
-      duration: 'فيديو ريلز'
+      duration: 'فيديو'
     },
     {
       id: 'reel-2',
-      title: 'شلال الجبنة والصوصات عند هشام فؤاد 🔥',
+      title: 'شلال الجبنة والصوصات الفاخرة',
       src: 'assets/videos/reel-2.mp4',
-      duration: 'فيديو ريلز'
+      duration: 'فيديو'
     },
     {
       id: 'reel-3',
-      title: 'كواليس شغل الشيف هشام فؤاد ملك الكريب 👑',
+      title: 'كواليس شغل الشيف هشام فؤاد',
       src: 'assets/videos/reel-3.mp4',
-      duration: 'فيديو ريلز'
+      duration: 'فيديو'
     }
   ];
 
@@ -532,11 +532,10 @@
     { src: 'assets/images/hesham-storefront.png', caption: 'واجهة المحل في شارع المحافظة بأسيوط' },
     { src: 'assets/images/hesham-governorate.png', caption: 'أمام مبنى محافظة أسيوط مع أضخم كريب' },
     { src: 'assets/images/crispy-chicken-crepe.png', caption: 'كريب استربس كرسبي غرقان شيدر' },
-    { src: 'assets/images/trio-crepe.png', caption: 'ثلاثي كريبات هشام فؤاد الجبارة' },
+    { src: 'assets/images/trio-crepe.png', caption: 'ثلاثي كريبات هشام فؤاد' },
     { src: 'assets/images/crepe-cross-section.png', caption: 'كريب محشو جبنة موتزاريلا وصوصات سايحة' }
   ];
 
-  // Expose to window
   if (typeof window !== 'undefined') {
     window.HeshamFouadData = {
       restaurantInfo,

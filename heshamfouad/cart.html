@@ -27,7 +27,7 @@
     }
     .cart-items-card, .checkout-summary-card {
       background: var(--bg-card);
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-lg);
       padding: 2rem;
       box-shadow: var(--shadow-card);
@@ -36,7 +36,7 @@
       display: flex;
       gap: 1.25rem;
       padding: 1.25rem 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-subtle);
       align-items: center;
     }
     .cart-item-row:last-child {
@@ -47,7 +47,7 @@
       height: 75px;
       border-radius: var(--radius-md);
       object-fit: cover;
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-card);
       flex-shrink: 0;
     }
     .cart-item-info {
@@ -56,18 +56,18 @@
     .cart-item-title {
       font-size: 1.15rem;
       font-weight: 800;
-      color: var(--text-pure);
+      color: var(--text-white);
       margin-bottom: 0.25rem;
     }
     .cart-item-customs {
       font-size: 0.8rem;
-      color: var(--teal-glow);
+      color: var(--primary-light);
       margin-bottom: 0.25rem;
     }
     .cart-item-price {
       font-size: 1.15rem;
       font-weight: 900;
-      color: var(--gold-primary);
+      color: var(--accent-gold);
       font-family: 'Outfit', sans-serif;
     }
     .qty-controls {
@@ -75,7 +75,7 @@
       align-items: center;
       gap: 0.6rem;
       background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-full);
       padding: 0.25rem 0.6rem;
     }
@@ -83,17 +83,17 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: var(--teal-gradient);
+      background: var(--primary);
       color: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 0.85rem;
       cursor: pointer;
-      transition: transform var(--transition-fast);
+      transition: var(--transition);
     }
     .qty-btn:hover {
-      transform: scale(1.1);
+      background: var(--primary-dark);
     }
     .qty-num {
       font-weight: 900;
@@ -106,13 +106,12 @@
       color: var(--text-dim);
       font-size: 1.1rem;
       cursor: pointer;
-      transition: color var(--transition-fast);
+      transition: color var(--transition);
       margin-right: 0.5rem;
     }
     .btn-remove-item:hover {
       color: var(--accent-red);
     }
-    /* Form Styles */
     .form-group {
       margin-bottom: 1.1rem;
     }
@@ -120,23 +119,23 @@
       display: block;
       font-size: 0.9rem;
       font-weight: 800;
-      color: var(--text-main);
+      color: var(--text-white);
       margin-bottom: 0.4rem;
     }
     .form-control {
       width: 100%;
       padding: 0.85rem 1rem;
       background: var(--bg-surface);
-      border: 1px solid var(--border-subtle);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-md);
       color: #fff;
       font-family: inherit;
       font-size: 0.95rem;
       outline: none;
-      transition: border-color var(--transition-fast);
+      transition: border-color var(--transition);
     }
     .form-control:focus {
-      border-color: var(--teal-glow);
+      border-color: var(--primary-light);
     }
     .summary-row {
       display: flex;
@@ -149,35 +148,35 @@
     .summary-row.total {
       font-size: 1.35rem;
       font-weight: 900;
-      color: var(--text-pure);
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      color: var(--text-white);
+      border-top: 1px solid var(--border-subtle);
       padding-top: 1rem;
       margin-top: 1rem;
     }
     .summary-row.total .price {
-      color: var(--gold-primary);
+      color: var(--accent-gold);
       font-family: 'Outfit';
       font-size: 1.6rem;
     }
     .btn-whatsapp-order {
       width: 100%;
-      padding: 1rem;
-      background: #25d366;
+      padding: 0.95rem;
+      background: #10b981;
       color: #fff;
       border-radius: var(--radius-full);
       font-size: 1.05rem;
-      font-weight: 900;
+      font-weight: 800;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 0.75rem;
-      box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+      box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
       margin-top: 1.5rem;
-      transition: var(--transition-smooth);
+      transition: var(--transition);
     }
     .btn-whatsapp-order:hover {
+      background: #059669;
       transform: translateY(-2px);
-      box-shadow: 0 12px 28px rgba(37, 211, 102, 0.55);
     }
     @media (max-width: 900px) {
       .cart-grid {
@@ -190,9 +189,9 @@
 
   <!-- Top Announcement Bar -->
   <div class="top-bar">
-    <span class="tag">عرض الافتتاح 🔥</span>
-    <span>خصم 15% على جميع الكريبات طوال فترة السوفت! 🤩</span>
-    <span>دليفري أسيوط: 01554006656 - 01038945555</span>
+    <span class="tag">عرض الافتتاح</span>
+    <span>خصم 15% على جميع الكريبات طوال فترة التشغيل التجريبي</span>
+    <span>خدمة التوصيل: 01554006656 - 01038945555</span>
   </div>
 
   <!-- Navigation Bar -->
@@ -202,7 +201,7 @@
         <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب">
         <div class="brand-text">
           <h1>هشام فؤاد</h1>
-          <span>مـلـك الـكـريـب 👑</span>
+          <span><i class="fas fa-crown"></i> ملك الكريب</span>
         </div>
       </a>
 
@@ -226,14 +225,14 @@
   <div class="cart-page-wrap">
     <div class="container">
       <div class="section-head" style="text-align: right; margin-bottom: 2rem;">
-        <span class="section-subtitle">إتمام طلبك اللذيذ</span>
-        <h2 class="section-title">سلة المشتريات 🌯</h2>
+        <span class="section-subtitle">إتمام عملية الطلب</span>
+        <h2 class="section-title">سلة المشتريات</h2>
       </div>
 
       <div class="cart-grid">
         <!-- Cart Items List -->
         <div class="cart-items-card">
-          <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 1.5rem; color: #fff;">الأصناف المختارة</h3>
+          <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 1.5rem; color: #fff;">الأصناف المختارة</h3>
           <div id="cart-items-container">
             <!-- Rendered by Cart JS -->
           </div>
@@ -247,12 +246,12 @@
 
         <!-- Customer Info & Order Summary -->
         <div class="checkout-summary-card">
-          <h3 style="font-size: 1.3rem; font-weight: 900; margin-bottom: 1.25rem; color: #fff;">بيانات التوصيل في أسيوط 🛵</h3>
+          <h3 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 1.25rem; color: #fff;">بيانات التوصيل في أسيوط</h3>
 
-          <form id="checkout-form" onsubmit="event.preventDefault(); submitOrder();">
+          <form id="checkout-form" onsubmit="event.preventDefault(); submitWhatsAppOrder();">
             <div class="form-group">
               <label class="form-label">الاسم بالكامل *</label>
-              <input type="text" id="cust-name" class="form-control" placeholder="اسمك الكريم" required>
+              <input type="text" id="cust-name" class="form-control" placeholder="الاسم ثلاثي" required>
             </div>
 
             <div class="form-group">
@@ -267,13 +266,13 @@
 
             <div class="form-group">
               <label class="form-label">ملاحظات للأوردر</label>
-              <input type="text" id="cust-notes" class="form-control" placeholder="أي طلب خاص بالشيف أو التوصيل">
+              <input type="text" id="cust-notes" class="form-control" placeholder="أي تفاصيل خاصة بالشيف أو المندوب">
             </div>
 
             <!-- Financial Breakdown -->
-            <div style="margin: 1.5rem 0 1rem; border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 1.25rem;">
+            <div style="margin: 1.5rem 0 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
               <div class="summary-row">
-                <span>مجموع الكريبات:</span>
+                <span>مجموع الأصناف:</span>
                 <span id="sum-subtotal" style="font-family: 'Outfit'; font-weight: 800;">0 ج.م</span>
               </div>
               <div class="summary-row">
@@ -281,18 +280,18 @@
                 <span id="sum-delivery" style="font-family: 'Outfit'; font-weight: 800;">15 ج.م</span>
               </div>
               <div class="summary-row" style="color: var(--accent-green); font-size: 0.85rem;">
-                <span>📢 خصم 15% طوال السوفت:</span>
-                <span>مشمول في الأسعار ✓</span>
+                <span>عرض الافتتاح:</span>
+                <span>خصم 15% مشمول بالأسعار</span>
               </div>
               <div class="summary-row total">
-                <span>المبلغ المطلوب دفعه:</span>
+                <span>المبلغ الإجمالي:</span>
                 <span id="sum-total" class="price">0 ج.م</span>
               </div>
             </div>
 
             <!-- Action Buttons -->
             <button type="button" class="btn-whatsapp-order" onclick="submitWhatsAppOrder()">
-              <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i>
+              <i class="fab fa-whatsapp" style="font-size: 1.3rem;"></i>
               <span>إرسال الطلب عبر واتساب مباشرة</span>
             </button>
           </form>
@@ -325,9 +324,9 @@
       if (cart.length === 0) {
         container.innerHTML = `
           <div style="text-align: center; padding: 3rem 1rem; color: var(--text-muted);">
-            <i class="fas fa-shopping-basket" style="font-size: 3rem; color: var(--teal-primary); margin-bottom: 1rem;"></i>
-            <h4 style="font-size: 1.25rem; color: #fff; margin-bottom: 0.5rem;">السلة فاضية حالياً</h4>
-            <p>لسه ما اخترتش كريب؟ استكشف منيو هشام فؤاد واطلب أجمد كريب الآن!</p>
+            <i class="fas fa-shopping-basket" style="font-size: 2.75rem; color: var(--primary); margin-bottom: 1rem;"></i>
+            <h4 style="font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem;">السلة فارغة حالياً</h4>
+            <p>يمكنك استكشاف قائمة الطعام واختيار الأصناف المفضلة لديك.</p>
             <a href="menu.html" class="btn-primary" style="margin-top: 1.25rem;">تصفح المنيو</a>
           </div>
         `;
@@ -341,12 +340,12 @@
           <div class="cart-item-info">
             <h4 class="cart-item-title">${item.name}</h4>
             ${item.selectedAddons && item.selectedAddons.length > 0 ? `
-              <div class="cart-item-customs">➕ إضافات: ${item.selectedAddons.map(a => a.name).join('، ')}</div>
+              <div class="cart-item-customs">+ إضافات: ${item.selectedAddons.map(a => a.name).join('، ')}</div>
             ` : ''}
             ${item.selectedSauces && item.selectedSauces.length > 0 ? `
-              <div class="cart-item-customs">🥫 صصوصات: ${item.selectedSauces.map(s => s.name).join('، ')}</div>
+              <div class="cart-item-customs">+ صوصات: ${item.selectedSauces.map(s => s.name).join('، ')}</div>
             ` : ''}
-            ${item.notes ? `<div style="font-size: 0.78rem; color: var(--gold-primary);">💬 ملاحظة: ${item.notes}</div>` : ''}
+            ${item.notes ? `<div style="font-size: 0.78rem; color: var(--accent-gold);">ملاحظة: ${item.notes}</div>` : ''}
             <div class="cart-item-price">${item.totalPrice} ج.م</div>
           </div>
 
@@ -375,7 +374,7 @@
     function submitWhatsAppOrder() {
       const cart = window.HeshamFouadCart.getCart();
       if (cart.length === 0) {
-        alert('سلة المشتريات فارغة! اختر كريبك أولاً من المنيو.');
+        alert('سلة المشتريات فارغة! يرجى اختيار الأصناف أولاً من المنيو.');
         return;
       }
 

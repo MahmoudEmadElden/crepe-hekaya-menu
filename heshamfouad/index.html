@@ -4,60 +4,62 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>هشام فؤاد — ملك الكريب في أسيوط | Hesham Fouad King of Crepe</title>
-  <meta name="description" content="أجمد كريب في أسيوط معمول بحب! استمتع بأضخم كريب محشو استيك، شيش، كرسبي، وميكسات جبنة شيدر سايحة مع خصم 15% بمناسبة الافتتاح.">
+  <meta name="description" content="أجود كريب في أسيوط معمول بعناية فائقة. استمتع بأضخم كريب محشو ستيك، شيش، كرسبي، وميكسات جبنة شيدر سايحة مع خصم 15% بمناسبة الافتتاح.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
 
-  <!-- Font Awesome Icons -->
+  <!-- Font Awesome 6 Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 
   <style>
-    /* Customization Modal Styling specifics */
     .custom-checkbox-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0.65rem 0.85rem;
-      background: rgba(10, 143, 154, 0.1);
-      border: 1px solid var(--border-subtle);
+      background: rgba(10, 116, 138, 0.08);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-sm);
       margin-bottom: 0.5rem;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: var(--transition);
     }
     .custom-checkbox-row:hover {
-      background: rgba(10, 143, 154, 0.25);
-      border-color: var(--teal-glow);
+      background: rgba(10, 116, 138, 0.2);
+      border-color: var(--primary-light);
     }
     .custom-checkbox-row input {
       margin-left: 0.75rem;
-      accent-color: var(--gold-primary);
-      width: 18px;
-      height: 18px;
+      accent-color: var(--accent-gold);
+      width: 17px;
+      height: 17px;
     }
     .custom-name {
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--text-white);
       font-size: 0.92rem;
       flex-grow: 1;
     }
     .custom-price {
       font-weight: 800;
-      color: var(--gold-primary);
+      color: var(--accent-gold);
       font-size: 0.9rem;
       font-family: 'Outfit', sans-serif;
     }
     .modal-sec-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
-      color: var(--teal-glow);
+      color: var(--primary-light);
       margin: 1.25rem 0 0.6rem;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-card);
       padding-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     .modal-total-bar {
       display: flex;
@@ -65,7 +67,7 @@
       justify-content: space-between;
       margin-top: 1.5rem;
       padding-top: 1.25rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid var(--border-subtle);
     }
   </style>
 </head>
@@ -73,9 +75,9 @@
 
   <!-- Top Announcement Bar -->
   <div class="top-bar">
-    <span class="tag">عرض الافتتاح 🔥</span>
-    <span>خصم 15% على جميع كريبات المنيو طوال فترة السوفت! 🤩</span>
-    <a href="menu.html" style="color: #061116; text-decoration: underline; margin-right: 0.5rem;">تصفح المنيو</a>
+    <span class="tag">عرض الافتتاح</span>
+    <span>خصم 15% على جميع كريبات المنيو طوال فترة التشغيل التجريبي</span>
+    <a href="menu.html" style="color: var(--accent-gold); text-decoration: underline; margin-right: 0.5rem; font-weight: 800;">تصفح المنيو</a>
   </div>
 
   <!-- Navigation Bar -->
@@ -85,14 +87,14 @@
         <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب">
         <div class="brand-text">
           <h1>هشام فؤاد</h1>
-          <span>مـلـك الـكـريـب 👑</span>
+          <span><i class="fas fa-crown"></i> ملك الكريب</span>
         </div>
       </a>
 
       <ul class="nav-links">
         <li><a href="index.html" class="active">الرئيسية</a></li>
-        <li><a href="#signature-dish">كريب الوحش 👑</a></li>
-        <li><a href="#video-reels">فيديوهات الريلز 🎬</a></li>
+        <li><a href="#signature-dish">كريب الوحش</a></li>
+        <li><a href="#video-reels">فيديوهات التحضير</a></li>
         <li><a href="menu.html">قائمة الطعام</a></li>
         <li><a href="#location">الفروع والتوصيل</a></li>
       </ul>
@@ -118,30 +120,30 @@
     <div class="container hero-grid">
       <div class="hero-content">
         <div class="hero-badge">
-          <i class="fas fa-crown"></i>
-          <span>ملك الكريب الأول في أسيوط</span>
+          <i class="fas fa-certificate"></i>
+          <span>الوجهة الأولى للكريب الفاخر في أسيوط</span>
         </div>
         <h2 class="hero-title">
-          مولع الدنيا بأجمد <span class="highlight-gold">كريبات</span> معموله <span class="highlight-teal">بحب 🫶</span>
+          أجود كريب في أسيوط معمول <span class="highlight-gold">بحب</span> و <span class="highlight-teal">إتقان</span>
         </h2>
         <p class="hero-desc">
-          علشان تستمتع بتجربة كريب مش هتلاقيها إلا عند هشام فؤاد 👌.. أضخم حجم، أعلى حشو فراخ ولحوم بلدي، وغرقان في بحر جبنة شيدر وموتزاريلا سايحة!
+          لتستمتع بتجربة كريب استثنائية لم تعهدها من قبل.. أضخم حجم، أعلى نسبة حشو من اللحوم والدجاج الطازج، مع تشكيلة أجبان شيدر وموتزاريلا سايحة وصوصات سرية خاصة.
         </p>
 
         <div class="hero-stats">
           <div class="hero-stat-item">
             <span class="hero-stat-num">15%</span>
-            <span class="hero-stat-label">خصم الافتتاح</span>
+            <span class="hero-stat-label">خصم الافتتاح الحالي</span>
           </div>
-          <div style="width: 1px; height: 35px; background: var(--border-subtle);"></div>
+          <div style="width: 1px; height: 35px; background: var(--border-card);"></div>
           <div class="hero-stat-item">
             <span class="hero-stat-num">50+</span>
             <span class="hero-stat-label">صنف كريب حادق وحلو</span>
           </div>
-          <div style="width: 1px; height: 35px; background: var(--border-subtle);"></div>
+          <div style="width: 1px; height: 35px; background: var(--border-card);"></div>
           <div class="hero-stat-item">
             <span class="hero-stat-num">100%</span>
-            <span class="hero-stat-label">لحوم وفراخ طازجة</span>
+            <span class="hero-stat-label">مكونات طازجة يومياً</span>
           </div>
         </div>
 
@@ -151,14 +153,13 @@
             <span>تصفح المنيو واطلب الآن</span>
           </a>
           <a href="#video-reels" class="btn-secondary">
-            <i class="fas fa-play-circle"></i>
-            <span>شاهد كواليس الشيف</span>
+            <i class="fas fa-play"></i>
+            <span>شاهد كواليس التحضير</span>
           </a>
         </div>
       </div>
 
       <div class="hero-media-wrap">
-        <div class="hero-media-glow"></div>
         <div class="hero-img-card">
           <img src="assets/images/hesham-holding-crepe.png" alt="الشيف هشام فؤاد ملك الكريب">
         </div>
@@ -166,11 +167,11 @@
         <!-- Floating Badges -->
         <div class="floating-badge badge-top">
           <div class="badge-icon gold">
-            <i class="fas fa-fire"></i>
+            <i class="fas fa-crown"></i>
           </div>
           <div class="badge-info">
             <h4>كريب الوحش (150 ج)</h4>
-            <p>ميكس استيك وشيش وكفتة</p>
+            <p>ميكس ستيك وشيش وكفتة</p>
           </div>
         </div>
 
@@ -179,7 +180,7 @@
             <i class="fas fa-motorcycle"></i>
           </div>
           <div class="badge-info">
-            <h4>دليفري سريع بأسيوط</h4>
+            <h4>توصيل سريع بأسيوط</h4>
             <p>01554006656 / 01038945555</p>
           </div>
         </div>
@@ -187,15 +188,16 @@
     </div>
   </header>
 
-  <!-- Signature Dish Showcase (كريب هشام فؤاد - الوحش) -->
+  <!-- Signature Dish Showcase -->
   <section id="signature-dish" class="signature-section">
     <div class="container">
       <div class="section-head">
-        <span class="section-subtitle">إبداع الشيف هشام فؤاد</span>
-        <h2 class="section-title">كريب الوحش المخصوص 👑</h2>
+        <span class="section-subtitle">توقيع الشيف هشام فؤاد</span>
+        <h2 class="section-title">كريب الوحش المخصوص</h2>
       </div>
 
       <div class="signature-card">
+        <span class="signature-badge-tag">الصنف الأكثر تميزاً</span>
         <div class="signature-visual">
           <img src="assets/images/hesham-holding-crepe.png" alt="كريب هشام فؤاد الوحش">
         </div>
@@ -207,31 +209,31 @@
             <span class="signature-discount">خصم 15% مشمول</span>
           </div>
           <p class="signature-desc">
-            توليفة جبارة لأكيلة اللحوم والمشويات! مكس جريل استيك بقري مشوي + شيش طاووق فراخ متبل + كفتة مشوية على الفحم + صدور فراخ جريل + روز بيف مدخن + صوص تكساس الغني وصوص الباربكيو الأصلي مع بحر من الموتزاريلا.
+            توليفة ملكية لأصحاب الذوق الرفيع. مكس جريل ستيك بقري مشوي مع شيش طاووق دجاج متبل، كفتة مشوية على الفحم، صدور دجاج جريل، روز بيف مدخن، وصوص تكساس الغني وصوص الباربكيو الأصلي مع بحر من الموتزاريلا.
           </p>
           <div class="signature-ingredients">
-            <span class="ingredient-pill">🥩 ستيك بقري جريل</span>
-            <span class="ingredient-pill">🍗 شيش طاووق</span>
-            <span class="ingredient-pill">🍢 كفتة مشوية</span>
-            <span class="ingredient-pill">🥓 روز بيف مدخن</span>
-            <span class="ingredient-pill">🧀 ميكس شيدر وموتزاريلا</span>
-            <span class="ingredient-pill">🥫 صوص تكساس & باربكيو</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> ستيك بقري جريل</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> شيش طاووق</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> كفتة مشوية</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> روز بيف مدخن</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> ميكس شيدر وموتزاريلا</span>
+            <span class="ingredient-pill"><i class="fas fa-check"></i> صوص تكساس وباربكيو</span>
           </div>
           <button class="btn-primary" onclick="window.HeshamFouadApp.openCustomizer('hesham-fouad-signature')">
             <i class="fas fa-plus"></i>
-            <span>اطلب كريب الوحش الآن</span>
+            <span>طلب كريب الوحش الآن</span>
           </button>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Video Reels Spotlight Section -->
+  <!-- Video Reels Section -->
   <section id="video-reels" class="reels-section">
     <div class="container">
       <div class="section-head">
-        <span class="section-subtitle">من قلب المطبخ والشيف بيحضر</span>
-        <h2 class="section-title">شاهد ريلز كريبات هشام فؤاد 🎬</h2>
+        <span class="section-subtitle">من داخل المطبخ وأثناء التحضير</span>
+        <h2 class="section-title">شاهد كواليس تحضير الكريب</h2>
       </div>
 
       <div class="reels-grid">
@@ -240,7 +242,7 @@
             <video src="assets/videos/reel-1.mp4" playsinline loop muted></video>
           </div>
           <div class="reel-content">
-            <h4>تحضير أضخم كريب مشكل في أسيوط 🌯</h4>
+            <h4>تحضير أضخم كريب مشكل في أسيوط</h4>
             <button class="btn-play-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
           </div>
         </div>
@@ -250,7 +252,7 @@
             <video src="assets/videos/reel-2.mp4" playsinline loop muted></video>
           </div>
           <div class="reel-content">
-            <h4>شلال الجبنة والصوصات الفاخرة 🔥</h4>
+            <h4>شلال الجبنة والصوصات الفاخرة</h4>
             <button class="btn-play-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
           </div>
         </div>
@@ -260,7 +262,7 @@
             <video src="assets/videos/reel-3.mp4" playsinline loop muted></video>
           </div>
           <div class="reel-content">
-            <h4>كواليس إبداع الشيف هشام ملك الكريب 👑</h4>
+            <h4>كواليس إبداع الشيف هشام ملك الكريب</h4>
             <button class="btn-play-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
           </div>
         </div>
@@ -273,30 +275,30 @@
     <div class="container">
       <div class="section-head">
         <span class="section-subtitle">منيو هشام فؤاد المعتمد</span>
-        <h2 class="section-title">اختر صنفك المفضل 🌯</h2>
+        <h2 class="section-title">اختر صنفك المفضل</h2>
       </div>
 
       <!-- Category Filter Tabs -->
       <div class="category-tabs">
         <button class="cat-tab active" data-category="signature">
           <i class="fas fa-crown"></i>
-          <span>الميكسات والوحش 👑</span>
+          <span>الميكسات والوحش</span>
         </button>
         <button class="cat-tab" data-category="chicken">
           <i class="fas fa-drumstick-bite"></i>
-          <span>كريب الفراخ 🍗</span>
+          <span>كريب الدجاج</span>
         </button>
         <button class="cat-tab" data-category="meat">
           <i class="fas fa-bacon"></i>
-          <span>كريب اللحوم 🥩</span>
+          <span>كريب اللحوم</span>
         </button>
         <button class="cat-tab" data-category="fries">
           <i class="fas fa-cheese"></i>
-          <span>البطاطس والجبن 🍟</span>
+          <span>البطاطس والجبن</span>
         </button>
         <button class="cat-tab" data-category="sweet">
           <i class="fas fa-cookie-bite"></i>
-          <span>كريب حلو 🍫</span>
+          <span>كريب حلو</span>
         </button>
       </div>
 
@@ -306,7 +308,7 @@
       </div>
 
       <div style="text-align: center; margin-top: 3.5rem;">
-        <a href="menu.html" class="btn-primary" style="padding: 1rem 2.5rem; font-size: 1.15rem;">
+        <a href="menu.html" class="btn-primary" style="padding: 0.95rem 2.5rem; font-size: 1.05rem;">
           <i class="fas fa-book-open"></i>
           <span>عرض قائمة الطعام بالكامل مع كل الأصناف</span>
         </a>
@@ -320,7 +322,7 @@
       <div class="location-grid">
         <div class="location-card">
           <span class="section-subtitle">العنوان وأرقام الطلبات</span>
-          <h3 style="font-size: 1.85rem; font-weight: 900; color: #fff; margin-bottom: 1.5rem;">فرعنا في محافظة أسيوط 📍</h3>
+          <h3 style="font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 1.5rem;">فرعنا في محافظة أسيوط</h3>
 
           <div class="info-item">
             <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -365,14 +367,14 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <h2>هشام فؤاد — ملك الكريب 👑</h2>
-          <p>أجمد تجربة كريب في محافظة أسيوط. أضخم حجم كريب، أحلى حشوات طازجة، وصوصاتنا المميزة معموله بحب علشانك.</p>
+          <h2>هشام فؤاد — ملك الكريب</h2>
+          <p>أجود تجربة كريب في محافظة أسيوط. أضخم حجم كريب، أعلى جودة حشو طازج، وصوصات مبتكرة تقدم لكم بعناية واحترافية.</p>
         </div>
         <div class="footer-col">
           <h3>أقسام المنيو</h3>
           <ul>
             <li><a href="menu.html">كريب الوحش والميكسات</a></li>
-            <li><a href="menu.html">كريب الفراخ المقرمشة</a></li>
+            <li><a href="menu.html">كريب الدجاج المقرمش</a></li>
             <li><a href="menu.html">كريب اللحوم والستيك</a></li>
             <li><a href="menu.html">كريب الحلو والمكسرات</a></li>
           </ul>
@@ -396,7 +398,7 @@
   <!-- Floating WhatsApp Action -->
   <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AC%D8%AF%D9%8A%D8%AF" target="_blank" class="floating-whatsapp" aria-label="اطلب عبر واتساب">
     <i class="fab fa-whatsapp"></i>
-    <span>اطلب واتساب دليفري</span>
+    <span>طلب دليفري عبر واتساب</span>
   </a>
 
   <!-- Customization Modal (Addons & Sauces) -->
@@ -405,31 +407,31 @@
       <span class="modal-close"><i class="fas fa-times"></i></span>
 
       <div style="display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.25rem;">
-        <img id="modal-item-img" src="assets/images/logo.png" alt="صنف كريب" style="width: 80px; height: 80px; border-radius: var(--radius-md); object-fit: cover; border: 2px solid var(--border-gold);">
+        <img id="modal-item-img" src="assets/images/logo.png" alt="صنف كريب" style="width: 80px; height: 80px; border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--border-card);">
         <div>
-          <h3 id="modal-item-name" style="font-size: 1.4rem; font-weight: 900; color: #fff; line-height: 1.2;">اسم الصنف</h3>
-          <span id="modal-item-price" style="font-size: 1.25rem; font-weight: 900; color: var(--gold-primary); font-family: 'Outfit';">0 ج.م</span>
+          <h3 id="modal-item-name" style="font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1.2;">اسم الصنف</h3>
+          <span id="modal-item-price" style="font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit';">0 ج.م</span>
         </div>
       </div>
       <p id="modal-item-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;"></p>
 
-      <h4 class="modal-sec-title">➕ إكسترا وحشو إضافي</h4>
+      <h4 class="modal-sec-title"><i class="fas fa-plus-circle"></i> إكسترا وحشو إضافي</h4>
       <div id="modal-addons-list"></div>
 
-      <h4 class="modal-sec-title">🥫 الصوصات الإضافية</h4>
+      <h4 class="modal-sec-title"><i class="fas fa-pepper-hot"></i> الصوصات الإضافية</h4>
       <div id="modal-sauces-list"></div>
 
-      <h4 class="modal-sec-title">📝 ملاحظات خاصة</h4>
-      <input type="text" id="modal-notes" placeholder="مثال: كاتشب زيادة، بلاش بصل، تسوية مقرمشة..." style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #fff; font-family: inherit; font-size: 0.9rem;">
+      <h4 class="modal-sec-title"><i class="fas fa-pen"></i> ملاحظات خاصة</h4>
+      <input type="text" id="modal-notes" placeholder="مثال: تسوية مقرمشة، بدون بصل، كاتشب إضافي..." style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-surface); border: 1px solid var(--border-card); border-radius: var(--radius-sm); color: #fff; font-family: inherit; font-size: 0.9rem;">
 
       <div class="modal-total-bar">
         <div>
-          <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">الإجمالي للصنف:</span>
-          <span id="modal-total-calc" style="font-size: 1.65rem; font-weight: 900; color: var(--gold-primary); font-family: 'Outfit';">0 ج.م</span>
+          <span style="font-size: 0.82rem; color: var(--text-muted); display: block;">الإجمالي للصنف:</span>
+          <span id="modal-total-calc" style="font-size: 1.6rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit';">0 ج.م</span>
         </div>
         <button class="btn-primary" onclick="window.HeshamFouadApp.confirmAddToCart()">
           <i class="fas fa-shopping-bag"></i>
-          <span>إضافة للسلة 🌯</span>
+          <span>إضافة إلى السلة</span>
         </button>
       </div>
     </div>

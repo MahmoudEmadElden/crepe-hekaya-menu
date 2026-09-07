@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>قائمة الطعام الكاملة — هشام فؤاد ملك الكريب | المنيو الرسمي</title>
-  <meta name="description" content="تصفح قائمة طعام مطعم هشام فؤاد بأسيوط: كريب الوحش، الميكسات، كريب الفراخ، اللحوم والستيك المشوي، كريب الحلو بالنوتيلا والمكسرات مع خصم 15%.">
+  <meta name="description" content="تصفح قائمة طعام مطعم هشام فؤاد بأسيوط: كريب الوحش، الميكسات، كريب الدجاج، اللحوم والستيك المشوي، كريب الحلو بالنوتيلا والمكسرات مع خصم 15%.">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
@@ -19,89 +19,90 @@
     .menu-header-bar {
       padding: 3rem 0 2rem;
       text-align: center;
-      background: radial-gradient(circle at 50% 0%, rgba(10, 143, 154, 0.25) 0%, transparent 70%);
-      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-card);
     }
     .search-box-wrap {
-      max-width: 540px;
+      max-width: 520px;
       margin: 1.5rem auto 0;
       position: relative;
     }
     .search-input {
       width: 100%;
-      padding: 0.95rem 3rem 0.95rem 1.25rem;
+      padding: 0.9rem 3rem 0.9rem 1.25rem;
       background: var(--bg-card);
-      border: 1px solid var(--border-gold);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-full);
       color: #fff;
-      font-size: 1rem;
+      font-size: 0.98rem;
       font-family: inherit;
       outline: none;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      transition: border-color var(--transition-fast);
+      transition: border-color var(--transition);
     }
     .search-input:focus {
-      border-color: var(--teal-glow);
-      box-shadow: 0 0 15px rgba(0, 225, 217, 0.35);
+      border-color: var(--primary-light);
     }
     .search-icon {
       position: absolute;
       top: 50%;
       right: 1.25rem;
       transform: translateY(-50%);
-      color: var(--gold-primary);
-      font-size: 1.2rem;
+      color: var(--accent-gold);
+      font-size: 1.1rem;
     }
     .sticky-cat-nav {
       position: sticky;
-      top: 80px;
+      top: 82px;
       z-index: 990;
-      background: var(--bg-glass);
+      background: var(--bg-navbar);
       backdrop-filter: blur(12px);
       padding: 0.85rem 0;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-card);
     }
     .custom-checkbox-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
       padding: 0.65rem 0.85rem;
-      background: rgba(10, 143, 154, 0.1);
-      border: 1px solid var(--border-subtle);
+      background: rgba(10, 116, 138, 0.08);
+      border: 1px solid var(--border-card);
       border-radius: var(--radius-sm);
       margin-bottom: 0.5rem;
       cursor: pointer;
-      transition: var(--transition-fast);
+      transition: var(--transition);
     }
     .custom-checkbox-row:hover {
-      background: rgba(10, 143, 154, 0.25);
-      border-color: var(--teal-glow);
+      background: rgba(10, 116, 138, 0.2);
+      border-color: var(--primary-light);
     }
     .custom-checkbox-row input {
       margin-left: 0.75rem;
-      accent-color: var(--gold-primary);
-      width: 18px;
-      height: 18px;
+      accent-color: var(--accent-gold);
+      width: 17px;
+      height: 17px;
     }
     .custom-name {
       font-weight: 700;
-      color: var(--text-main);
+      color: var(--text-white);
       font-size: 0.92rem;
       flex-grow: 1;
     }
     .custom-price {
       font-weight: 800;
-      color: var(--gold-primary);
+      color: var(--accent-gold);
       font-size: 0.9rem;
       font-family: 'Outfit', sans-serif;
     }
     .modal-sec-title {
-      font-size: 1.05rem;
+      font-size: 1rem;
       font-weight: 800;
-      color: var(--teal-glow);
+      color: var(--primary-light);
       margin: 1.25rem 0 0.6rem;
-      border-bottom: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-card);
       padding-bottom: 0.35rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
     .modal-total-bar {
       display: flex;
@@ -109,7 +110,7 @@
       justify-content: space-between;
       margin-top: 1.5rem;
       padding-top: 1.25rem;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-top: 1px solid var(--border-subtle);
     }
   </style>
 </head>
@@ -117,9 +118,9 @@
 
   <!-- Top Announcement Bar -->
   <div class="top-bar">
-    <span class="tag">عرض الافتتاح 🔥</span>
-    <span>خصم 15% على جميع الكريبات طوال فترة السوفت! 🤩</span>
-    <span>دليفري أسيوط: 01554006656 - 01038945555</span>
+    <span class="tag">عرض الافتتاح</span>
+    <span>خصم 15% على جميع الكريبات طوال فترة التشغيل التجريبي</span>
+    <span>خدمة التوصيل: 01554006656 - 01038945555</span>
   </div>
 
   <!-- Navigation Bar -->
@@ -129,13 +130,13 @@
         <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب">
         <div class="brand-text">
           <h1>هشام فؤاد</h1>
-          <span>مـلـك الـكـريـب 👑</span>
+          <span><i class="fas fa-crown"></i> ملك الكريب</span>
         </div>
       </a>
 
       <ul class="nav-links">
         <li><a href="index.html">الرئيسية</a></li>
-        <li><a href="index.html#signature-dish">كريب الوحش 👑</a></li>
+        <li><a href="index.html#signature-dish">كريب الوحش</a></li>
         <li><a href="menu.html" class="active">قائمة الطعام</a></li>
         <li><a href="cart.html">السلة والطلب</a></li>
         <li><a href="index.html#location">الفروع والتوصيل</a></li>
@@ -161,7 +162,7 @@
   <header class="menu-header-bar">
     <div class="container">
       <span class="section-subtitle">قائمة طعام هشام فؤاد الرسمية</span>
-      <h2 class="section-title">منيو ملوك الكريب في أسيوط 👑</h2>
+      <h2 class="section-title">منيو الأصناف والأسعار</h2>
       <p style="color: var(--text-muted); max-width: 600px; margin: 0.5rem auto 0;">
         جميع الأصناف محضرة بأجود المكونات الطازجة ومغطاة بخلطات وصوصات الشيف هشام فؤاد الخاصة.
       </p>
@@ -169,7 +170,7 @@
       <!-- Live Search Input -->
       <div class="search-box-wrap">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" id="menu-search-input" class="search-input" placeholder="ابحث عن كريبك المفضل (مثال: الوحش، زنجر، رانش، نوتيلا...)">
+        <input type="text" id="menu-search-input" class="search-input" placeholder="ابحث عن الصنف (مثال: الوحش، زنجر، رانش، نوتيلا...)">
       </div>
     </div>
   </header>
@@ -184,23 +185,23 @@
         </button>
         <button class="cat-tab" data-category="signature">
           <i class="fas fa-crown"></i>
-          <span>الميكسات والوحش 👑</span>
+          <span>الميكسات والوحش</span>
         </button>
         <button class="cat-tab" data-category="chicken">
           <i class="fas fa-drumstick-bite"></i>
-          <span>كريب الفراخ 🍗</span>
+          <span>كريب الدجاج</span>
         </button>
         <button class="cat-tab" data-category="meat">
           <i class="fas fa-bacon"></i>
-          <span>كريب اللحوم 🥩</span>
+          <span>كريب اللحوم</span>
         </button>
         <button class="cat-tab" data-category="fries">
           <i class="fas fa-cheese"></i>
-          <span>البطاطس والجبن 🍟</span>
+          <span>البطاطس والجبن</span>
         </button>
         <button class="cat-tab" data-category="sweet">
           <i class="fas fa-cookie-bite"></i>
-          <span>كريب حلو 🍫</span>
+          <span>كريب حلو</span>
         </button>
       </div>
     </div>
@@ -220,8 +221,8 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-brand">
-          <h2>هشام فؤاد — ملك الكريب 👑</h2>
-          <p>أجمد تجربة كريب في محافظة أسيوط. أضخم حجم كريب، أحلى حشوات طازجة، وصوصاتنا المميزة معموله بحب علشانك.</p>
+          <h2>هشام فؤاد — ملك الكريب</h2>
+          <p>أجود تجربة كريب في محافظة أسيوط. أضخم حجم كريب، أعلى جودة حشو طازج، وصوصات مبتكرة تقدم لكم بعناية واحترافية.</p>
         </div>
         <div class="footer-col">
           <h3>عناوين التواصل</h3>
@@ -249,7 +250,7 @@
   <!-- Floating WhatsApp Action -->
   <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AC%D8%AF%D9%8A%D8%AF" target="_blank" class="floating-whatsapp" aria-label="اطلب عبر واتساب">
     <i class="fab fa-whatsapp"></i>
-    <span>اطلب واتساب</span>
+    <span>طلب دليفري عبر واتساب</span>
   </a>
 
   <!-- Customization Modal (Addons & Sauces) -->
@@ -258,31 +259,31 @@
       <span class="modal-close"><i class="fas fa-times"></i></span>
 
       <div style="display: flex; gap: 1.25rem; align-items: center; margin-bottom: 1.25rem;">
-        <img id="modal-item-img" src="assets/images/logo.png" alt="صنف كريب" style="width: 80px; height: 80px; border-radius: var(--radius-md); object-fit: cover; border: 2px solid var(--border-gold);">
+        <img id="modal-item-img" src="assets/images/logo.png" alt="صنف كريب" style="width: 80px; height: 80px; border-radius: var(--radius-md); object-fit: cover; border: 1px solid var(--border-card);">
         <div>
-          <h3 id="modal-item-name" style="font-size: 1.4rem; font-weight: 900; color: #fff; line-height: 1.2;">اسم الصنف</h3>
-          <span id="modal-item-price" style="font-size: 1.25rem; font-weight: 900; color: var(--gold-primary); font-family: 'Outfit';">0 ج.م</span>
+          <h3 id="modal-item-name" style="font-size: 1.35rem; font-weight: 800; color: #fff; line-height: 1.2;">اسم الصنف</h3>
+          <span id="modal-item-price" style="font-size: 1.25rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit';">0 ج.م</span>
         </div>
       </div>
       <p id="modal-item-desc" style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 1rem;"></p>
 
-      <h4 class="modal-sec-title">➕ إكسترا وحشو إضافي</h4>
+      <h4 class="modal-sec-title"><i class="fas fa-plus-circle"></i> إكسترا وحشو إضافي</h4>
       <div id="modal-addons-list"></div>
 
-      <h4 class="modal-sec-title">🥫 الصوصات الإضافية</h4>
+      <h4 class="modal-sec-title"><i class="fas fa-pepper-hot"></i> الصوصات الإضافية</h4>
       <div id="modal-sauces-list"></div>
 
-      <h4 class="modal-sec-title">📝 ملاحظات خاصة</h4>
-      <input type="text" id="modal-notes" placeholder="مثال: كاتشب زيادة، بلاش بصل، تسوية مقرمشة..." style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-deep); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); color: #fff; font-family: inherit; font-size: 0.9rem;">
+      <h4 class="modal-sec-title"><i class="fas fa-pen"></i> ملاحظات خاصة</h4>
+      <input type="text" id="modal-notes" placeholder="مثال: تسوية مقرمشة، بدون بصل، كاتشب إضافي..." style="width: 100%; padding: 0.75rem 1rem; background: var(--bg-surface); border: 1px solid var(--border-card); border-radius: var(--radius-sm); color: #fff; font-family: inherit; font-size: 0.9rem;">
 
       <div class="modal-total-bar">
         <div>
-          <span style="font-size: 0.85rem; color: var(--text-muted); display: block;">الإجمالي للصنف:</span>
-          <span id="modal-total-calc" style="font-size: 1.65rem; font-weight: 900; color: var(--gold-primary); font-family: 'Outfit';">0 ج.م</span>
+          <span style="font-size: 0.82rem; color: var(--text-muted); display: block;">الإجمالي للصنف:</span>
+          <span id="modal-total-calc" style="font-size: 1.6rem; font-weight: 900; color: var(--accent-gold); font-family: 'Outfit';">0 ج.م</span>
         </div>
         <button class="btn-primary" onclick="window.HeshamFouadApp.confirmAddToCart()">
           <i class="fas fa-shopping-bag"></i>
-          <span>إضافة للسلة 🌯</span>
+          <span>إضافة إلى السلة</span>
         </button>
       </div>
     </div>
@@ -293,7 +294,6 @@
   <script src="js/cart.js"></script>
   <script src="js/app.js"></script>
   <script>
-    // Live Search Integration on menu.html
     document.addEventListener('DOMContentLoaded', () => {
       const searchInput = document.getElementById('menu-search-input');
       if (searchInput && window.HeshamFouadData) {
@@ -322,9 +322,9 @@
         if (items.length === 0) {
           container.innerHTML = `
             <div style="grid-column: 1/-1; text-align: center; padding: 3rem; color: var(--text-muted);">
-              <i class="fas fa-search" style="font-size: 2.5rem; color: var(--teal-primary); margin-bottom: 1rem;"></i>
-              <h3>مفيش أصناف مطابقة للبحث</h3>
-              <p>جرب تبحث بكلمة تانية زي: شيدر، استيك، زنجر، رانش...</p>
+              <i class="fas fa-search" style="font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem;"></i>
+              <h3 style="color: var(--text-white);">لا توجد أصناف مطابقة للبحث</h3>
+              <p>يرجى تجربة البحث بكلمة أخرى مثل: شيدر، ستيك، زنجر، رانش...</p>
             </div>
           `;
           return;
@@ -334,7 +334,7 @@
             <div class="menu-card-img">
               <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
               <span class="badge-discount-corner">خصم 15%</span>
-              ${item.isSignature ? `<span class="badge-signature-corner">👑 الوحش</span>` : ''}
+              ${item.isSignature ? `<span class="badge-signature-corner">المميز</span>` : ''}
             </div>
             <div class="menu-card-body">
               <h3 class="menu-card-title">${item.name}</h3>
@@ -345,7 +345,7 @@
                   <span class="menu-currency">ج.م</span>
                 </div>
                 <button class="btn-add-cart" onclick="window.HeshamFouadApp.openCustomizer('${item.id}')">
-                  <i class="fas fa-plus"></i>
+                  <i class="fas fa-shopping-bag"></i>
                   <span>اطلب الآن</span>
                 </button>
               </div>

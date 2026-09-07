@@ -1,60 +1,53 @@
 /* ==========================================================================
    Hesham Fouad — King of Crepe (هشام فؤاد — ملك الكريب)
-   Royal Teal & Vibrant Gold Luxury Design System
+   Clean Luxury Aesthetic — Teal #0A748A & Gold #F59E0B
+   No Emojis | Pure Modern Typography & High-End Layout
    ========================================================================== */
 
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap');
 
 :root {
-  /* Brand Core extracted from Logo & Signage */
-  --teal-primary: #0a8f9a;
-  --teal-glow: #00e1d9;
-  --teal-dark: #055961;
-  --teal-deep: #032d32;
+  /* Exact Client Palette */
+  --primary: #0A748A;
+  --primary-light: #14b8a6;
+  --primary-dark: #075060;
+  --primary-subtle: rgba(10, 116, 138, 0.12);
 
-  --gold-primary: #ffb703;
-  --gold-glow: #ffc837;
-  --gold-dark: #d48b00;
-  --gold-gradient: linear-gradient(135deg, #ffc837 0%, #ffb703 50%, #fb8500 100%);
-  --teal-gradient: linear-gradient(135deg, #00e1d9 0%, #0a8f9a 60%, #055961 100%);
-  --royal-gradient: linear-gradient(135deg, #0a8f9a 0%, #032d32 100%);
+  --accent-gold: #F59E0B;
+  --accent-gold-hover: #d97706;
+  --accent-gold-subtle: rgba(245, 158, 11, 0.15);
 
-  /* Surface & Backgrounds */
-  --bg-deep: #061116;
-  --bg-surface: #0a1b22;
-  --bg-card: rgba(13, 31, 39, 0.75);
-  --bg-card-hover: rgba(18, 44, 54, 0.9);
-  --bg-glass: rgba(10, 27, 34, 0.85);
+  --bg-main: #0D1518;
+  --bg-surface: #101b1f;
+  --bg-card: #162226;
+  --bg-card-hover: #1b2a30;
+  --bg-navbar: rgba(13, 21, 24, 0.94);
 
-  /* Borders & Glows */
-  --border-subtle: rgba(10, 143, 154, 0.22);
-  --border-glow: rgba(0, 225, 217, 0.45);
-  --border-gold: rgba(255, 183, 3, 0.4);
-  --shadow-teal: 0 10px 30px -10px rgba(10, 143, 154, 0.45);
-  --shadow-gold: 0 10px 30px -10px rgba(255, 183, 3, 0.35);
-  --shadow-card: 0 12px 35px -8px rgba(0, 0, 0, 0.6);
+  --border-card: rgba(20, 184, 166, 0.2);
+  --border-gold: rgba(245, 158, 11, 0.35);
+  --border-subtle: rgba(255, 255, 255, 0.07);
 
-  /* Typography Colors */
-  --text-pure: #ffffff;
-  --text-main: #f1f5f9;
-  --text-muted: #94a3b8;
-  --text-dim: #64748b;
+  --text-white: #FFFFFF;
+  --text-muted: #94A3B8;
+  --text-dim: #64748B;
 
-  /* Accents */
-  --accent-red: #ff4757;
-  --accent-green: #2ed573;
-  --accent-orange: #fb8500;
+  --accent-red: #ef4444;
+  --accent-green: #10b981;
 
-  /* Dimensions & Radii */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 22px;
   --radius-full: 9999px;
-  --transition-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  --transition-smooth: 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.6);
+  --shadow-primary: 0 10px 25px -5px rgba(10, 116, 138, 0.4);
+  --shadow-gold: 0 10px 25px -5px rgba(245, 158, 11, 0.35);
+
+  --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Reset & Base Styles */
+/* Reset & Global */
 *, *::before, *::after {
   margin: 0;
   padding: 0;
@@ -66,24 +59,25 @@ html {
   direction: rtl;
   text-align: right;
   scroll-behavior: smooth;
-  background-color: var(--bg-deep);
-  color: var(--text-main);
+  background-color: var(--bg-main);
+  color: var(--text-white);
 }
 
 body {
   min-height: 100vh;
-  background: radial-gradient(circle at 80% 20%, rgba(10, 143, 154, 0.15) 0%, transparent 50%),
-              radial-gradient(circle at 20% 80%, rgba(255, 183, 3, 0.08) 0%, transparent 50%),
-              var(--bg-deep);
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(circle at 85% 15%, rgba(10, 116, 138, 0.12) 0%, transparent 45%),
+    radial-gradient(circle at 15% 75%, rgba(245, 158, 11, 0.05) 0%, transparent 45%);
   background-attachment: fixed;
   overflow-x: hidden;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
 a {
   text-decoration: none;
   color: inherit;
-  transition: var(--transition-fast);
+  transition: var(--transition);
 }
 
 img, video {
@@ -100,69 +94,58 @@ button {
   outline: none;
 }
 
-/* Container */
 .container {
   width: 100%;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 0 1.25rem;
+  padding: 0 1.5rem;
 }
 
 /* ==========================================================================
-   Announcement Discount Banner (15% Soft Opening)
+   Announcement Bar (Clean & Professional)
    ========================================================================== */
 .top-bar {
-  background: linear-gradient(90deg, #055961, #0a8f9a, #fb8500, #ffb703, #0a8f9a);
-  background-size: 300% 100%;
-  animation: gradientShift 10s ease infinite;
-  color: #061116;
-  font-weight: 800;
-  font-size: 0.92rem;
-  padding: 0.45rem 1rem;
+  background: var(--primary);
+  color: var(--text-white);
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
   text-align: center;
-  position: relative;
-  z-index: 1001;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.75rem;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  gap: 0.85rem;
+  border-bottom: 1px solid rgba(20, 184, 166, 0.3);
 }
 
 .top-bar .tag {
-  background: #061116;
-  color: var(--gold-primary);
-  padding: 0.15rem 0.55rem;
+  background: var(--accent-gold);
+  color: #000;
+  padding: 0.15rem 0.65rem;
   border-radius: var(--radius-full);
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 800;
 }
 
 /* ==========================================================================
-   Navigation Bar
+   Navbar
    ========================================================================== */
 .navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
-  background: var(--bg-glass);
+  background: var(--bg-navbar);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid var(--border-subtle);
-  transition: var(--transition-smooth);
+  border-bottom: 1px solid var(--border-card);
+  transition: var(--transition);
 }
 
 .navbar .nav-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 80px;
+  height: 82px;
 }
 
 .brand-logo {
@@ -172,67 +155,59 @@ button {
 }
 
 .brand-logo img {
-  width: 58px;
-  height: 58px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 2px solid var(--gold-primary);
-  box-shadow: 0 0 16px rgba(255, 183, 3, 0.4);
+  border: 2px solid var(--accent-gold);
   object-fit: cover;
-  transition: transform var(--transition-smooth);
-}
-
-.brand-logo:hover img {
-  transform: rotate(5deg) scale(1.05);
 }
 
 .brand-text h1 {
-  font-size: 1.45rem;
+  font-size: 1.4rem;
   font-weight: 900;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-white);
   line-height: 1.15;
 }
 
 .brand-text span {
-  font-size: 0.8rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  color: var(--teal-glow);
-  letter-spacing: 0.5px;
-  display: block;
+  color: var(--accent-gold);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 1.75rem;
+  gap: 2rem;
   list-style: none;
 }
 
 .nav-links a {
   font-weight: 700;
-  font-size: 1rem;
-  color: var(--text-main);
+  font-size: 0.98rem;
+  color: var(--text-muted);
   position: relative;
-  padding: 0.4rem 0;
+  padding: 0.35rem 0;
 }
 
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: 0;
+  bottom: -2px;
   left: 0;
   right: 0;
-  height: 2.5px;
-  background: var(--gold-primary);
-  border-radius: 2px;
+  height: 2px;
+  background: var(--accent-gold);
   transform: scaleX(0);
-  transition: transform var(--transition-fast);
+  transition: transform var(--transition);
 }
 
 .nav-links a:hover,
 .nav-links a.active {
-  color: var(--gold-primary);
+  color: var(--text-white);
 }
 
 .nav-links a:hover::after,
@@ -251,38 +226,38 @@ button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 46px;
-  height: 46px;
+  width: 44px;
+  height: 44px;
   background: var(--bg-card);
-  border: 1px solid var(--border-gold);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-md);
-  color: var(--gold-primary);
-  font-size: 1.25rem;
-  transition: var(--transition-smooth);
+  color: var(--accent-gold);
+  font-size: 1.15rem;
+  transition: var(--transition);
 }
 
 .btn-cart-nav:hover {
-  background: var(--gold-primary);
-  color: var(--bg-deep);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-gold);
+  background: var(--accent-gold);
+  color: #000;
+  border-color: var(--accent-gold);
 }
 
 .btn-cart-nav .cart-badge {
   position: absolute;
   top: -6px;
   left: -6px;
-  background: var(--accent-red);
-  color: #fff;
+  background: var(--accent-gold);
+  color: #000;
   font-size: 0.72rem;
   font-weight: 900;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--bg-deep);
+  border: 2px solid var(--bg-main);
+  font-family: 'Outfit', sans-serif;
 }
 
 .btn-order-call {
@@ -290,33 +265,33 @@ button {
   align-items: center;
   gap: 0.5rem;
   padding: 0.65rem 1.35rem;
-  background: var(--teal-gradient);
+  background: var(--primary);
   color: #fff;
   border-radius: var(--radius-full);
   font-weight: 800;
-  font-size: 0.95rem;
-  box-shadow: var(--shadow-teal);
-  transition: var(--transition-smooth);
+  font-size: 0.92rem;
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  transition: var(--transition);
 }
 
 .btn-order-call:hover {
+  background: var(--primary-dark);
+  box-shadow: var(--shadow-primary);
   transform: translateY(-2px);
-  box-shadow: 0 14px 28px -6px rgba(0, 225, 217, 0.5);
 }
 
 .mobile-toggle {
   display: none;
-  font-size: 1.6rem;
-  color: var(--text-main);
+  font-size: 1.5rem;
+  color: var(--text-white);
 }
 
 /* ==========================================================================
-   Hero Section — King of Crepe
+   Hero Section — Optimized Layout & Pro Look
    ========================================================================== */
 .hero {
   position: relative;
-  padding: 4rem 0 3.5rem;
-  overflow: hidden;
+  padding: 3.5rem 0 4rem;
 }
 
 .hero-grid {
@@ -329,56 +304,50 @@ button {
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.4rem 1.1rem;
-  background: rgba(10, 143, 154, 0.2);
-  border: 1px solid var(--border-glow);
+  gap: 0.5rem;
+  padding: 0.35rem 1rem;
+  background: var(--primary-subtle);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-full);
-  color: var(--teal-glow);
+  color: var(--primary-light);
   font-weight: 800;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-bottom: 1.25rem;
-  backdrop-filter: blur(8px);
 }
 
 .hero-title {
-  font-size: 3.25rem;
+  font-size: 3.1rem;
   font-weight: 900;
-  line-height: 1.18;
+  line-height: 1.2;
   margin-bottom: 1.25rem;
-  color: var(--text-pure);
+  color: var(--text-white);
 }
 
 .hero-title .highlight-gold {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  display: inline-block;
-  position: relative;
+  color: var(--accent-gold);
 }
 
 .hero-title .highlight-teal {
-  color: var(--teal-glow);
+  color: var(--primary-light);
 }
 
 .hero-desc {
-  font-size: 1.15rem;
+  font-size: 1.05rem;
   color: var(--text-muted);
   line-height: 1.8;
   margin-bottom: 2rem;
-  max-width: 580px;
+  max-width: 540px;
 }
 
 .hero-stats {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1.75rem;
   margin-bottom: 2.25rem;
-  padding: 1.2rem 1.5rem;
+  padding: 1rem 1.5rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  backdrop-filter: blur(10px);
+  border: 1px solid var(--border-card);
+  border-radius: var(--radius-md);
 }
 
 .hero-stat-item {
@@ -387,66 +356,70 @@ button {
 }
 
 .hero-stat-num {
-  font-size: 1.85rem;
+  font-size: 1.75rem;
   font-weight: 900;
-  color: var(--gold-primary);
+  color: var(--accent-gold);
+  font-family: 'Outfit', sans-serif;
   line-height: 1.1;
 }
 
 .hero-stat-label {
-  font-size: 0.85rem;
-  color: var(--text-dim);
-  font-weight: 700;
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  font-weight: 600;
 }
 
 .hero-buttons {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
+  gap: 1rem;
   flex-wrap: wrap;
 }
 
+/* Button Classes */
 .btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 2rem;
-  background: var(--gold-gradient);
-  color: #061116;
+  gap: 0.65rem;
+  padding: 0.85rem 1.85rem;
+  background: var(--accent-gold);
+  color: #000;
   border-radius: var(--radius-full);
-  font-weight: 900;
-  font-size: 1.05rem;
+  font-weight: 800;
+  font-size: 1rem;
   box-shadow: var(--shadow-gold);
-  transition: var(--transition-smooth);
+  transition: var(--transition);
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 16px 36px -6px rgba(255, 183, 3, 0.5);
+  background: var(--accent-gold-hover);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(245, 158, 11, 0.4);
 }
 
 .btn-secondary {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1.8rem;
-  background: rgba(10, 143, 154, 0.15);
-  color: var(--teal-glow);
-  border: 1px solid var(--border-glow);
+  gap: 0.65rem;
+  padding: 0.85rem 1.75rem;
+  background: var(--primary-subtle);
+  color: var(--primary-light);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-full);
-  font-weight: 800;
-  font-size: 1.05rem;
-  backdrop-filter: blur(8px);
-  transition: var(--transition-smooth);
+  font-weight: 700;
+  font-size: 1rem;
+  transition: var(--transition);
 }
 
 .btn-secondary:hover {
-  background: rgba(10, 143, 154, 0.3);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-teal);
+  background: rgba(10, 116, 138, 0.25);
+  border-color: var(--primary);
+  color: var(--text-white);
+  transform: translateY(-2px);
 }
 
-/* Hero Media Display (Chef Hesham 3D Visual) */
+/* Hero Media */
 .hero-media-wrap {
   position: relative;
   display: flex;
@@ -454,101 +427,75 @@ button {
   align-items: center;
 }
 
-.hero-media-glow {
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(10, 143, 154, 0.45) 0%, rgba(255, 183, 3, 0.2) 60%, transparent 80%);
-  filter: blur(40px);
-  z-index: 1;
-}
-
 .hero-img-card {
   position: relative;
-  z-index: 2;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  border: 2px solid var(--border-gold);
+  border: 1px solid var(--border-card);
   box-shadow: var(--shadow-card);
-  max-width: 440px;
-  transition: transform var(--transition-smooth);
-}
-
-.hero-img-card:hover {
-  transform: translateY(-6px);
+  background: var(--bg-card);
 }
 
 .hero-img-card img {
   width: 100%;
-  height: 480px;
+  height: 460px;
   object-fit: cover;
 }
 
 .floating-badge {
   position: absolute;
-  z-index: 3;
-  background: var(--bg-glass);
-  backdrop-filter: blur(12px);
-  border: 1px solid var(--border-glow);
-  padding: 0.75rem 1.1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-card);
+  padding: 0.75rem 1.15rem;
   border-radius: var(--radius-md);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-card);
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  animation: floatAnim 4s ease-in-out infinite;
 }
 
 .floating-badge.badge-top {
-  top: 15px;
+  top: 20px;
   right: -15px;
 }
 
 .floating-badge.badge-bottom {
   bottom: 25px;
-  left: -20px;
-  animation-delay: 2s;
+  left: -15px;
   border-color: var(--border-gold);
 }
 
-@keyframes floatAnim {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
 .badge-icon {
-  width: 40px;
-  height: 40px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
-  background: var(--teal-gradient);
-  color: #fff;
+  background: var(--primary-subtle);
+  color: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .badge-icon.gold {
-  background: var(--gold-gradient);
-  color: #061116;
+  background: var(--accent-gold-subtle);
+  color: var(--accent-gold);
 }
 
 .badge-info h4 {
-  font-size: 0.92rem;
+  font-size: 0.9rem;
   font-weight: 800;
-  color: var(--text-pure);
+  color: var(--text-white);
   line-height: 1.2;
 }
 
 .badge-info p {
   font-size: 0.75rem;
-  color: var(--gold-primary);
-  font-weight: 700;
+  color: var(--text-muted);
 }
 
 /* ==========================================================================
-   Signature Dish Showcase: كريب هشام فؤاد (الوحش)
+   Signature Section (كريب هشام فؤاد الوحش)
    ========================================================================== */
 .signature-section {
   padding: 4.5rem 0;
@@ -557,78 +504,72 @@ button {
 
 .section-head {
   text-align: center;
-  margin-bottom: 3.5rem;
+  margin-bottom: 3rem;
 }
 
 .section-subtitle {
   display: inline-block;
-  color: var(--gold-primary);
+  color: var(--primary-light);
   font-weight: 800;
-  font-size: 0.95rem;
-  letter-spacing: 1px;
-  margin-bottom: 0.5rem;
-  text-transform: uppercase;
+  font-size: 0.88rem;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.4rem;
 }
 
 .section-title {
-  font-size: 2.35rem;
+  font-size: 2.3rem;
   font-weight: 900;
-  color: var(--text-pure);
+  color: var(--text-white);
   line-height: 1.25;
 }
 
 .signature-card {
-  background: radial-gradient(circle at 10% 20%, rgba(10, 143, 154, 0.25) 0%, transparent 60%),
-              var(--bg-card);
-  border: 2px solid var(--border-gold);
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius-lg);
   padding: 2.5rem;
-  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7);
+  box-shadow: var(--shadow-card);
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: 3rem;
   position: relative;
-  overflow: hidden;
 }
 
-.signature-card::before {
-  content: '👑 الوحش';
+.signature-badge-tag {
   position: absolute;
-  top: 15px;
+  top: 18px;
   left: 20px;
-  background: var(--gold-gradient);
-  color: #061116;
+  background: var(--accent-gold);
+  color: #000;
   font-weight: 900;
-  font-size: 0.85rem;
-  padding: 0.35rem 1rem;
+  font-size: 0.8rem;
+  padding: 0.35rem 0.95rem;
   border-radius: var(--radius-full);
-  box-shadow: var(--shadow-gold);
 }
 
 .signature-visual {
   border-radius: var(--radius-md);
   overflow: hidden;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid var(--border-glow);
+  border: 1px solid var(--border-card);
+  background: var(--bg-surface);
 }
 
 .signature-visual img {
   width: 100%;
   height: 380px;
   object-fit: cover;
-  transition: transform var(--transition-smooth);
+  transition: transform 0.5s ease;
 }
 
 .signature-card:hover .signature-visual img {
-  transform: scale(1.04);
+  transform: scale(1.03);
 }
 
 .signature-info h3 {
-  font-size: 2.2rem;
+  font-size: 2.1rem;
   font-weight: 900;
-  color: var(--text-pure);
+  color: var(--text-white);
   margin-bottom: 0.5rem;
 }
 
@@ -642,58 +583,58 @@ button {
 .signature-price {
   font-size: 2.5rem;
   font-weight: 900;
-  color: var(--gold-primary);
+  color: var(--accent-gold);
   font-family: 'Outfit', sans-serif;
 }
 
 .signature-currency {
-  font-size: 1.15rem;
-  font-weight: 800;
+  font-size: 1.05rem;
+  font-weight: 700;
   color: var(--text-muted);
 }
 
 .signature-discount {
-  background: rgba(46, 213, 115, 0.15);
+  background: rgba(16, 185, 129, 0.15);
   color: var(--accent-green);
   border: 1px solid var(--accent-green);
-  font-size: 0.82rem;
+  font-size: 0.8rem;
   font-weight: 800;
   padding: 0.2rem 0.65rem;
   border-radius: var(--radius-full);
 }
 
 .signature-desc {
-  font-size: 1.05rem;
+  font-size: 1rem;
   color: var(--text-muted);
-  line-height: 1.75;
-  margin-bottom: 1.75rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
 }
 
 .signature-ingredients {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.5rem;
   margin-bottom: 2rem;
 }
 
 .ingredient-pill {
-  background: rgba(10, 143, 154, 0.18);
-  border: 1px solid var(--border-subtle);
-  color: var(--teal-glow);
+  background: var(--primary-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--primary-light);
   padding: 0.35rem 0.85rem;
   border-radius: var(--radius-full);
-  font-size: 0.85rem;
+  font-size: 0.82rem;
   font-weight: 700;
 }
 
 /* ==========================================================================
-   Video Reels Spotlight (Facebook Reels)
+   Video Reels Spotlight
    ========================================================================== */
 .reels-section {
   padding: 4.5rem 0;
-  background: rgba(6, 17, 22, 0.6);
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-card);
+  border-bottom: 1px solid var(--border-card);
 }
 
 .reels-grid {
@@ -704,17 +645,16 @@ button {
 
 .reel-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-card);
-  transition: transform var(--transition-smooth), border-color var(--transition-fast);
+  transition: transform var(--transition), border-color var(--transition);
 }
 
 .reel-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--teal-glow);
-  box-shadow: var(--shadow-teal);
+  transform: translateY(-6px);
+  border-color: var(--primary-light);
 }
 
 .reel-video-wrap {
@@ -739,33 +679,32 @@ button {
 }
 
 .reel-content h4 {
-  font-size: 1rem;
+  font-size: 0.98rem;
   font-weight: 800;
-  color: var(--text-pure);
-  line-height: 1.35;
+  color: var(--text-white);
 }
 
 .btn-play-sound {
-  background: var(--teal-gradient);
+  background: var(--primary);
   color: #fff;
-  width: 38px;
-  height: 38px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   flex-shrink: 0;
-  cursor: pointer;
-  transition: transform var(--transition-fast);
+  transition: var(--transition);
 }
 
 .btn-play-sound:hover {
-  transform: scale(1.1);
+  background: var(--primary-light);
+  color: #000;
 }
 
 /* ==========================================================================
-   Menu Section & Category Filter Tabs
+   Menu Section & Tabs
    ========================================================================== */
 .menu-section {
   padding: 4.5rem 0;
@@ -776,43 +715,37 @@ button {
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.85rem;
+  gap: 0.75rem;
   margin-bottom: 3rem;
 }
 
 .cat-tab {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  padding: 0.75rem 1.4rem;
+  gap: 0.5rem;
+  padding: 0.7rem 1.4rem;
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-full);
   color: var(--text-muted);
-  font-weight: 800;
-  font-size: 0.98rem;
-  cursor: pointer;
-  transition: var(--transition-smooth);
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: var(--transition);
 }
 
 .cat-tab:hover {
-  color: var(--text-pure);
-  border-color: var(--teal-glow);
-  background: rgba(10, 143, 154, 0.15);
+  color: var(--text-white);
+  border-color: var(--primary-light);
 }
 
 .cat-tab.active {
-  background: var(--teal-gradient);
+  background: var(--primary);
   color: #fff;
-  border-color: var(--teal-glow);
-  box-shadow: var(--shadow-teal);
+  border-color: var(--primary-light);
+  box-shadow: var(--shadow-primary);
 }
 
-.cat-tab i {
-  font-size: 1.1rem;
-}
-
-/* Menu Items Grid */
+/* Menu Grid Cards (Updated #162226 with rgba(20, 184, 166, 0.2) border) */
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -821,27 +754,27 @@ button {
 
 .menu-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-subtle);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   overflow: hidden;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
-  transition: transform var(--transition-smooth), border-color var(--transition-fast), box-shadow var(--transition-smooth);
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
   position: relative;
 }
 
 .menu-card:hover {
-  transform: translateY(-6px);
+  transform: translateY(-5px);
+  background: var(--bg-card-hover);
   border-color: var(--border-gold);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 20px -5px rgba(255, 183, 3, 0.2);
 }
 
 .menu-card-img {
   position: relative;
   height: 200px;
   overflow: hidden;
-  background: #040e12;
+  background: #091216;
 }
 
 .menu-card-img img {
@@ -852,30 +785,29 @@ button {
 }
 
 .menu-card:hover .menu-card-img img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .badge-discount-corner {
   position: absolute;
   top: 12px;
   right: 12px;
-  background: var(--gold-gradient);
-  color: #061116;
-  font-size: 0.76rem;
+  background: var(--accent-gold);
+  color: #000;
+  font-size: 0.75rem;
   font-weight: 900;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
 }
 
 .badge-signature-corner {
   position: absolute;
   top: 12px;
   left: 12px;
-  background: var(--teal-gradient);
+  background: var(--primary);
   color: #fff;
-  font-size: 0.76rem;
-  font-weight: 900;
+  font-size: 0.75rem;
+  font-weight: 800;
   padding: 0.25rem 0.65rem;
   border-radius: var(--radius-full);
 }
@@ -888,16 +820,16 @@ button {
 }
 
 .menu-card-title {
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: var(--text-pure);
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--text-white);
   margin-bottom: 0.45rem;
 }
 
 .menu-card-desc {
   font-size: 0.88rem;
   color: var(--text-muted);
-  line-height: 1.6;
+  line-height: 1.65;
   margin-bottom: 1.25rem;
   flex-grow: 1;
 }
@@ -907,13 +839,13 @@ button {
   align-items: center;
   justify-content: space-between;
   padding-top: 1rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--border-subtle);
 }
 
 .menu-price {
   font-size: 1.45rem;
   font-weight: 900;
-  color: var(--gold-primary);
+  color: var(--accent-gold);
   font-family: 'Outfit', sans-serif;
 }
 
@@ -927,28 +859,28 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  background: var(--teal-gradient);
-  color: #fff;
+  padding: 0.55rem 1.25rem;
+  background: var(--accent-gold);
+  color: #000;
   border-radius: var(--radius-full);
-  font-size: 0.9rem;
+  font-size: 0.88rem;
   font-weight: 800;
-  transition: var(--transition-fast);
+  transition: var(--transition);
 }
 
 .btn-add-cart:hover {
-  transform: scale(1.04);
-  box-shadow: var(--shadow-teal);
+  background: var(--accent-gold-hover);
+  color: #fff;
+  transform: scale(1.03);
 }
 
 /* ==========================================================================
-   Restaurant Info & Location Section (Asyut)
+   Location & Asyut Branch Section
    ========================================================================== */
 .location-section {
   padding: 4.5rem 0;
-  background: radial-gradient(circle at 50% 100%, rgba(10, 143, 154, 0.15) 0%, transparent 70%),
-              var(--bg-surface);
-  border-top: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-top: 1px solid var(--border-card);
 }
 
 .location-grid {
@@ -960,10 +892,9 @@ button {
 
 .location-card {
   background: var(--bg-card);
-  border: 1px solid var(--border-gold);
+  border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
   padding: 2.25rem;
-  box-shadow: var(--shadow-card);
 }
 
 .info-item {
@@ -978,23 +909,23 @@ button {
 }
 
 .info-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-md);
-  background: rgba(255, 183, 3, 0.15);
-  border: 1px solid var(--border-gold);
-  color: var(--gold-primary);
+  width: 46px;
+  height: 46px;
+  border-radius: var(--radius-sm);
+  background: var(--primary-subtle);
+  border: 1px solid var(--border-card);
+  color: var(--primary-light);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   flex-shrink: 0;
 }
 
 .info-details h4 {
   font-size: 1.05rem;
   font-weight: 800;
-  color: var(--text-pure);
+  color: var(--text-white);
   margin-bottom: 0.25rem;
 }
 
@@ -1007,21 +938,25 @@ button {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 0.4rem;
+  margin-top: 0.5rem;
 }
 
 .phone-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.45rem;
-  background: var(--teal-gradient);
+  background: var(--primary);
   color: #fff;
   padding: 0.4rem 0.95rem;
   border-radius: var(--radius-full);
-  font-weight: 900;
-  font-size: 0.95rem;
+  font-weight: 800;
+  font-size: 0.92rem;
   font-family: 'Outfit', sans-serif;
-  box-shadow: var(--shadow-teal);
+  transition: var(--transition);
+}
+
+.phone-badge:hover {
+  background: var(--primary-dark);
 }
 
 .location-gallery-grid {
@@ -1035,21 +970,15 @@ button {
   height: 180px;
   object-fit: cover;
   border-radius: var(--radius-md);
-  border: 1px solid var(--border-subtle);
-  transition: transform var(--transition-smooth);
-}
-
-.location-gallery-grid img:hover {
-  transform: scale(1.03);
-  border-color: var(--gold-primary);
+  border: 1px solid var(--border-card);
 }
 
 /* ==========================================================================
    Footer
    ========================================================================== */
 .footer {
-  background: #030a0d;
-  border-top: 1px solid var(--border-subtle);
+  background: #080d0f;
+  border-top: 1px solid var(--border-card);
   padding: 3.5rem 0 2rem;
   color: var(--text-muted);
 }
@@ -1062,11 +991,9 @@ button {
 }
 
 .footer-brand h2 {
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   font-weight: 900;
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--text-white);
   margin-bottom: 0.5rem;
 }
 
@@ -1077,10 +1004,10 @@ button {
 }
 
 .footer-col h3 {
-  color: var(--text-pure);
-  font-size: 1.1rem;
+  color: var(--text-white);
+  font-size: 1.05rem;
   font-weight: 800;
-  margin-bottom: 1.2rem;
+  margin-bottom: 1.1rem;
 }
 
 .footer-col ul {
@@ -1091,7 +1018,7 @@ button {
 }
 
 .footer-col a:hover {
-  color: var(--gold-primary);
+  color: var(--accent-gold);
 }
 
 .footer-bottom {
@@ -1103,7 +1030,7 @@ button {
 }
 
 /* ==========================================================================
-   Floating WhatsApp Direct Action
+   Floating WhatsApp Button
    ========================================================================== */
 .floating-whatsapp {
   position: fixed;
@@ -1113,28 +1040,24 @@ button {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  background: #25d366;
+  background: #10b981;
   color: #fff;
-  padding: 0.75rem 1.4rem;
+  padding: 0.75rem 1.35rem;
   border-radius: var(--radius-full);
-  font-weight: 900;
-  font-size: 0.95rem;
-  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.45);
-  transition: var(--transition-smooth);
+  font-weight: 800;
+  font-size: 0.92rem;
+  box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
+  transition: var(--transition);
 }
 
 .floating-whatsapp:hover {
-  transform: translateY(-4px) scale(1.03);
-  box-shadow: 0 14px 30px rgba(37, 211, 102, 0.6);
+  transform: translateY(-3px);
+  background: #059669;
   color: #fff;
 }
 
-.floating-whatsapp i {
-  font-size: 1.4rem;
-}
-
 /* ==========================================================================
-   Modal for Customizing Crepe Addons & Sauces
+   Customization Modal
    ========================================================================== */
 .modal-overlay {
   position: fixed;
@@ -1142,7 +1065,7 @@ button {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(3, 10, 13, 0.85);
+  background: rgba(13, 21, 24, 0.88);
   backdrop-filter: blur(8px);
   z-index: 2000;
   display: none;
@@ -1159,39 +1082,32 @@ button {
 }
 
 .modal-content {
-  background: var(--bg-surface);
-  border: 2px solid var(--border-gold);
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
   border-radius: var(--radius-lg);
-  max-width: 580px;
+  max-width: 560px;
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--shadow-card);
   position: relative;
   padding: 2rem;
-  animation: modalPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalPop {
-  from { transform: scale(0.92) translateY(20px); opacity: 0; }
-  to { transform: scale(1) translateY(0); opacity: 1; }
 }
 
 .modal-close {
   position: absolute;
   top: 18px;
   left: 18px;
-  font-size: 1.5rem;
+  font-size: 1.35rem;
   color: var(--text-dim);
   cursor: pointer;
-  transition: color var(--transition-fast);
 }
 
 .modal-close:hover {
   color: var(--accent-red);
 }
 
-/* Responsive Media Queries */
+/* Responsive */
 @media (max-width: 992px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -1205,9 +1121,6 @@ button {
   }
   .hero-buttons {
     justify-content: center;
-  }
-  .hero-media-wrap {
-    margin-top: 2.5rem;
   }
   .signature-card {
     grid-template-columns: 1fr;
@@ -1227,10 +1140,10 @@ button {
 
 @media (max-width: 768px) {
   .hero-title {
-    font-size: 2.35rem;
+    font-size: 2.25rem;
   }
   .nav-links {
-    display: none; /* mobile menu drawer */
+    display: none;
   }
   .mobile-toggle {
     display: block;
