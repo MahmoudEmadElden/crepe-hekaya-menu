@@ -42,12 +42,17 @@
     .cart-item-row:last-child {
       border-bottom: none;
     }
-    .cart-item-img {
-      width: 75px;
-      height: 75px;
+    .cart-item-icon {
+      width: 48px;
+      height: 48px;
       border-radius: var(--radius-md);
-      object-fit: cover;
+      background: var(--bg-surface);
       border: 1px solid var(--border-card);
+      color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
       flex-shrink: 0;
     }
     .cart-item-info {
@@ -336,7 +341,7 @@
 
       container.innerHTML = cart.map(item => `
         <div class="cart-item-row">
-          <img src="${item.image}" alt="${item.name}" class="cart-item-img" onerror="this.src='assets/images/logo.png'">
+          <div class="cart-item-icon"><i class="fas fa-utensils"></i></div>
           <div class="cart-item-info">
             <h4 class="cart-item-title">${item.name}</h4>
             ${item.selectedAddons && item.selectedAddons.length > 0 ? `

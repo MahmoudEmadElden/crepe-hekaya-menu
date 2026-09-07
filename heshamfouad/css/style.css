@@ -756,82 +756,85 @@ button {
   background: var(--bg-card);
   border: 1px solid var(--border-card);
   border-radius: var(--radius-lg);
-  overflow: hidden;
+  padding: 1.6rem;
   box-shadow: var(--shadow-card);
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   transition: transform var(--transition), border-color var(--transition), background var(--transition);
   position: relative;
 }
 
 .menu-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-4px);
   background: var(--bg-card-hover);
   border-color: var(--border-gold);
 }
 
-.menu-card-img {
-  position: relative;
-  height: 200px;
-  overflow: hidden;
-  background: #091216;
-}
-
-.menu-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.menu-card:hover .menu-card-img img {
-  transform: scale(1.06);
-}
-
-.badge-discount-corner {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  background: var(--accent-gold);
-  color: #000;
-  font-size: 0.75rem;
-  font-weight: 900;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-full);
-}
-
-.badge-signature-corner {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  background: var(--primary);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 0.25rem 0.65rem;
-  border-radius: var(--radius-full);
-}
-
-.menu-card-body {
-  padding: 1.4rem;
+.menu-card-header {
   display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .menu-card-title {
-  font-size: 1.2rem;
+  font-size: 1.25rem;
   font-weight: 800;
   color: var(--text-white);
-  margin-bottom: 0.45rem;
+  line-height: 1.3;
+}
+
+.menu-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.badge-discount-tag {
+  background: var(--accent-gold-subtle);
+  color: var(--accent-gold);
+  border: 1px solid var(--border-gold);
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+}
+
+.badge-signature-tag {
+  background: var(--primary-subtle);
+  color: var(--primary-light);
+  border: 1px solid var(--border-card);
+  font-size: 0.74rem;
+  font-weight: 800;
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
 }
 
 .menu-card-desc {
-  font-size: 0.88rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
-  line-height: 1.65;
+  line-height: 1.7;
   margin-bottom: 1.25rem;
   flex-grow: 1;
+}
+
+.menu-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.menu-tag-pill {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--radius-full);
 }
 
 .menu-card-footer {

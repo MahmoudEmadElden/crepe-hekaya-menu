@@ -98,24 +98,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
     menuContainer.innerHTML = filtered.map(item => `
       <div class="menu-card" data-id="${item.id}" data-category="${item.categoryId}">
-        <div class="menu-card-img">
-          <img src="${item.image}" alt="${item.name}" loading="lazy" onerror="this.src='assets/images/logo.png'">
-          <span class="badge-discount-corner">خصم 15%</span>
-          ${item.isSignature ? `<span class="badge-signature-corner">المميز</span>` : ''}
-        </div>
-        <div class="menu-card-body">
-          <h3 class="menu-card-title">${item.name}</h3>
-          <p class="menu-card-desc">${item.description}</p>
-          <div class="menu-card-footer">
-            <div class="menu-price-wrap">
-              <span class="menu-price">${item.price}</span>
-              <span class="menu-currency">ج.م</span>
+        <div>
+          <div class="menu-card-header">
+            <h3 class="menu-card-title">${item.name}</h3>
+            <div class="menu-card-badges">
+              <span class="badge-discount-tag">خصم 15%</span>
+              ${item.isSignature ? `<span class="badge-signature-tag">المميز</span>` : ''}
             </div>
-            <button class="btn-add-cart" onclick="window.HeshamFouadApp.openCustomizer('${item.id}')">
-              <i class="fas fa-shopping-bag"></i>
-              <span>اطلب الآن</span>
-            </button>
           </div>
+          <p class="menu-card-desc">${item.description}</p>
+          ${item.tags && item.tags.length ? `
+            <div class="menu-card-tags">
+              ${item.tags.map(t => `<span class="menu-tag-pill">${t}</span>`).join('')}
+            </div>
+          ` : ''}
+        </div>
+        <div class="menu-card-footer">
+          <div class="menu-price-wrap">
+            <span class="menu-price">${item.price}</span>
+            <span class="menu-currency">ج.م</span>
+          </div>
+          <button class="btn-add-cart" onclick="window.HeshamFouadApp.openCustomizer('${item.id}')">
+            <i class="fas fa-shopping-bag"></i>
+            <span>اطلب الآن</span>
+          </button>
         </div>
       </div>
     `).join('');
