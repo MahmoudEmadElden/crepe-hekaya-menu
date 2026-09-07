@@ -211,10 +211,10 @@
     return await apiFetch('/auth/me', { method: 'GET' });
   }
 
-  async function apiCreateOrder(items, notes, deliveryAddress, customerPhone, customerName) {
+  async function apiCreateOrder(items, notes, deliveryAddress, customerPhone, customerName, mapLocation) {
     return await apiFetch('/orders/create', {
       method: 'POST',
-      body: JSON.stringify({ items, notes, deliveryAddress, customerPhone, customerName })
+      body: JSON.stringify({ items, notes, deliveryAddress, customerPhone, customerName, mapLocation })
     });
   }
 

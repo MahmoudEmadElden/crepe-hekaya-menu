@@ -5,39 +5,45 @@
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Manrope:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap');
 
 :root {
-  /* Colors */
-  --color-primary: #FF6B00;
-  --color-primary-light: #FF8C33;
-  --color-primary-dark: #CC5500;
-  --color-secondary: #FFD166;
-  --color-accent: #FFF3C2;
+  /* Colors (Warm Amber & Charcoal Palette) */
+  --color-primary: #E65100;         /* برتقالي دافئ عميق يفتح الشهية */
+  --color-primary-light: #F57C00;   /* برتقالي مريح للتفاعل والتمرير */
+  --color-primary-dark: #BF360C;
+  --color-secondary: #D97706;       /* ذهبي دافئ فاخر للأسعار والعناوين */
+  --color-accent: #F59E0B;          /* أصفر ذهبي ناعم */
 
-  --color-red-btn: #D93829;
-  --color-red-btn-hover: #EB4D3D;
+  --color-red-btn: #C0392B;
+  --color-red-btn-hover: #D32F2F;
 
-  /* Backgrounds */
-  --color-bg-deep: #0C0C0E;
-  --color-bg: #141418;
-  --color-bg-card: #1C1C24;
-  --color-bg-card-hover: #242430;
-  --color-bg-elevated: #282834;
-  --color-bg-input: #17171F;
+  /* Backgrounds (Comfort Deep Charcoal) */
+  --color-bg-deep: #121216;         /* فحمي دافئ راقي يمنع إجهاد العين */
+  --color-bg: #18181F;
+  --color-bg-card: #1E1E24;         /* طبقة البطاقات مع رفع العمق */
+  --color-bg-card-hover: #262630;
+  --color-bg-elevated: #2A2A36;
+  --color-bg-input: #181820;
+
+  /* Status Colors */
+  --color-status-pending: #F59E0B;
+  --color-status-preparing: #8B5CF6;
+  --color-status-ready: #10B981;
+  --color-status-delivered: #6B7280;
 
   /* Texts */
   --color-text: #FFFFFF;
   --color-text-secondary: #B0B0C0;
   --color-text-muted: #75758A;
-  --color-text-inverse: #0C0C0E;
+  --color-text-inverse: #121216;
 
-  /* Borders & Glow */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-border-hover: rgba(255, 107, 0, 0.35);
-  --color-border-gold: rgba(255, 209, 102, 0.3);
+  /* Borders & Shadows (Quiet Luxury — zero harsh neon) */
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-border-hover: rgba(230, 81, 0, 0.35);
+  --color-border-gold: rgba(217, 119, 6, 0.3);
 
-  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
-  --shadow-glow: 0 0 25px rgba(255, 107, 0, 0.25);
-  --shadow-gold-glow: 0 0 35px rgba(255, 209, 102, 0.25);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 4px 20px rgba(230, 81, 0, 0.15);
+  --shadow-gold-glow: 0 4px 20px rgba(217, 119, 6, 0.15);
 
   /* Typography */
   --font-family: 'Cairo', 'Outfit', 'Poppins', 'Tajawal', sans-serif;
@@ -372,6 +378,61 @@ body {
   max-width: 90px;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+/* User Profile Dropdown */
+.nav-user-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.user-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  min-width: 170px;
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  padding: 0.5rem;
+  display: none;
+  flex-direction: column;
+  gap: 0.35rem;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.user-dropdown-menu.show {
+  display: flex;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.85rem;
+  color: var(--color-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: right;
+  cursor: pointer;
+  font-family: inherit;
+  transition: var(--transition-fast);
+}
+
+.dropdown-item:hover {
+  background: var(--color-bg-card-hover);
+  color: var(--color-primary-light);
+}
+
+.dropdown-item.logout-item:hover {
+  color: #EF4444;
 }
 
 @media (max-width: 480px) {

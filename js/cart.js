@@ -137,13 +137,15 @@
       return;
     }
 
+    const mapLocation = document.getElementById('orderMapLocation') ? document.getElementById('orderMapLocation').value.trim() : '';
+
     // Set loading state
     checkoutBtn.disabled = true;
     checkoutBtn.querySelector('.btn-text').style.display = 'none';
     checkoutBtn.querySelector('.btn-loading').style.display = 'inline';
 
     try {
-      const data = await CrepeAPI.apiCreateOrder(cart, notes, deliveryAddress, cleanPhone, customerName);
+      const data = await CrepeAPI.apiCreateOrder(cart, notes, deliveryAddress, cleanPhone, customerName, mapLocation);
 
       if (data.success) {
         // Clear cart
@@ -164,7 +166,143 @@
     }
   });
 
+  /* ---- WhatsApp Fallback Checkout ---- */
+  function sendWhatsAppOrder() {
+    const cart = CrepeAPI.getCart();
+    if (cart.length === 0) {
+      CrepeAPI.showToast('السلة فاضية!', 'error');
+      return;
+    }
+
+    const customerName = document.getElementById('orderCustomerName').value.trim();
+    const customerPhone = document.getElementById('orderCustomerPhone').value.trim();
+    const deliveryAddress = document.getElementById('orderDeliveryAddress').value.trim();
+    const notes = document.getElementById('orderNotes').value.trim();
+    const mapLocation = document.getElementById('orderMapLocation') ? document.getElementById('orderMapLocation').value.trim() : '';
+
+    if (!customerName) {
+      CrepeAPI.showToast('الاسم بالكامل مطلوب لإتمام الطلب', 'error');
+      document.getElementById('orderCustomerName').focus();
+      return;
+    }
+
+    const cleanPhone = customerPhone.replace(/[\s-]/g, '');
+    if (!cleanPhone || cleanPhone.length < 10) {
+      CrepeAPI.showToast('يرجى إدخال رقم هاتف صحيح للتواصل معك وقت التوصيل', 'error');
+      document.getElementById('orderCustomerPhone').focus();
+      return;
+    }
+
+    if (!deliveryAddress || deliveryAddress.length < 5) {
+      CrepeAPI.showToast('عنوان التوصيل بالتفصيل مطلوب (المنطقة والشارع ورقم العمارة)', 'error');
+      document.getElementById('orderDeliveryAddress').focus();
+      return;
+    }
+
+    const total = CrepeAPI.getCartTotal();
+
+    let message = `مرحباً مطعم كريب حكاية 🌯، أريد تأكيد طلب جديد:\n\n`;
+    message += `👤 *العميل:* ${customerName}\n`;
+    message += `📞 *الهاتف:* ${cleanPhone}\n`;
+    message += `📍 *العنوان:* ${deliveryAddress}\n`;
+    if (mapLocation) {
+      message += `🗺️ *الموقع بالـ GPS:* ${mapLocation}\n`;
+    }
+    message += `\n🛒 *الأصناف المطلوبة:*\n`;
+
+    cart.forEach((item, index) => {
+      const variantText = item.variantLabel ? ` (${item.variantLabel})` : '';
+      const lineTotal = item.unitPrice * item.quantity;
+      message += `${index + 1}. *${item.name}*${variantText} × ${item.quantity} = ${lineTotal} جنيه\n`;
+    });
+
+    message += `\n💰 *الإجمالي الكلي:* ${total} جنيه\n`;
+    message += `💵 *طريقة الدفع:* الدفع كاش عند الاستلام\n`;
+    if (notes) {
+      message += `📝 *ملاحظات خاصة:* ${notes}\n`;
+    }
+
+    const whatsappUrl = `https://wa.me/201020612755?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
+  }
+
+  const btnWhatsApp = document.getElementById('btnWhatsAppCheckout');
+  if (btnWhatsApp) {
+    btnWhatsApp.addEventListener('click', sendWhatsAppOrder);
+  }
+
+  /* ---- Leaflet GPS Location Picker ---- */
+  let deliveryMapInstance = null;
+  let deliveryMarker = null;
+
+  function initGpsPicker() {
+    const btnGps = document.getElementById('btnGpsLocation');
+    const mapContainer = document.getElementById('mapPickerContainer');
+    const addressInput = document.getElementById('orderDeliveryAddress');
+    const mapLocationInput = document.getElementById('orderMapLocation');
+    const coordsText = document.getElementById('mapCoordsText');
+
+    if (!btnGps) return;
+
+    btnGps.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        CrepeAPI.showToast('المتصفح لا يدعم تحديد الموقع الجغرافي GPS', 'error');
+        return;
+      }
+
+      btnGps.disabled = true;
+      btnGps.innerHTML = `<span>جارٍ تحديد موقعك...</span>`;
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          btnGps.disabled = false;
+          btnGps.innerHTML = `<i class="fas fa-check"></i> <span>تم تحديد موقعك ✓</span>`;
+
+          const lat = pos.coords.latitude;
+          const lng = pos.coords.longitude;
+          const googleMapsLink = `https://maps.google.com/?q=${lat},${lng}`;
+          if (mapLocationInput) mapLocationInput.value = googleMapsLink;
+          if (coordsText) coordsText.textContent = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+
+          if (mapContainer) mapContainer.style.display = 'block';
+
+          if (typeof L !== 'undefined') {
+            if (!deliveryMapInstance) {
+              deliveryMapInstance = L.map('deliveryMap').setView([lat, lng], 16);
+              L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap'
+              }).addTo(deliveryMapInstance);
+
+              deliveryMarker = L.marker([lat, lng], { draggable: true }).addTo(deliveryMapInstance);
+              deliveryMarker.on('dragend', () => {
+                const markerPos = deliveryMarker.getLatLng();
+                const updatedLink = `https://maps.google.com/?q=${markerPos.lat},${markerPos.lng}`;
+                if (mapLocationInput) mapLocationInput.value = updatedLink;
+                if (coordsText) coordsText.textContent = `${markerPos.lat.toFixed(5)}, ${markerPos.lng.toFixed(5)}`;
+              });
+            } else {
+              deliveryMapInstance.setView([lat, lng], 16);
+              deliveryMarker.setLatLng([lat, lng]);
+              deliveryMapInstance.invalidateSize();
+            }
+          }
+
+          if (addressInput && (!addressInput.value || addressInput.value.trim().length === 0)) {
+            addressInput.value = 'موقعي الحالي عبر الـ GPS';
+          }
+        },
+        (err) => {
+          btnGps.disabled = false;
+          btnGps.innerHTML = `<i class="fas fa-location-crosshairs"></i> <span>تحديد موقعي بالـ GPS</span>`;
+          CrepeAPI.showToast('تعذر جلب موقع GPS. يرجى تفعيل إذن الموقع بالمتصفح.', 'error');
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    });
+  }
+
   /* ---- Init ---- */
   renderCart();
   prefillCustomerInfo();
+  initGpsPicker();
 })();

@@ -64,6 +64,11 @@ const orderSchema = new mongoose.Schema({
     trim: true,
     maxlength: [500, 'الملاحظات لازم تكون أقل من 500 حرف'],
     default: ''
+  },
+  mapLocation: {
+    type: String,
+    trim: true,
+    default: ''
   }
 }, {
   timestamps: true

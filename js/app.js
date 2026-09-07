@@ -584,7 +584,7 @@ function setupEventListeners() {
   });
 }
 
-// Update Auth Button State in Navbar
+// Update Auth Button State in Navbar with User Dropdown
 function updateNavAuthState() {
   if (typeof CrepeAPI === 'undefined') return;
   const authBtn = document.getElementById('navAuthBtn');
@@ -595,12 +595,43 @@ function updateNavAuthState() {
     const user = CrepeAPI.getUser();
     authBtnText.textContent = user ? (user.displayName || user.username) : 'حسابي';
     authBtn.href = '#';
-    authBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      if (confirm('عايز تسجل خروج؟')) {
+
+    let wrap = authBtn.closest('.nav-user-dropdown');
+    if (!wrap) {
+      wrap = document.createElement('div');
+      wrap.className = 'nav-user-dropdown';
+      authBtn.parentNode.insertBefore(wrap, authBtn);
+      wrap.appendChild(authBtn);
+
+      const menu = document.createElement('div');
+      menu.className = 'user-dropdown-menu';
+      menu.id = 'userDropdownMenu';
+      menu.innerHTML = `
+        <a href="/orders.html" class="dropdown-item">
+          <span>📦 طلباتي</span>
+        </a>
+        <button type="button" class="dropdown-item logout-item" id="navLogoutBtn">
+          <span>🚪 تسجيل الخروج</span>
+        </button>
+      `;
+      wrap.appendChild(menu);
+
+      authBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        menu.classList.toggle('show');
+      });
+
+      menu.querySelector('#navLogoutBtn').addEventListener('click', () => {
         CrepeAPI.logout();
-      }
-    });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!wrap.contains(e.target)) {
+          menu.classList.remove('show');
+        }
+      });
+    }
   }
 }
 

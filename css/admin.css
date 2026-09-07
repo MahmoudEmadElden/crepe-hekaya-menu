@@ -565,3 +565,269 @@
   .order-card { padding: 1rem 0.85rem; }
   .order-card-header { flex-wrap: wrap; gap: 0.4rem; }
 }
+
+/* Print Buttons & Map Link in Admin */
+.status-action-btn--accept-print {
+  background: linear-gradient(135deg, #E65100, #D97706);
+  color: #fff;
+  font-weight: 800;
+  box-shadow: 0 2px 8px rgba(230, 81, 0, 0.35);
+}
+
+.status-action-btn--accept-print:hover {
+  background: linear-gradient(135deg, #F57C00, #E65100);
+  box-shadow: 0 4px 12px rgba(230, 81, 0, 0.45);
+}
+
+.status-action-btn--print {
+  background: rgba(255, 255, 255, 0.08);
+  color: #E2E8F0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-action-btn--print:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.detail-map-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(217, 119, 6, 0.15);
+  color: #D97706;
+  border: 1px solid rgba(217, 119, 6, 0.3);
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: var(--transition-fast);
+}
+
+.detail-map-btn:hover {
+  background: #D97706;
+  color: #fff;
+}
+
+/* ============================================================
+   DUAL THERMAL PRINTING SYSTEM (80mm ESC/POS)
+   ============================================================ */
+
+.thermal-print-area {
+  display: none;
+}
+
+@media print {
+  /* Hide everything on screen except the thermal print area */
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .thermal-print-area,
+  .thermal-print-area * {
+    visibility: visible;
+  }
+
+  .thermal-print-area {
+    display: block !important;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 80mm;
+    margin: 0;
+    padding: 0;
+    background: #fff !important;
+    color: #000 !important;
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
+    font-size: 13px;
+    line-height: 1.35;
+    direction: rtl;
+  }
+
+  .thermal-ticket {
+    width: 100%;
+    max-width: 78mm;
+    margin: 0 auto;
+    padding: 4mm 2mm;
+    box-sizing: border-box;
+    page-break-after: always;
+    break-after: page;
+    background: #fff !important;
+    color: #000 !important;
+  }
+
+  .thermal-ticket:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  .ticket-header {
+    text-align: center;
+    margin-bottom: 2mm;
+  }
+
+  .ticket-title {
+    font-size: 16px;
+    font-weight: 900;
+    margin: 0 0 2mm 0;
+    color: #000 !important;
+  }
+
+  .order-huge-num {
+    font-size: 32px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    margin: 2mm 0;
+    border: 2px dashed #000;
+    padding: 2mm;
+    text-align: center;
+    color: #000 !important;
+  }
+
+  .ticket-meta {
+    font-size: 11px;
+    color: #333 !important;
+  }
+
+  .ticket-divider {
+    text-align: center;
+    font-size: 10px;
+    letter-spacing: -1px;
+    margin: 2mm 0;
+    overflow: hidden;
+    white-space: nowrap;
+    color: #000 !important;
+  }
+
+  .ticket-customer {
+    font-size: 14px;
+    font-weight: 800;
+    color: #000 !important;
+  }
+
+  /* Kitchen items list: Large, bold, NO PRICES */
+  .kitchen-items-list .kitchen-item-row {
+    font-size: 15px;
+    font-weight: 800;
+    padding: 2mm 0;
+    border-bottom: 1px dotted #888;
+    color: #000 !important;
+  }
+
+  .kitchen-item-row .item-qty {
+    display: inline-block;
+    background: #000 !important;
+    color: #fff !important;
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 15px;
+    margin-left: 4px;
+  }
+
+  .kitchen-item-notes {
+    font-size: 12px;
+    font-weight: 600;
+    color: #333 !important;
+    padding-right: 15px;
+    margin-top: 2px;
+  }
+
+  .ticket-notes {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2mm 0;
+    color: #000 !important;
+  }
+
+  .ticket-footer,
+  .receipt-footer {
+    text-align: center;
+    font-size: 11px;
+    margin-top: 3mm;
+    color: #444 !important;
+  }
+
+  /* Cashier receipt styling */
+  .receipt-logo {
+    font-size: 20px;
+    font-weight: 900;
+    color: #000 !important;
+  }
+
+  .receipt-subtitle {
+    font-size: 11px;
+    color: #333 !important;
+  }
+
+  .receipt-contact {
+    font-size: 11px;
+    direction: ltr;
+    margin-top: 1mm;
+    color: #222 !important;
+  }
+
+  .receipt-order-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    font-weight: 700;
+    color: #000 !important;
+  }
+
+  .receipt-customer-box {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #000 !important;
+  }
+
+  .receipt-items-table .receipt-table-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 800;
+    font-size: 12px;
+    color: #000 !important;
+  }
+
+  .receipt-item-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 12px;
+    padding: 1.5mm 0;
+    border-bottom: 1px dotted #ccc;
+    color: #000 !important;
+  }
+
+  .receipt-totals {
+    font-size: 13px;
+    margin: 2mm 0;
+    color: #000 !important;
+  }
+
+  .receipt-totals .total-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1mm;
+  }
+
+  .receipt-totals .grand-total {
+    font-size: 16px;
+    font-weight: 900;
+    border-top: 1px dashed #000;
+    padding-top: 2mm;
+    color: #000 !important;
+  }
+
+  .receipt-payment {
+    font-size: 12px;
+    color: #000 !important;
+  }
+}

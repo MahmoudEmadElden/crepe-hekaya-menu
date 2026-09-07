@@ -168,12 +168,50 @@
       if (authBtn && authBtnText && typeof CrepeAPI !== 'undefined' && CrepeAPI.isLoggedIn()) {
         const user = CrepeAPI.getUser();
         authBtnText.textContent = user ? (user.displayName || user.username) : 'حسابي';
-        authBtn.href = '/orders.html';
+        authBtn.href = '#';
+
+        // User dropdown menu
+        let wrap = authBtn.closest('.nav-user-dropdown');
+        if (!wrap) {
+          wrap = document.createElement('div');
+          wrap.className = 'nav-user-dropdown';
+          authBtn.parentNode.insertBefore(wrap, authBtn);
+          wrap.appendChild(authBtn);
+
+          const menu = document.createElement('div');
+          menu.className = 'user-dropdown-menu';
+          menu.id = 'userDropdownMenu';
+          menu.innerHTML = `
+            <a href="/orders.html" class="dropdown-item">
+              <span>📦 طلباتي</span>
+            </a>
+            <button type="button" class="dropdown-item logout-item" id="navLogoutBtn">
+              <span>🚪 تسجيل الخروج</span>
+            </button>
+          `;
+          wrap.appendChild(menu);
+
+          authBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            menu.classList.toggle('show');
+          });
+
+          menu.querySelector('#navLogoutBtn').addEventListener('click', () => {
+            CrepeAPI.logout();
+          });
+
+          document.addEventListener('click', (e) => {
+            if (!wrap.contains(e.target)) {
+              menu.classList.remove('show');
+            }
+          });
+        }
       }
 
-      // Update cart badge if any items exist
+      // Update cart badge if any items exist (Unified key: crepeHekayaCart)
       try {
-        const cart = JSON.parse(localStorage.getItem('crepe_cart') || '[]');
+        const cart = JSON.parse(localStorage.getItem('crepeHekayaCart') || '[]');
         const badge = document.getElementById('cartBadge');
         if (badge && cart.length > 0) {
           const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);

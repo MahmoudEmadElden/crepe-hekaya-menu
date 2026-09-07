@@ -317,13 +317,98 @@
      LOAD ORDERS (with new order detection)
      ============================================================ */
 
+  let currentLoadedOrders = [];
+
+  /* ============================================================
+     DUAL THERMAL PRINTING LOGIC (Kitchen Ticket + Cashier Receipt)
+     ============================================================ */
+
+  function printThermalTickets(order) {
+    if (!order) return;
+
+    const date = new Date(order.createdAt || Date.now());
+    const timeStr = date.toLocaleString('ar-EG', {
+      year: 'numeric', month: 'numeric', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+
+    // 1. Kitchen Ticket (No Prices, Large bold text, items + variations + notes)
+    document.getElementById('ktOrderNum').textContent = '#' + (order.orderNumber || '0');
+    document.getElementById('ktTime').textContent = timeStr;
+    document.getElementById('ktCustomer').textContent = 'العميل: ' + (order.customerName || 'عميل') + (order.customerPhone ? ' (' + order.customerPhone + ')' : '');
+
+    const ktItemsHtml = (order.items || []).map(item => {
+      const variantStr = item.variantLabel ? `<div class="kitchen-item-notes">الحجم/النوع: ${item.variantLabel}</div>` : '';
+      const optionsStr = item.selectedOptions && item.selectedOptions.length
+        ? `<div class="kitchen-item-notes">إضافات: ${item.selectedOptions.join(' + ')}</div>`
+        : '';
+      return `
+        <div class="kitchen-item-row">
+          <div><span class="item-qty">${item.quantity}×</span> <strong>${item.name}</strong></div>
+          ${variantStr}
+          ${optionsStr}
+        </div>
+      `;
+    }).join('');
+    document.getElementById('ktItems').innerHTML = ktItemsHtml;
+    document.getElementById('ktNotes').innerHTML = order.notes ? `<strong>ملاحظات العميل:</strong> ${order.notes}` : '';
+
+    // 2. Cashier Ticket (Full Breakdown with Prices & Total)
+    document.getElementById('ctOrderNum').textContent = '#' + (order.orderNumber || '0');
+    document.getElementById('ctTime').textContent = timeStr;
+    document.getElementById('ctCustomer').textContent = order.customerName || 'عميل';
+    document.getElementById('ctPhone').textContent = order.customerPhone || '-';
+    document.getElementById('ctAddress').textContent = order.deliveryAddress || 'استلام من المطعم';
+
+    const ctMapRow = document.getElementById('ctMapRow');
+    const ctMap = document.getElementById('ctMap');
+    if (order.mapLocation) {
+      ctMapRow.style.display = 'block';
+      ctMap.innerHTML = `<a href="${order.mapLocation}" target="_blank" style="color:#000;text-decoration:underline;">فتح موقع GPS في جوجل ماب</a>`;
+    } else {
+      ctMapRow.style.display = 'none';
+    }
+
+    const ctItemsHtml = (order.items || []).map(item => {
+      const optStr = item.selectedOptions && item.selectedOptions.length
+        ? `<div style="font-size:10px;color:#555;">+ ${item.selectedOptions.join(', ')}</div>`
+        : '';
+      return `
+        <div class="receipt-item-row">
+          <div style="flex:2;">
+            <strong>${item.name}</strong> ${item.variantLabel ? '(' + item.variantLabel + ')' : ''}
+            ${optStr}
+          </div>
+          <div style="flex:1;text-align:center;">${item.quantity}</div>
+          <div style="flex:1;text-align:left;font-weight:bold;">${item.totalPrice} ج</div>
+        </div>
+      `;
+    }).join('');
+    document.getElementById('ctItems').innerHTML = ctItemsHtml;
+    document.getElementById('ctSubtotal').textContent = `${order.totalAmount || 0} ج`;
+    document.getElementById('ctDelivery').textContent = `0 ج`;
+    document.getElementById('ctTotal').textContent = `${order.totalAmount || 0} ج`;
+
+    // Trigger native print dialog (compatible with Windows print & Chrome --kiosk-printing)
+    setTimeout(() => {
+      window.print();
+    }, 150);
+  }
+
+  /* ============================================================
+     LOAD ORDERS (with new order detection)
+     ============================================================ */
+
   async function loadOrders() {
     try {
       const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined);
       if (!data.success || data.orders.length === 0) {
+        currentLoadedOrders = [];
         ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">\u0645\u0641\u064a\u0634 \u0637\u0644\u0628\u0627\u062a</p>';
         return;
       }
+
+      currentLoadedOrders = data.orders;
 
       // ---- Detect new orders ----
       const currentIds = new Set(data.orders.map(o => o._id));
@@ -372,18 +457,25 @@
         // Status action buttons based on current status
         let actionsHtml = '';
         const s = order.status;
-        if (s !== 'delivered' && s !== 'cancelled') {
-          const actions = [];
-          if (s === 'pending') actions.push({ status: 'accepted', label: '\u0642\u0628\u0648\u0644', cls: 'accept' });
-          if (s === 'accepted') actions.push({ status: 'preparing', label: '\u0628\u062f\u0623 \u0627\u0644\u062a\u062d\u0636\u064a\u0631', cls: 'prepare' });
-          if (s === 'preparing') actions.push({ status: 'ready', label: '\u062c\u0627\u0647\u0632', cls: 'ready' });
-          if (s === 'ready') actions.push({ status: 'delivered', label: '\u062a\u0645 \u0627\u0644\u062a\u0648\u0635\u064a\u0644', cls: 'deliver' });
-          actions.push({ status: 'cancelled', label: '\u0625\u0644\u063a\u0627\u0621', cls: 'cancel' });
+        const actions = [];
 
-          actionsHtml = `<div class="order-status-actions">
-            ${actions.map(a => `<button class="status-action-btn status-action-btn--${a.cls}" data-order-id="${order._id}" data-new-status="${a.status}">${a.label}</button>`).join('')}
-          </div>`;
+        if (s !== 'delivered' && s !== 'cancelled') {
+          if (s === 'pending') {
+            actions.push({ action: 'accept_print', label: '🖨️ قبول وطباعة', cls: 'accept-print' });
+            actions.push({ action: 'accepted', label: 'قبول فقط', cls: 'accept' });
+          }
+          if (s === 'accepted') actions.push({ action: 'preparing', label: 'بدأ التحضير', cls: 'prepare' });
+          if (s === 'preparing') actions.push({ action: 'ready', label: 'جاهز للتسليم', cls: 'ready' });
+          if (s === 'ready') actions.push({ action: 'delivered', label: 'تم التوصيل', cls: 'deliver' });
+          actions.push({ action: 'cancelled', label: 'إلغاء', cls: 'cancel' });
         }
+
+        // Always provide thermal print action
+        actions.push({ action: 'print_only', label: '🖨️ طباعة الفاتورة', cls: 'print' });
+
+        actionsHtml = `<div class="order-status-actions">
+          ${actions.map(a => `<button class="status-action-btn status-action-btn--${a.cls}" data-order-id="${order._id}" data-action="${a.action}">${a.label}</button>`).join('')}
+        </div>`;
 
         // Add highlight class for new orders
         const highlightClass = newOrderIdSet.has(order._id) ? ' new-order-highlight' : '';
@@ -413,6 +505,14 @@
                   <span style="color:var(--color-text);font-weight:600;">${order.deliveryAddress}</span>
                 </div>
               ` : ''}
+              ${order.mapLocation ? `
+                <div class="order-detail-line">
+                  <span>الموقع بالخريطة:</span>
+                  <a href="${order.mapLocation}" target="_blank" class="detail-map-btn">
+                    <i class="fa-solid fa-location-dot"></i> موقع العميل GPS
+                  </a>
+                </div>
+              ` : ''}
             </div>
 
             ${order.notes ? `<div class="order-notes">\u0645\u0644\u0627\u062d\u0638\u0627\u062a: ${order.notes}</div>` : ''}
@@ -435,7 +535,7 @@
   }
 
   /* ============================================================
-     STATUS UPDATE
+     STATUS & PRINT ACTIONS
      ============================================================ */
 
   ordersList.addEventListener('click', async (e) => {
@@ -443,9 +543,41 @@
     if (!btn) return;
 
     const orderId = btn.dataset.orderId;
-    const newStatus = btn.dataset.newStatus;
+    const action = btn.dataset.action;
+    const order = currentLoadedOrders.find(o => o._id === orderId);
 
-    if (newStatus === 'cancelled' && !confirm('\u0645\u062a\u0623\u0643\u062f \u0625\u0646\u0643 \u0639\u0627\u064a\u0632 \u062a\u0644\u063a\u064a \u0627\u0644\u0637\u0644\u0628 \u062f\u0647\u061f')) {
+    // Print Only
+    if (action === 'print_only') {
+      if (order) {
+        printThermalTickets(order);
+      }
+      return;
+    }
+
+    // Accept and Print
+    if (action === 'accept_print') {
+      btn.disabled = true;
+      const originalText = btn.textContent;
+      btn.textContent = 'جارٍ الطباعة...';
+
+      try {
+        await CrepeAPI.apiUpdateOrderStatus(orderId, 'accepted');
+        if (order) {
+          order.status = 'accepted';
+          printThermalTickets(order);
+        }
+        await loadStats();
+        await loadOrders();
+      } catch (error) {
+        alert(error.message || 'حدث خطأ أثناء قبول الطلب');
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+      return;
+    }
+
+    // Status updates
+    if (action === 'cancelled' && !confirm('\u0645\u062a\u0623\u0643\u062f \u0625\u0646\u0643 \u0639\u0627\u064a\u0632 \u062a\u0644\u063a\u064a \u0627\u0644\u0637\u0644\u0628 \u062f\u0647\u061f')) {
       return;
     }
 
@@ -453,7 +585,7 @@
     btn.textContent = '...';
 
     try {
-      await CrepeAPI.apiUpdateOrderStatus(orderId, newStatus);
+      await CrepeAPI.apiUpdateOrderStatus(orderId, action);
       loadStats();
       loadOrders();
     } catch (error) {

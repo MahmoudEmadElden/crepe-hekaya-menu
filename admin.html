@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>لوحة التحكم — كريب حكاية | Crepe Hekaya Admin</title>
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0C0C0E">
+  <meta name="theme-color" content="#121216">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/admin.css">
 </head>
@@ -98,6 +99,76 @@
 
       </div>
     </main>
+  </div>
+
+  <!-- Dual Thermal Print Area (80mm ESC/POS) -->
+  <div id="thermalPrintArea" class="thermal-print-area">
+    <!-- 1. Kitchen Ticket (No Prices, Huge Order Num) -->
+    <div class="thermal-ticket kitchen-ticket" id="printKitchenTicket">
+      <div class="ticket-header">
+        <h2 class="ticket-title">طلب تجهيز مطبخ</h2>
+        <div class="order-huge-num" id="ktOrderNum">#000</div>
+        <div class="ticket-meta" id="ktTime">-</div>
+      </div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="ticket-customer" id="ktCustomer">العميل: -</div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="kitchen-items-list" id="ktItems">
+        <!-- Item rows rendered dynamically -->
+      </div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="ticket-notes" id="ktNotes"></div>
+      <div class="ticket-footer">
+        <p>*** كريب حكاية — تذكرة المطبخ ***</p>
+      </div>
+    </div>
+
+    <!-- 2. Cashier & Customer Receipt (Full Breakdown) -->
+    <div class="thermal-ticket cashier-ticket" id="printCashierTicket">
+      <div class="ticket-header">
+        <div class="receipt-logo">كريب حكاية</div>
+        <div class="receipt-subtitle">Crepe Hekaya — طعم لا يقاوم</div>
+        <div class="receipt-contact">ت: 01020612755 - 01027202324</div>
+        <div class="ticket-divider">================================</div>
+        <div class="receipt-order-info">
+          <div>رقم الطلب: <strong id="ctOrderNum">#000</strong></div>
+          <div id="ctTime">-</div>
+        </div>
+      </div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="receipt-customer-box">
+        <div><strong>العميل:</strong> <span id="ctCustomer">-</span></div>
+        <div><strong>الهاتف:</strong> <span id="ctPhone">-</span></div>
+        <div id="ctAddressRow"><strong>العنوان:</strong> <span id="ctAddress">-</span></div>
+        <div id="ctMapRow" style="display:none;"><strong>رابط الخريطة:</strong> <span id="ctMap"></span></div>
+      </div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="receipt-items-table">
+        <div class="receipt-table-header">
+          <span>الصنف</span>
+          <span>الكمية</span>
+          <span>السعر</span>
+        </div>
+        <div class="ticket-divider">--------------------------------</div>
+        <div id="ctItems">
+          <!-- Item rows rendered dynamically -->
+        </div>
+      </div>
+      <div class="ticket-divider">================================</div>
+      <div class="receipt-totals">
+        <div class="total-row"><span>المجموع الفرعي:</span><span id="ctSubtotal">0 ج</span></div>
+        <div class="total-row"><span>خدمة التوصيل:</span><span id="ctDelivery">0 ج</span></div>
+        <div class="total-row grand-total"><span>الإجمالي المطلوب:</span><strong id="ctTotal">0 ج</strong></div>
+      </div>
+      <div class="ticket-divider">--------------------------------</div>
+      <div class="receipt-payment">
+        <div>طريقة الدفع: <strong>الدفع عند الاستلام (كاش)</strong></div>
+      </div>
+      <div class="receipt-footer">
+        <p>شكراً لطلبكم من كريب حكاية ❤️</p>
+        <p>أسيوط — خدمة التوصيل متوفرة</p>
+      </div>
+    </div>
   </div>
 
   <!-- New Order Notification Overlay -->

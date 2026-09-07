@@ -545,4 +545,13 @@ if (typeof window !== 'undefined') {
     galleryPhotos
   };
 }
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    restaurantInfo,
+    categories,
+    menuItems,
+    extraAddons,
+    galleryPhotos
+  };
+}
 })();

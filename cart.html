@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/cart.css">
 </head>
@@ -92,8 +94,22 @@
           </div>
 
           <div class="form-group">
-            <label for="orderDeliveryAddress">عنوان التوصيل بالتفصيل <span class="required">*</span></label>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+              <label for="orderDeliveryAddress" style="margin-bottom: 0;">عنوان التوصيل بالتفصيل <span class="required">*</span></label>
+              <button type="button" id="btnGpsLocation" class="btn-gps-picker">
+                <i class="fas fa-location-crosshairs"></i>
+                <span>تحديد موقعي بالـ GPS</span>
+              </button>
+            </div>
             <input type="text" id="orderDeliveryAddress" placeholder="المنطقة، الشارع، رقم العمارة، رقم الشقة، علامة مميزة" required>
+            <input type="hidden" id="orderMapLocation" value="">
+            <div id="mapPickerContainer" style="display:none; margin-top: 0.75rem; border-radius: var(--radius-sm); overflow: hidden; border: 1px solid var(--color-border);">
+              <div id="deliveryMap" style="height: 190px; width: 100%;"></div>
+              <div style="padding: 0.45rem 0.85rem; font-size: 0.78rem; background: var(--color-bg-card); color: var(--color-secondary); display: flex; justify-content: space-between; align-items: center;">
+                <span>تم تحديد موقعك بدقة (يمكنك سحب الدبوس لتعديل مكانك)</span>
+                <span id="mapCoordsText" style="direction: ltr; font-family: monospace; font-weight: 700;"></span>
+              </div>
+            </div>
           </div>
 
           <div class="payment-method-pill">
@@ -115,10 +131,16 @@
           </div>
         </div>
 
-        <button class="btn-checkout" id="checkoutBtn">
-          <span class="btn-text">اطلب الآن</span>
-          <span class="btn-loading" style="display:none;">جارٍ إرسال الطلب...</span>
-        </button>
+        <div class="checkout-actions-row">
+          <button class="btn-checkout" id="checkoutBtn">
+            <span class="btn-text">اطلب أونلاين الآن</span>
+            <span class="btn-loading" style="display:none;">جارٍ إرسال الطلب...</span>
+          </button>
+          <button type="button" class="btn-whatsapp-checkout" id="btnWhatsAppCheckout">
+            <i class="fab fa-whatsapp"></i>
+            <span>إرسال الطلب عبر الواتساب</span>
+          </button>
+        </div>
       </div>
 
       <!-- Order Confirmation (shown after successful order) -->
@@ -142,6 +164,7 @@
     </div>
   </main>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="js/api.js"></script>
   <script src="js/cart.js"></script>
 </body>

@@ -8,6 +8,8 @@ const Counter = require('../_lib/models/Counter');
 const User = require('../_lib/models/User');
 const { verifyToken, handleCors } = require('../_lib/auth-middleware');
 
+const { menuItems, extraAddons } = require('../../js/menuData');
+
 module.exports = async function handler(req, res) {
   if (handleCors(req, res)) return;
 
@@ -19,7 +21,7 @@ module.exports = async function handler(req, res) {
     const decoded = verifyToken(req.headers.authorization);
     await connectDB();
 
-    const { items, notes, deliveryAddress: inputAddress, customerPhone: inputPhone, customerName: inputName } = req.body;
+    const { items, notes, deliveryAddress: inputAddress, customerPhone: inputPhone, customerName: inputName, mapLocation } = req.body;
 
     // Validate items
     if (!items || !Array.isArray(items) || items.length === 0) {
@@ -56,12 +58,12 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // Validate each item and calculate totals
+    // Validate each item against authoritative menu catalog and calculate totals
     let totalAmount = 0;
     const orderItems = [];
 
     for (const item of items) {
-      if (!item.itemId || !item.name || !item.quantity || !item.unitPrice) {
+      if (!item.itemId || !item.quantity) {
         return res.status(400).json({
           success: false,
           message: 'بيانات الأصناف مش كاملة'
@@ -75,16 +77,50 @@ module.exports = async function handler(req, res) {
         });
       }
 
-      const lineTotal = item.unitPrice * item.quantity;
+      const catalogItem = menuItems.find(m => m.id === item.itemId);
+      let authoritativeUnitPrice = 0;
+      let itemName = item.name || '';
+      let variantLabel = item.variantLabel || '';
+
+      if (catalogItem) {
+        itemName = catalogItem.name;
+        if (catalogItem.variants) {
+          const v = item.variant || catalogItem.defaultVariant || 'plain';
+          authoritativeUnitPrice = catalogItem.variants[v] || catalogItem.variants[catalogItem.defaultVariant] || Object.values(catalogItem.variants)[0];
+          if (catalogItem.variantLabels && catalogItem.variantLabels[v]) {
+            variantLabel = catalogItem.variantLabels[v];
+          } else {
+            const standardLabels = { plain: 'سادة', roumi: 'رومي', mozzarella: 'موزاريلا', small: 'صغير', large: 'كبير', veggies: 'خضار' };
+            variantLabel = standardLabels[v] || v;
+          }
+        } else if (catalogItem.price) {
+          authoritativeUnitPrice = catalogItem.price;
+        }
+      } else {
+        const addon = extraAddons ? extraAddons.find(a => a.name === item.name || a.id === item.itemId) : null;
+        if (addon) {
+          itemName = addon.name;
+          authoritativeUnitPrice = addon.price;
+        } else if (typeof item.unitPrice === 'number' && item.unitPrice > 0) {
+          authoritativeUnitPrice = item.unitPrice;
+        } else {
+          return res.status(400).json({
+            success: false,
+            message: `الصنف ${item.name || item.itemId} غير موجود في قائمة الأسعار الرسمية`
+          });
+        }
+      }
+
+      const lineTotal = authoritativeUnitPrice * item.quantity;
       totalAmount += lineTotal;
 
       orderItems.push({
         itemId: item.itemId,
-        name: item.name,
+        name: itemName,
         variant: item.variant || '',
-        variantLabel: item.variantLabel || '',
+        variantLabel: variantLabel,
         quantity: item.quantity,
-        unitPrice: item.unitPrice,
+        unitPrice: authoritativeUnitPrice,
         totalPrice: lineTotal
       });
     }
@@ -99,6 +135,7 @@ module.exports = async function handler(req, res) {
       customerName,
       customerPhone,
       deliveryAddress,
+      mapLocation: mapLocation ? mapLocation.trim() : '',
       items: orderItems,
       totalAmount,
       status: 'pending',
@@ -113,6 +150,7 @@ module.exports = async function handler(req, res) {
         customerName: order.customerName,
         customerPhone: order.customerPhone,
         deliveryAddress: order.deliveryAddress,
+        mapLocation: order.mapLocation,
         items: order.items,
         totalAmount: order.totalAmount,
         status: order.status,

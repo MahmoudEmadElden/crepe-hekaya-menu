@@ -15,4 +15,5 @@ node_modules/
 
 # Raw root WhatsApp images (already in assets/images/gallery/)
 /WhatsApp Image*.jpeg
-/WhatsApp Image*.jpg
+# Raw materials directory
+raw_materials/
