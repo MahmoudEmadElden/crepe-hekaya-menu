@@ -29,6 +29,23 @@ module.exports = async function handler(req, res) {
       if (req.query.status) {
         filter.status = req.query.status;
       }
+      // Date/Shift range filter
+      if (req.query.all !== 'true' && req.query.startDate !== 'all') {
+        if (req.query.startDate || req.query.endDate) {
+          const dateFilter = {};
+          if (req.query.startDate) {
+            const s = new Date(req.query.startDate);
+            if (!isNaN(s.getTime())) dateFilter.$gte = s;
+          }
+          if (req.query.endDate) {
+            const e = new Date(req.query.endDate);
+            if (!isNaN(e.getTime())) dateFilter.$lte = e;
+          }
+          if (Object.keys(dateFilter).length > 0) {
+            filter.createdAt = dateFilter;
+          }
+        }
+      }
     } else {
       // Customer only sees their own orders
       filter.customer = decoded.userId;

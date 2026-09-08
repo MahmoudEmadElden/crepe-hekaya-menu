@@ -222,7 +222,7 @@
       message += `📝 *ملاحظات خاصة:* ${notes}\n`;
     }
 
-    const whatsappUrl = `https://wa.me/201020612755?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/201064319292?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   }
 

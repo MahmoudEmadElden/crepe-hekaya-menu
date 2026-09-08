@@ -610,6 +610,9 @@ function updateNavAuthState() {
         <a href="/orders.html" class="dropdown-item">
           <span>📦 طلباتي</span>
         </a>
+        <button type="button" class="dropdown-item" id="navChangePwBtn">
+          <span>🔑 تغيير كلمة المرور</span>
+        </button>
         <button type="button" class="dropdown-item logout-item" id="navLogoutBtn">
           <span>🚪 تسجيل الخروج</span>
         </button>
@@ -620,6 +623,11 @@ function updateNavAuthState() {
         e.preventDefault();
         e.stopPropagation();
         menu.classList.toggle('show');
+      });
+
+      menu.querySelector('#navChangePwBtn')?.addEventListener('click', () => {
+        menu.classList.remove('show');
+        CrepeAPI.openChangePasswordModal();
       });
 
       menu.querySelector('#navLogoutBtn').addEventListener('click', () => {

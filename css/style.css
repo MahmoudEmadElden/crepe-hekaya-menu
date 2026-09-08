@@ -2309,3 +2309,145 @@ body.landing-page-body .navbar {
   }
 }
 
+/* ============================================================
+   CHANGE PASSWORD MODAL (Global)
+   ============================================================ */
+.ch-pw-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.ch-pw-modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.ch-pw-modal-card {
+  background: linear-gradient(145deg, #1A1A22, #121216);
+  border: 1px solid var(--color-border-gold);
+  border-radius: var(--radius-lg);
+  padding: 2.2rem 1.85rem;
+  max-width: 400px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85), 0 0 25px rgba(217, 119, 6, 0.25);
+  direction: rtl;
+  font-family: var(--font-family);
+  animation: notifWindowSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ch-pw-close {
+  position: absolute;
+  top: 1rem;
+  left: 1.25rem;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.6rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: var(--transition-fast);
+}
+
+.ch-pw-close:hover {
+  color: #EF4444;
+  transform: scale(1.15);
+}
+
+.ch-pw-header {
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.ch-pw-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.35rem;
+}
+
+.ch-pw-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 0.25rem;
+}
+
+.ch-pw-sub {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.ch-pw-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ch-pw-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.ch-pw-group label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+}
+
+.ch-pw-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: #fff;
+  font-family: var(--font-family);
+  font-size: 0.95rem;
+  outline: none;
+  transition: var(--transition-fast);
+}
+
+.ch-pw-group input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(230, 81, 0, 0.25);
+}
+
+.ch-pw-error {
+  color: #EF4444;
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-height: 1.1rem;
+  text-align: center;
+}
+
+.ch-pw-submit {
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family);
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  box-shadow: 0 4px 14px rgba(230, 81, 0, 0.35);
+}
+
+.ch-pw-submit:hover {
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+}
+
+

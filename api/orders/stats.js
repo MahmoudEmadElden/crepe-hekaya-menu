@@ -18,16 +18,35 @@ module.exports = async function handler(req, res) {
 
     await connectDB();
 
-    // Today's date range (Egypt timezone: UTC+2)
-    const now = new Date();
-    const todayStart = new Date(now);
-    todayStart.setHours(0, 0, 0, 0);
-    const todayEnd = new Date(now);
-    todayEnd.setHours(23, 59, 59, 999);
+    // Date range filter (supports Shift Reset, Custom Date/Time ranges, and All-Time)
+    let rangeFilter = {};
+    if (req.query.all === 'true' || req.query.startDate === 'all') {
+      // All-time: no date filter
+      rangeFilter = {};
+    } else if (req.query.startDate || req.query.endDate) {
+      const dateFilter = {};
+      if (req.query.startDate) {
+        const s = new Date(req.query.startDate);
+        if (!isNaN(s.getTime())) dateFilter.$gte = s;
+      }
+      if (req.query.endDate) {
+        const e = new Date(req.query.endDate);
+        if (!isNaN(e.getTime())) dateFilter.$lte = e;
+      }
+      if (Object.keys(dateFilter).length > 0) {
+        rangeFilter.createdAt = dateFilter;
+      }
+    } else {
+      // Default: Today's date range
+      const now = new Date();
+      const todayStart = new Date(now);
+      todayStart.setHours(0, 0, 0, 0);
+      const todayEnd = new Date(now);
+      todayEnd.setHours(23, 59, 59, 999);
+      rangeFilter.createdAt = { $gte: todayStart, $lte: todayEnd };
+    }
 
-    const todayFilter = { createdAt: { $gte: todayStart, $lte: todayEnd } };
-
-    // Aggregate today's stats
+    // Aggregate stats for the selected shift/date range
     const [
       totalOrdersToday,
       pendingOrders,
@@ -36,15 +55,15 @@ module.exports = async function handler(req, res) {
       readyOrders,
       revenueResult
     ] = await Promise.all([
-      Order.countDocuments(todayFilter),
-      Order.countDocuments({ ...todayFilter, status: 'pending' }),
-      Order.countDocuments({ ...todayFilter, status: 'accepted' }),
-      Order.countDocuments({ ...todayFilter, status: 'preparing' }),
-      Order.countDocuments({ ...todayFilter, status: 'ready' }),
+      Order.countDocuments(rangeFilter),
+      Order.countDocuments({ ...rangeFilter, status: 'pending' }),
+      Order.countDocuments({ ...rangeFilter, status: 'accepted' }),
+      Order.countDocuments({ ...rangeFilter, status: 'preparing' }),
+      Order.countDocuments({ ...rangeFilter, status: 'ready' }),
       Order.aggregate([
         {
           $match: {
-            ...todayFilter,
+            ...rangeFilter,
             status: { $nin: ['cancelled'] }
           }
         },

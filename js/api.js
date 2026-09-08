@@ -218,9 +218,18 @@
     });
   }
 
-  async function apiGetOrders(page, limit, status) {
-    let query = `?page=${page || 1}&limit=${limit || 20}`;
+  async function apiChangePassword(currentPassword, newPassword) {
+    return await apiFetch('/auth/change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+  }
+
+  async function apiGetOrders(page, limit, status, startDate, endDate) {
+    let query = `?page=${page || 1}&limit=${limit || 50}`;
     if (status) query += `&status=${status}`;
+    if (startDate) query += `&startDate=${encodeURIComponent(startDate)}`;
+    if (endDate) query += `&endDate=${encodeURIComponent(endDate)}`;
     return await apiFetch(`/orders${query}`, { method: 'GET' });
   }
 
@@ -235,8 +244,13 @@
     });
   }
 
-  async function apiGetStats() {
-    return await apiFetch('/orders/stats', { method: 'GET' });
+  async function apiGetStats(startDate, endDate) {
+    let query = '';
+    const params = [];
+    if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
+    if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
+    if (params.length > 0) query = '?' + params.join('&');
+    return await apiFetch(`/orders/stats${query}`, { method: 'GET' });
   }
 
   /* ===========================
@@ -265,6 +279,93 @@
   }
 
   /* ===========================
+     CHANGE PASSWORD MODAL
+     =========================== */
+
+  function openChangePasswordModal() {
+    let modal = document.getElementById('chChangePwModal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'chChangePwModal';
+      modal.className = 'ch-pw-modal-overlay';
+      modal.innerHTML = `
+        <div class="ch-pw-modal-card">
+          <button type="button" class="ch-pw-close" aria-label="إغلاق">&times;</button>
+          <div class="ch-pw-header">
+            <div class="ch-pw-icon">🔑</div>
+            <h3 class="ch-pw-title">تغيير كلمة المرور</h3>
+            <p class="ch-pw-sub">أدخل كلمة المرور الحالية وكلمة المرور الجديدة</p>
+          </div>
+          <form class="ch-pw-form" id="chChangePwForm">
+            <div class="ch-pw-group">
+              <label for="chCurrentPw">كلمة المرور الحالية</label>
+              <input type="password" id="chCurrentPw" required placeholder="كلمة المرور الحالية">
+            </div>
+            <div class="ch-pw-group">
+              <label for="chNewPw">كلمة المرور الجديدة</label>
+              <input type="password" id="chNewPw" required minlength="6" placeholder="6 أحرف على الأقل">
+            </div>
+            <div class="ch-pw-group">
+              <label for="chConfirmPw">تأكيد كلمة المرور الجديدة</label>
+              <input type="password" id="chConfirmPw" required minlength="6" placeholder="أعد كتابة كلمة المرور الجديدة">
+            </div>
+            <div class="ch-pw-error" id="chPwError"></div>
+            <button type="submit" class="ch-pw-submit" id="chPwSubmitBtn">تحديث كلمة المرور</button>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      // Close handlers
+      const closeModal = () => modal.classList.remove('active');
+      modal.querySelector('.ch-pw-close').addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Submit handler
+      const form = modal.querySelector('#chChangePwForm');
+      const errEl = modal.querySelector('#chPwError');
+      const submitBtn = modal.querySelector('#chPwSubmitBtn');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errEl.textContent = '';
+        const currentPw = modal.querySelector('#chCurrentPw').value;
+        const newPw = modal.querySelector('#chNewPw').value;
+        const confirmPw = modal.querySelector('#chConfirmPw').value;
+
+        if (newPw !== confirmPw) {
+          errEl.textContent = 'كلمة المرور الجديدة غير متطابقة';
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'جارٍ التحديث...';
+
+        try {
+          const res = await apiChangePassword(currentPw, newPw);
+          showToast(res.message || 'تم تغيير كلمة المرور بنجاح ✅', 'success');
+          form.reset();
+          closeModal();
+        } catch (err) {
+          errEl.textContent = err.message || 'حدث خطأ أثناء تغيير كلمة المرور';
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'تحديث كلمة المرور';
+        }
+      });
+    }
+
+    // Reset and open
+    const form = modal.querySelector('#chChangePwForm');
+    if (form) form.reset();
+    const errEl = modal.querySelector('#chPwError');
+    if (errEl) errEl.textContent = '';
+    modal.classList.add('active');
+  }
+
+  /* ===========================
      EXPORT TO WINDOW
      =========================== */
 
@@ -273,7 +374,8 @@
     getToken, setToken, removeToken,
     getUser, setUser,
     isLoggedIn, isAdmin, logout,
-    apiRegister, apiLogin, apiGetMe,
+    apiRegister, apiLogin, apiGetMe, apiChangePassword,
+    openChangePasswordModal,
 
     // Cart
     getCart, saveCart, addToCart,

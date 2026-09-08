@@ -139,6 +139,10 @@
     }
   }
 
+  document.getElementById('btnUserChangePw')?.addEventListener('click', () => {
+    CrepeAPI.openChangePasswordModal();
+  });
+
   loadOrders();
   // Live polling every 8 seconds
   setInterval(loadOrders, 8000);

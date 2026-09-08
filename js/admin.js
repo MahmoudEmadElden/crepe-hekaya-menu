@@ -16,22 +16,33 @@
   // Notification elements
   const soundBtn = document.getElementById('adminSoundBtn');
   const soundIcon = document.getElementById('soundIcon');
-  const soundLabel = document.getElementById('soundLabel');
-  const notificationOverlay = document.getElementById('notificationOverlay');
-  const notifTitle = document.getElementById('notifTitle');
-  const notifDetails = document.getElementById('notifDetails');
-  const notifDismissBtn = document.getElementById('notifDismissBtn');
+  const notificationsDock = document.getElementById('adminNotificationsDock');
 
   let currentFilter = '';
   let refreshInterval = null;
+
+  // Shift & Date Range State
+  const SHIFT_STORAGE_KEY = 'crepeHekayaShiftStart';
+  let currentPeriod = 'shift'; // 'shift', 'today', 'yesterday', 'all', 'custom'
+  let customStartDate = null;
+  let customEndDate = null;
+
+  // DOM Elements for Shift & Period & Password
+  const btnAdminPw = document.getElementById('btnAdminPw');
+  const btnResetShift = document.getElementById('btnResetShift');
+  const shiftTimeDisplay = document.getElementById('shiftTimeDisplay');
+  const customDtBox = document.getElementById('customDtBox');
+  const dtStart = document.getElementById('dtStart');
+  const dtEnd = document.getElementById('dtEnd');
+  const btnApplyCustomDt = document.getElementById('btnApplyCustomDt');
+  const btnClearCustomDt = document.getElementById('btnClearCustomDt');
+  const activeFilterBanner = document.getElementById('activeFilterBanner');
 
   // Notification state
   let soundEnabled = false;
   let audioContext = null;
   let knownOrderIds = new Set();
   let isFirstLoad = true;
-  let notificationQueue = [];
-  let isShowingNotification = false;
 
   const statusLabels = {
     pending: '\u0641\u064a \u0627\u0644\u0627\u0646\u062a\u0638\u0627\u0631',
@@ -167,66 +178,97 @@
   });
 
   /* ============================================================
-     NOTIFICATION OVERLAY
+     MULTI-WINDOW FLOATING ORDER NOTIFICATIONS (Interactive Dock)
      ============================================================ */
 
-  function showNotificationOverlay(newOrders) {
-    if (newOrders.length === 0) return;
+  function showOrderNotifications(newOrders) {
+    if (!newOrders || newOrders.length === 0 || !notificationsDock) return;
 
-    // Build notification content
-    const order = newOrders[0]; // Show the first new order
-    const remaining = newOrders.length - 1;
-
-    notifTitle.textContent = newOrders.length === 1
-      ? '\u0637\u0644\u0628 \u062c\u062f\u064a\u062f!'
-      : `${newOrders.length} \u0637\u0644\u0628\u0627\u062a \u062c\u062f\u064a\u062f\u0629!`;
-
-    let detailsHtml = `
-      <div><strong>#${order.orderNumber}</strong></div>
-      <div>${order.customerName || '\u0639\u0645\u064a\u0644'}</div>
-      <div>${order.items.length} \u0635\u0646\u0641 \u2014 ${order.totalAmount} \u062c\u0646\u064a\u0647</div>
-    `;
-
-    if (remaining > 0) {
-      detailsHtml += `<div style="margin-top:0.5rem;font-size:0.85rem;color:#FFD700;">+ ${remaining} \u0637\u0644\u0628\u0627\u062a \u062a\u0627\u0646\u064a\u0629</div>`;
-    }
-
-    notifDetails.innerHTML = detailsHtml;
-
-    // Show overlay
-    notificationOverlay.classList.add('active');
-    isShowingNotification = true;
-
-    // Play sound
+    // Play attention sound
     playNotificationSound();
 
-    // Play sound again after 3 seconds if still showing
-    setTimeout(() => {
-      if (isShowingNotification) {
-        playNotificationSound();
-      }
-    }, 3000);
+    newOrders.forEach((order, idx) => {
+      // Avoid duplicate windows for the same order
+      if (document.getElementById(`notifWin_${order._id}`)) return;
+
+      const win = document.createElement('div');
+      win.className = 'order-notif-window';
+      win.id = `notifWin_${order._id}`;
+      win.style.animationDelay = `${idx * 0.12}s`;
+
+      const itemsSummary = (order.items || [])
+        .map(it => `${it.quantity}× ${it.name}${it.variantLabel ? ' (' + it.variantLabel + ')' : ''}`)
+        .join(' ، ');
+
+      win.innerHTML = `
+        <div class="notif-win-header">
+          <div class="notif-win-badge">
+            <span class="bell">🔔</span>
+            <span>طلب جديد</span>
+            <span class="notif-win-num">#${order.orderNumber}</span>
+          </div>
+          <button class="notif-win-close" title="إغلاق النافذة">&times;</button>
+        </div>
+        <div class="notif-win-body">
+          <div class="notif-win-customer">👤 <strong>${order.customerName || 'عميل'}</strong> ${order.customerPhone ? ' — ' + order.customerPhone : ''}</div>
+          <div class="notif-win-items" title="${itemsSummary}">🍽️ ${itemsSummary || 'الأصناف'}</div>
+          <div class="notif-win-total">💰 الإجمالي: ${order.totalAmount} جنيه</div>
+        </div>
+        <div class="notif-win-actions">
+          <button class="notif-btn-print" data-order-id="${order._id}">
+            <span>🖨️</span> قبول وطباعة
+          </button>
+          <button class="notif-btn-view" data-order-id="${order._id}">
+            <span>🔍</span> عرض
+          </button>
+          <button class="notif-btn-dismiss">
+            فهمت ✓
+          </button>
+        </div>
+      `;
+
+      // Handlers
+      const closeWin = () => {
+        win.classList.add('removing');
+        setTimeout(() => win.remove(), 300);
+      };
+
+      // Close & Dismiss buttons
+      win.querySelector('.notif-win-close').addEventListener('click', closeWin);
+      win.querySelector('.notif-btn-dismiss').addEventListener('click', closeWin);
+
+      // Print & Accept button directly from the window!
+      win.querySelector('.notif-btn-print').addEventListener('click', async () => {
+        const btn = win.querySelector('.notif-btn-print');
+        btn.disabled = true;
+        btn.innerHTML = 'جارٍ الطباعة...';
+        try {
+          await CrepeAPI.apiUpdateOrderStatus(order._id, 'accepted');
+          order.status = 'accepted';
+          printThermalTickets(order);
+          closeWin();
+          loadStats();
+          loadOrders();
+        } catch (err) {
+          alert(err.message || 'حدث خطأ أثناء قبول الطلب');
+          btn.disabled = false;
+          btn.innerHTML = '<span>🖨️</span> قبول وطباعة';
+        }
+      });
+
+      // View & Highlight in main list
+      win.querySelector('.notif-btn-view').addEventListener('click', () => {
+        const orderCard = document.querySelector(`[data-card-order-id="${order._id}"]`);
+        if (orderCard) {
+          orderCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          orderCard.classList.add('new-order-highlight');
+          setTimeout(() => orderCard.classList.remove('new-order-highlight'), 3000);
+        }
+      });
+
+      notificationsDock.appendChild(win);
+    });
   }
-
-  function dismissNotification() {
-    notificationOverlay.classList.remove('active');
-    isShowingNotification = false;
-
-    // Process queue
-    if (notificationQueue.length > 0) {
-      const nextBatch = notificationQueue.splice(0);
-      setTimeout(() => showNotificationOverlay(nextBatch), 500);
-    }
-  }
-
-  notifDismissBtn.addEventListener('click', dismissNotification);
-
-  // Also dismiss on Escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && isShowingNotification) {
-      dismissNotification();
-    }
-  });
 
   /* ============================================================
      INIT & NAVIGATION
@@ -296,17 +338,136 @@
   });
 
   /* ============================================================
+     SHIFT & DATE RANGE HELPERS
+     ============================================================ */
+
+  function getShiftStartTime() {
+    let stored = localStorage.getItem(SHIFT_STORAGE_KEY);
+    if (!stored) {
+      const d = new Date();
+      d.setHours(0, 0, 0, 0);
+      stored = d.toISOString();
+      localStorage.setItem(SHIFT_STORAGE_KEY, stored);
+    }
+    return stored;
+  }
+
+  function updateShiftTimeDisplay() {
+    if (!shiftTimeDisplay) return;
+    const shiftStart = new Date(getShiftStartTime());
+    const now = new Date();
+    const isToday = shiftStart.toDateString() === now.toDateString();
+
+    const timeStr = shiftStart.toLocaleTimeString('ar-EG', {
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+
+    if (isToday) {
+      shiftTimeDisplay.textContent = `اليوم منذ ${timeStr}`;
+    } else {
+      const dateStr = shiftStart.toLocaleDateString('ar-EG', {
+        month: 'short',
+        day: 'numeric'
+      });
+      shiftTimeDisplay.textContent = `${dateStr} الساعة ${timeStr}`;
+    }
+  }
+
+  function getDateRangeForPeriod() {
+    const now = new Date();
+
+    if (currentPeriod === 'shift') {
+      return {
+        startDate: getShiftStartTime(),
+        endDate: null,
+        label: 'الوردية الحالية',
+        statSuffix: 'الوردية'
+      };
+    }
+
+    if (currentPeriod === 'today') {
+      const start = new Date(now);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(now);
+      end.setHours(23, 59, 59, 999);
+      return {
+        startDate: start.toISOString(),
+        endDate: end.toISOString(),
+        label: 'اليوم كاملاً',
+        statSuffix: 'اليوم'
+      };
+    }
+
+    if (currentPeriod === 'yesterday') {
+      const start = new Date(now);
+      start.setDate(start.getDate() - 1);
+      start.setHours(0, 0, 0, 0);
+      const end = new Date(now);
+      end.setDate(end.getDate() - 1);
+      end.setHours(23, 59, 59, 999);
+      return {
+        startDate: start.toISOString(),
+        endDate: end.toISOString(),
+        label: 'أمس',
+        statSuffix: 'أمس'
+      };
+    }
+
+    if (currentPeriod === 'custom') {
+      return {
+        startDate: customStartDate,
+        endDate: customEndDate,
+        label: 'فترة مخصصة',
+        statSuffix: 'الفترة المحددة'
+      };
+    }
+
+    // 'all'
+    return {
+      startDate: 'all',
+      endDate: null,
+      label: 'كل الأوقات',
+      statSuffix: 'الكلي'
+    };
+  }
+
+  function updateActiveFilterBanner() {
+    if (!activeFilterBanner) return;
+    if (currentPeriod === 'shift') {
+      activeFilterBanner.style.display = 'none';
+      return;
+    }
+
+    const { label, startDate, endDate } = getDateRangeForPeriod();
+    let text = `<span>📅 أنت تستعرض الآن: <strong>${label}</strong></span>`;
+    if (currentPeriod === 'custom' && startDate) {
+      const sStr = new Date(startDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' });
+      const eStr = endDate ? new Date(endDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : 'الآن';
+      text = `<span>📅 استعراض طلبات وإيرادات الفترة من <strong>${sStr}</strong> إلى <strong>${eStr}</strong></span>`;
+    }
+    activeFilterBanner.innerHTML = text;
+    activeFilterBanner.style.display = 'flex';
+  }
+
+  /* ============================================================
      LOAD STATS
      ============================================================ */
 
   async function loadStats() {
     try {
-      const data = await CrepeAPI.apiGetStats();
+      const { startDate, endDate, statSuffix } = getDateRangeForPeriod();
+      const data = await CrepeAPI.apiGetStats(startDate, endDate);
       if (data.success) {
         document.getElementById('statTotalOrders').textContent = data.stats.totalOrdersToday;
         document.getElementById('statRevenue').textContent = data.stats.totalRevenueToday;
         document.getElementById('statPending').textContent = data.stats.pendingOrders;
         document.getElementById('statPreparing').textContent = data.stats.preparingOrders;
+
+        const statTotalLabel = document.querySelector('#statTotalOrders + .stat-label');
+        const statRevenueLabel = document.querySelector('#statRevenue + .stat-label');
+        if (statTotalLabel) statTotalLabel.textContent = `طلبات ${statSuffix}`;
+        if (statRevenueLabel) statRevenueLabel.textContent = `إيرادات ${statSuffix} (ج)`;
       }
     } catch (error) {
       console.error('Stats error:', error);
@@ -401,10 +562,11 @@
 
   async function loadOrders() {
     try {
-      const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined);
+      const { startDate, endDate } = getDateRangeForPeriod();
+      const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined, startDate, endDate);
       if (!data.success || data.orders.length === 0) {
         currentLoadedOrders = [];
-        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">\u0645\u0641\u064a\u0634 \u0637\u0644\u0628\u0627\u062a</p>';
+        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">\u0644\u0627 \u062a\u0648\u062c\u062f \u0637\u0644\u0628\u0627\u062a \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0641\u062a\u0631\u0629</p>';
         return;
       }
 
@@ -422,14 +584,9 @@
           }
         });
 
-        // Trigger notification for genuinely new orders
+        // Trigger notification windows for genuinely new orders
         if (newOrders.length > 0 && soundEnabled) {
-          if (isShowingNotification) {
-            // Queue them
-            notificationQueue.push(...newOrders);
-          } else {
-            showNotificationOverlay(newOrders);
-          }
+          showOrderNotifications(newOrders);
         }
       }
 
@@ -481,7 +638,7 @@
         const highlightClass = newOrderIdSet.has(order._id) ? ' new-order-highlight' : '';
 
         return `
-          <div class="admin-order-card${highlightClass}">
+          <div class="admin-order-card${highlightClass}" data-card-order-id="${order._id}">
             <div class="order-card-header">
               <div>
                 <span class="order-num">#${order.orderNumber}</span>
@@ -609,8 +766,93 @@
   });
 
   /* ============================================================
+     SHIFT, DATE FILTER & PASSWORD LISTENERS
+     ============================================================ */
+
+  // Admin Change Password
+  if (btnAdminPw) {
+    btnAdminPw.addEventListener('click', () => {
+      CrepeAPI.openChangePasswordModal();
+    });
+  }
+
+  // Reset Shift Button
+  if (btnResetShift) {
+    btnResetShift.addEventListener('click', async () => {
+      const ok = confirm('هل أنت متأكد من تصفير الوردية وبدء شيفت جديد للكاشير؟\nسيتم احتساب الطلبات والإيرادات للوردية الجديدة فقط بدءاً من الآن.');
+      if (!ok) return;
+
+      localStorage.setItem(SHIFT_STORAGE_KEY, new Date().toISOString());
+      currentPeriod = 'shift';
+      document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('.period-tab[data-period="shift"]')?.classList.add('active');
+      if (customDtBox) customDtBox.style.display = 'none';
+
+      updateShiftTimeDisplay();
+      updateActiveFilterBanner();
+      await loadStats();
+      await loadOrders();
+      CrepeAPI.showToast('تم تصفير الوردية وبدء شيفت جديد بنجاح! 🚀', 'success');
+    });
+  }
+
+  // Period Tabs Click
+  document.querySelectorAll('.period-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      const period = tab.dataset.period;
+      if (period === 'custom') {
+        if (customDtBox) {
+          customDtBox.style.display = customDtBox.style.display === 'none' ? 'block' : 'none';
+        }
+        return;
+      }
+      if (customDtBox) customDtBox.style.display = 'none';
+      document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      currentPeriod = period;
+      updateActiveFilterBanner();
+      loadStats();
+      loadOrders();
+    });
+  });
+
+  // Apply Custom Date/Time Range
+  if (btnApplyCustomDt) {
+    btnApplyCustomDt.addEventListener('click', () => {
+      if (!dtStart.value) {
+        alert('يرجى تحديد تاريخ وساعة البداية أولاً');
+        return;
+      }
+      customStartDate = new Date(dtStart.value).toISOString();
+      customEndDate = dtEnd.value ? new Date(dtEnd.value).toISOString() : null;
+      currentPeriod = 'custom';
+      document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tabCustomPeriod')?.classList.add('active');
+      updateActiveFilterBanner();
+      loadStats();
+      loadOrders();
+    });
+  }
+
+  // Clear Custom Date/Time Range
+  if (btnClearCustomDt) {
+    btnClearCustomDt.addEventListener('click', () => {
+      if (dtStart) dtStart.value = '';
+      if (dtEnd) dtEnd.value = '';
+      if (customDtBox) customDtBox.style.display = 'none';
+      currentPeriod = 'shift';
+      document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
+      document.querySelector('.period-tab[data-period="shift"]')?.classList.add('active');
+      updateActiveFilterBanner();
+      loadStats();
+      loadOrders();
+    });
+  }
+
+  /* ============================================================
      START
      ============================================================ */
 
+  updateShiftTimeDisplay();
   init();
 })();

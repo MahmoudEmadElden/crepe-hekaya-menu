@@ -49,6 +49,10 @@
           <span style="font-weight:800;font-size:1rem;">لوحة تحكم كريب حكاية</span>
         </div>
         <div style="display:flex;align-items:center;gap:0.5rem;">
+          <button class="admin-action-pill-btn" id="btnAdminPw" title="تغيير كلمة المرور">
+            <i class="fa-solid fa-key"></i>
+            <span>كلمة المرور</span>
+          </button>
           <button class="admin-sound-btn" id="adminSoundBtn" title="تفعيل صوت الإشعارات">
             <span class="sound-icon" id="soundIcon">🔇</span>
             <span class="sound-label" id="soundLabel">تفعيل الصوت</span>
@@ -60,6 +64,56 @@
 
     <main class="admin-main">
       <div class="container">
+
+        <!-- Shift Control & Date Range Toolbar -->
+        <div class="shift-toolbar">
+          <div class="shift-info-row">
+            <div class="shift-badge">
+              <span class="pulse-dot-live"></span>
+              <span class="shift-title">الوردية الحالية:</span>
+              <span class="shift-time" id="shiftTimeDisplay">جاري التحميل...</span>
+            </div>
+            <button type="button" class="btn-reset-shift" id="btnResetShift" title="تصفير عدادات الطلبات وبدء شيفت جديد للكاشير">
+              <i class="fa-solid fa-rotate-right"></i>
+              <span>تصفير الوردية (بدء شيفت جديد)</span>
+            </button>
+          </div>
+
+          <div class="period-controls">
+            <div class="period-tabs">
+              <button type="button" class="period-tab active" data-period="shift">الوردية الحالية</button>
+              <button type="button" class="period-tab" data-period="today">اليوم كاملاً</button>
+              <button type="button" class="period-tab" data-period="yesterday">أمس</button>
+              <button type="button" class="period-tab" data-period="all">كل الأوقات</button>
+              <button type="button" class="period-tab" data-period="custom" id="tabCustomPeriod">
+                <i class="fa-solid fa-calendar-day"></i> تاريخ / ساعة محددة
+              </button>
+            </div>
+
+            <!-- Custom DateTime Range Inputs -->
+            <div class="custom-dt-box" id="customDtBox" style="display: none;">
+              <div class="custom-dt-inputs">
+                <div class="dt-field">
+                  <label for="dtStart">من (تاريخ وساعة):</label>
+                  <input type="datetime-local" id="dtStart">
+                </div>
+                <div class="dt-field">
+                  <label for="dtEnd">إلى (تاريخ وساعة):</label>
+                  <input type="datetime-local" id="dtEnd">
+                </div>
+                <button type="button" class="btn-apply-dt" id="btnApplyCustomDt">
+                  <i class="fa-solid fa-magnifying-glass"></i> تطبيق الفلترة
+                </button>
+                <button type="button" class="btn-clear-dt" id="btnClearCustomDt">
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filter Alert Banner -->
+        <div class="active-filter-banner" id="activeFilterBanner" style="display:none;"></div>
 
         <!-- Stats Bar -->
         <div class="stats-bar" id="statsBar">
@@ -128,7 +182,7 @@
       <div class="ticket-header">
         <div class="receipt-logo">كريب حكاية</div>
         <div class="receipt-subtitle">Crepe Hekaya — طعم لا يقاوم</div>
-        <div class="receipt-contact">ت: 01020612755 - 01027202324</div>
+        <div class="receipt-contact">ت: 01064319292 - 01004929725</div>
         <div class="ticket-divider">================================</div>
         <div class="receipt-order-info">
           <div>رقم الطلب: <strong id="ctOrderNum">#000</strong></div>
@@ -171,15 +225,8 @@
     </div>
   </div>
 
-  <!-- New Order Notification Overlay -->
-  <div class="notification-overlay" id="notificationOverlay">
-    <div class="notification-popup">
-      <div class="notification-icon">🔔</div>
-      <div class="notification-title" id="notifTitle">طلب جديد!</div>
-      <div class="notification-details" id="notifDetails"></div>
-      <button class="notification-dismiss-btn" id="notifDismissBtn">فهمت ✓</button>
-    </div>
-  </div>
+  <!-- Multi-Window Floating Order Notifications Dock -->
+  <div class="admin-notifications-dock" id="adminNotificationsDock" aria-live="polite"></div>
 
   <script src="js/api.js"></script>
   <script src="js/admin.js"></script>
