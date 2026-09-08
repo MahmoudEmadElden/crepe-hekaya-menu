@@ -42,7 +42,9 @@
   let soundEnabled = false;
   let audioContext = null;
   let knownOrderIds = new Set();
+  let alertedOrderIds = new Set();
   let isFirstLoad = true;
+  let isSwitchingPeriod = false;
 
   const statusLabels = {
     pending: '\u0641\u064a \u0627\u0644\u0627\u0646\u062a\u0638\u0627\u0631',
@@ -183,6 +185,7 @@
 
   function showOrderNotifications(newOrders) {
     if (!newOrders || newOrders.length === 0 || !notificationsDock) return;
+    if (currentPeriod !== 'shift' || isSwitchingPeriod) return;
 
     // Play attention sound
     playNotificationSound();
@@ -566,33 +569,54 @@
       const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined, startDate, endDate);
       if (!data.success || data.orders.length === 0) {
         currentLoadedOrders = [];
-        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">\u0644\u0627 \u062a\u0648\u062c\u062f \u0637\u0644\u0628\u0627\u062a \u0641\u064a \u0647\u0630\u0647 \u0627\u0644\u0641\u062a\u0631\u0629</p>';
+        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">لا توجد طلبات في هذه الفترة</p>';
+        isFirstLoad = false;
+        isSwitchingPeriod = false;
         return;
       }
 
       currentLoadedOrders = data.orders;
 
-      // ---- Detect new orders ----
-      const currentIds = new Set(data.orders.map(o => o._id));
+      // ---- Detect genuinely new incoming orders ----
+      // Rules for firing alarms & notification windows:
+      // 1. Must be active shift view (currentPeriod === 'shift')
+      // 2. Must NOT be initial page load or switching periods
+      // 3. Sound must be enabled
+      // 4. Order must be 'pending' status
+      // 5. Order must NOT have been alerted before
+      // 6. Order must be recently created (within last 15 minutes)
       const newOrders = [];
 
-      if (!isFirstLoad) {
-        // Find orders that we haven't seen before
+      if (currentPeriod === 'shift' && !isFirstLoad && !isSwitchingPeriod) {
+        const nowMs = Date.now();
         data.orders.forEach(order => {
-          if (!knownOrderIds.has(order._id)) {
+          if (order.status !== 'pending') return;
+          if (alertedOrderIds.has(order._id)) return;
+          const createdMs = new Date(order.createdAt).getTime();
+          if (!isNaN(createdMs) && (nowMs - createdMs < 15 * 60 * 1000)) {
             newOrders.push(order);
           }
         });
 
-        // Trigger notification windows for genuinely new orders
-        if (newOrders.length > 0 && soundEnabled) {
-          showOrderNotifications(newOrders);
+        if (newOrders.length > 0) {
+          newOrders.forEach(o => alertedOrderIds.add(o._id));
+          if (soundEnabled) {
+            showOrderNotifications(newOrders);
+          }
         }
       }
 
-      // Update known IDs
-      knownOrderIds = currentIds;
+      // Mark all orders as known
+      data.orders.forEach(order => {
+        knownOrderIds.add(order._id);
+        if (currentPeriod !== 'shift') {
+          // If viewing historical orders, permanently mark them as alerted so returning to shift never alarms on them
+          alertedOrderIds.add(order._id);
+        }
+      });
+
       isFirstLoad = false;
+      isSwitchingPeriod = false;
 
       // ---- Render orders ----
       const newOrderIdSet = new Set(newOrders.map(o => o._id));
@@ -784,6 +808,25 @@
 
       localStorage.setItem(SHIFT_STORAGE_KEY, new Date().toISOString());
       currentPeriod = 'shift';
+      isSwitchingPeriod = true;
+      knownOrderIds.clear();
+
+      // 1. Instantly zero out stats optimistically
+      const statTotalOrders = document.getElementById('statTotalOrders');
+      const statRevenue = document.getElementById('statRevenue');
+      const statPending = document.getElementById('statPending');
+      const statPreparing = document.getElementById('statPreparing');
+      if (statTotalOrders) statTotalOrders.textContent = '0';
+      if (statRevenue) statRevenue.textContent = '0';
+      if (statPending) statPending.textContent = '0';
+      if (statPreparing) statPreparing.textContent = '0';
+
+      // 2. Clear notifications dock & orders list immediately
+      if (notificationsDock) notificationsDock.innerHTML = '';
+      if (ordersList) {
+        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">بدأت وردية جديدة. في انتظار الطلبات الجديدة... ⏳</p>';
+      }
+
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
       document.querySelector('.period-tab[data-period="shift"]')?.classList.add('active');
       if (customDtBox) customDtBox.style.display = 'none';
@@ -810,6 +853,7 @@
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       currentPeriod = period;
+      isSwitchingPeriod = true;
       updateActiveFilterBanner();
       loadStats();
       loadOrders();
@@ -826,6 +870,7 @@
       customStartDate = new Date(dtStart.value).toISOString();
       customEndDate = dtEnd.value ? new Date(dtEnd.value).toISOString() : null;
       currentPeriod = 'custom';
+      isSwitchingPeriod = true;
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
       document.getElementById('tabCustomPeriod')?.classList.add('active');
       updateActiveFilterBanner();
@@ -841,6 +886,7 @@
       if (dtEnd) dtEnd.value = '';
       if (customDtBox) customDtBox.style.display = 'none';
       currentPeriod = 'shift';
+      isSwitchingPeriod = true;
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
       document.querySelector('.period-tab[data-period="shift"]')?.classList.add('active');
       updateActiveFilterBanner();

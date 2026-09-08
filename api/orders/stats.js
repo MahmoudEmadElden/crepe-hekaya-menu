@@ -14,7 +14,9 @@ module.exports = async function handler(req, res) {
 
   try {
     const decoded = verifyToken(req.headers.authorization);
-    requireRole(decoded, 'admin');
+    if (decoded.role !== 'admin' && decoded.role !== 'cashier') {
+      return res.status(403).json({ success: false, message: 'غير مصرح لك بالوصول' });
+    }
 
     await connectDB();
 

@@ -32,7 +32,7 @@ module.exports = async function handler(req, res) {
       }
 
       // Customer can only view their own orders
-      if (decoded.role !== 'admin' && order.customer.toString() !== decoded.userId) {
+      if (decoded.role !== 'admin' && decoded.role !== 'cashier' && order.customer.toString() !== decoded.userId) {
         return res.status(403).json({
           success: false,
           message: 'غير مصرح لك بعرض هذا الطلب'
@@ -43,7 +43,9 @@ module.exports = async function handler(req, res) {
     }
 
     if (req.method === 'PATCH') {
-      requireRole(decoded, 'admin');
+      if (decoded.role !== 'admin' && decoded.role !== 'cashier') {
+        return res.status(403).json({ success: false, message: 'غير مصرح لك بتحديث حالة الطلب' });
+      }
 
       const { status } = req.body;
       const validStatuses = ['pending', 'accepted', 'preparing', 'ready', 'delivered', 'cancelled'];

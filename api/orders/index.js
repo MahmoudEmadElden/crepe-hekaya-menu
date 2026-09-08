@@ -24,8 +24,8 @@ module.exports = async function handler(req, res) {
 
     let filter = {};
 
-    if (decoded.role === 'admin') {
-      // Admin can filter by status
+    if (decoded.role === 'admin' || decoded.role === 'cashier') {
+      // Admin/cashier can filter by status
       if (req.query.status) {
         filter.status = req.query.status;
       }
