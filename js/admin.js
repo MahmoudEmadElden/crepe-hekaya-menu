@@ -294,9 +294,20 @@
     if (refreshInterval) clearInterval(refreshInterval);
   }
 
-  function showDashboard() {
+  async function showDashboard() {
     loginScreen.style.display = 'none';
     dashboard.style.display = 'block';
+
+    try {
+      const shiftData = await CrepeAPI.apiGetShift();
+      if (shiftData && shiftData.shiftStart) {
+        localStorage.setItem(SHIFT_STORAGE_KEY, shiftData.shiftStart);
+      }
+    } catch (e) {
+      console.warn('Could not sync shift from server:', e);
+    }
+
+    updateShiftTimeDisplay();
     isFirstLoad = true;
     knownOrderIds.clear();
     loadStats();
@@ -384,6 +395,7 @@
       return {
         startDate: getShiftStartTime(),
         endDate: null,
+        period: 'shift',
         label: 'الوردية الحالية',
         statSuffix: 'الوردية'
       };
@@ -459,8 +471,8 @@
 
   async function loadStats() {
     try {
-      const { startDate, endDate, statSuffix } = getDateRangeForPeriod();
-      const data = await CrepeAPI.apiGetStats(startDate, endDate);
+      const { startDate, endDate, period, statSuffix } = getDateRangeForPeriod();
+      const data = await CrepeAPI.apiGetStats(startDate, endDate, period);
       if (data.success) {
         document.getElementById('statTotalOrders').textContent = data.stats.totalOrdersToday;
         document.getElementById('statRevenue').textContent = data.stats.totalRevenueToday;
@@ -565,8 +577,8 @@
 
   async function loadOrders() {
     try {
-      const { startDate, endDate } = getDateRangeForPeriod();
-      const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined, startDate, endDate);
+      const { startDate, endDate, period } = getDateRangeForPeriod();
+      const data = await CrepeAPI.apiGetOrders(1, 50, currentFilter || undefined, startDate, endDate, period);
       if (!data.success || data.orders.length === 0) {
         currentLoadedOrders = [];
         ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">لا توجد طلبات في هذه الفترة</p>';
@@ -806,7 +818,15 @@
       const ok = confirm('هل أنت متأكد من تصفير الوردية وبدء شيفت جديد للكاشير؟\nسيتم احتساب الطلبات والإيرادات للوردية الجديدة فقط بدءاً من الآن.');
       if (!ok) return;
 
-      localStorage.setItem(SHIFT_STORAGE_KEY, new Date().toISOString());
+      try {
+        const res = await CrepeAPI.apiResetShift();
+        if (res && res.shiftStart) {
+          localStorage.setItem(SHIFT_STORAGE_KEY, res.shiftStart);
+        }
+      } catch (err) {
+        console.warn('Server shift reset fallback:', err);
+        localStorage.setItem(SHIFT_STORAGE_KEY, new Date().toISOString());
+      }
       currentPeriod = 'shift';
       isSwitchingPeriod = true;
       knownOrderIds.clear();
