@@ -225,9 +225,10 @@
     });
   }
 
-  async function apiGetOrders(page, limit, status, startDate, endDate) {
+  async function apiGetOrders(page, limit, status, startDate, endDate, period) {
     let query = `?page=${page || 1}&limit=${limit || 50}`;
     if (status) query += `&status=${status}`;
+    if (period) query += `&period=${encodeURIComponent(period)}`;
     if (startDate) query += `&startDate=${encodeURIComponent(startDate)}`;
     if (endDate) query += `&endDate=${encodeURIComponent(endDate)}`;
     return await apiFetch(`/orders${query}`, { method: 'GET' });
@@ -244,13 +245,22 @@
     });
   }
 
-  async function apiGetStats(startDate, endDate) {
+  async function apiGetStats(startDate, endDate, period) {
     let query = '';
     const params = [];
+    if (period) params.push(`period=${encodeURIComponent(period)}`);
     if (startDate) params.push(`startDate=${encodeURIComponent(startDate)}`);
     if (endDate) params.push(`endDate=${encodeURIComponent(endDate)}`);
     if (params.length > 0) query = '?' + params.join('&');
     return await apiFetch(`/orders/stats${query}`, { method: 'GET' });
+  }
+
+  async function apiResetShift() {
+    return await apiFetch('/orders/shift', { method: 'POST' });
+  }
+
+  async function apiGetShift() {
+    return await apiFetch('/orders/shift', { method: 'GET' });
   }
 
   /* ===========================
@@ -385,6 +395,7 @@
     // Orders
     apiCreateOrder, apiGetOrders, apiGetOrder,
     apiUpdateOrderStatus, apiGetStats,
+    apiResetShift, apiGetShift,
 
     // UI
     showToast
