@@ -3,6 +3,7 @@
  */
 const { connectDB } = require('../_lib/db');
 const Order = require('../_lib/models/Order');
+const Counter = require('../_lib/models/Counter');
 const { verifyToken, requireRole, handleCors } = require('../_lib/auth-middleware');
 
 module.exports = async function handler(req, res) {
@@ -25,6 +26,10 @@ module.exports = async function handler(req, res) {
     if (req.query.all === 'true' || req.query.startDate === 'all') {
       // All-time: no date filter
       rangeFilter = {};
+    } else if (req.query.period === 'shift' || req.query.startDate === 'shift') {
+      const shiftDoc = await Counter.findById('currentShift');
+      const shiftStart = shiftDoc?.shiftStart || new Date(new Date().setHours(0, 0, 0, 0));
+      rangeFilter.createdAt = { $gte: shiftStart };
     } else if (req.query.startDate || req.query.endDate) {
       const dateFilter = {};
       if (req.query.startDate) {
