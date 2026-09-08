@@ -2,450 +2,261 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>هشام فؤاد — ملك الكريب في أسيوط | Hesham Fouad King of Crepe</title>
-  <meta name="description" content="أجود وأضخم كريب في أسيوط معمول بحب وعناية. كريب الوحش، الزنجر، الستيك، وميكسات الأجبان السايحة مع خصم 15% بمناسبة الافتتاح.">
+  <meta name="description" content="أجود وأضخم كريب في محافظة أسيوط معمول بحب وعناية. استمتع بأشهى كريبات الوحش والدجاج واللحوم والأجبان السايحة.">
+  <meta name="theme-color" content="#031215">
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
 
+  <!-- Google Fonts (Cairo & Outfit) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
   <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-  <!-- Main Retro-Modern Stylesheet -->
+  <!-- Main Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
-<body>
+<body class="landing-page-body">
 
-  <!-- Top Announcement Ribbon -->
-  <div class="top-bar">
-    <span class="tag">عرض الافتتاح</span>
-    <span>خصم 15% على جميع الأصناف طوال فترة التشغيل التجريبي بمحافظة أسيوط</span>
-  </div>
-
-  <!-- Minimalist Clean Navbar (No cluttered tabs!) -->
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="index.html" class="brand-logo">
-        <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب">
-        <div class="brand-text">
-          <h1>هشام فؤاد</h1>
-          <span><i class="fas fa-crown"></i> ملك الكريب</span>
+  <!-- Top Navbar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      
+      <!-- Brand Logo & Name -->
+      <a href="index.html" class="nav-brand" aria-label="هشام فؤاد الرئيسية">
+        <div class="brand-crepe-icon">
+          <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب" class="brand-logo-img">
+        </div>
+        <div class="brand-names">
+          <span class="brand-ar">هشام فؤاد</span>
+          <span class="brand-en"><i class="fas fa-crown" style="color:var(--accent-gold);margin-left:4px;"></i> KING OF CREPE</span>
         </div>
       </a>
 
-      <!-- Quick Action Buttons Only -->
+
+      <!-- Left Status & Info -->
       <div class="nav-actions">
-        <a href="tel:01554006656" class="nav-phone-link">
-          <i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i>
+        <div class="nav-time-badge" aria-label="مواعيد العمل">
+          <span class="status-pulse-dot"></span>
+          <span class="time-text-prefix">يومياً</span>
+          <span class="time-text-digits">12:00 م - 3:00 ص</span>
+        </div>
+
+        <a href="tel:01554006656" class="nav-phone-btn" title="اتصل بالمطعم">
+          <i class="fas fa-phone-alt"></i>
           <span>01554006656</span>
         </a>
-        <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AC%D8%AF%D9%8A%D8%AF" target="_blank" class="btn-pill-whatsapp">
-          <i class="fab fa-whatsapp"></i>
-          <span>اطلب واتساب</span>
+
+        <!-- Cart Icon -->
+        <a href="cart.html" class="nav-cart-btn" aria-label="السلة">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="9" cy="21" r="1"></circle>
+            <circle cx="20" cy="21" r="1"></circle>
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+          </svg>
+          <span class="cart-badge" id="cartBadge" style="display:none;">0</span>
         </a>
-        <a href="cart.html" class="btn-cart-nav" aria-label="سلة المشتريات">
-          <i class="fas fa-shopping-bag"></i>
-          <span class="cart-badge">0</span>
-        </a>
-      </div>
-    </div>
-  </nav>
 
-  <!-- ==========================================================================
-       HERO TOP SECTION: LIVE VIDEO REELS AT THE TOP!
-       (الفيديوهات في أول الصفحة مباشرة + تفاصيل بسيطة)
-       ========================================================================== -->
-  <header class="hero-top-section">
-    <div class="container">
-      <h1 class="hero-chunky-title">
-        هشام فؤاد — ملك الكريب<br>
-        <span class="outline-word">في محافظة أسيوط</span>
-      </h1>
-      <p class="hero-lead-text">
-        شاهد كواليس تحضير أضخم كريب محشو باللحوم والدواجن البلدي الطازجة وشلال الأجبان السايحة
-      </p>
-
-      <!-- 3 Video Reels right at the top of the page -->
-      <div class="top-reels-row">
-        <!-- Reel 1 -->
-        <div class="top-reel-card">
-          <video src="assets/videos/reel-1.mp4" playsinline loop muted></video>
-          <div class="top-reel-overlay">
-            <h4>تحضير كريب الوحش المخصوص</h4>
-            <button class="btn-reel-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
-          </div>
-        </div>
-
-        <!-- Reel 2 -->
-        <div class="top-reel-card">
-          <video src="assets/videos/reel-2.mp4" playsinline loop muted></video>
-          <div class="top-reel-overlay">
-            <h4>شلال الجبنة والصوصات الفاخرة</h4>
-            <button class="btn-reel-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
-          </div>
-        </div>
-
-        <!-- Reel 3 -->
-        <div class="top-reel-card">
-          <video src="assets/videos/reel-3.mp4" playsinline loop muted></video>
-          <div class="top-reel-overlay">
-            <h4>إبداع الشيف هشام ملك الكريب</h4>
-            <button class="btn-reel-sound" aria-label="الصوت"><i class="fas fa-volume-mute"></i></button>
-          </div>
+        <!-- Auth Button / Profile -->
+        <div id="navAuthContainer">
+          <a href="auth.html" class="nav-auth-btn" id="navAuthBtn" aria-label="تسجيل الدخول">
+            <i class="fas fa-user"></i>
+            <span id="authBtnText">دخول</span>
+          </a>
         </div>
       </div>
 
-      <!-- ======================================================================
-           THE TWO MAIN CENTER TABS (التابين اللي في النص: تصفح المنيو / اطلب الآن)
-           ====================================================================== -->
-      <div class="center-tabs-wrapper">
-        <button class="center-tab-btn active" id="tab-btn-menu" onclick="switchMainTab('menu')">
-          <i class="fas fa-book-open"></i>
-          <span>تصفح قائمة الطعام (المنيو)</span>
-        </button>
-        <button class="center-tab-btn" id="tab-btn-order" onclick="switchMainTab('order')">
-          <i class="fas fa-motorcycle"></i>
-          <span>اطلب دليفري سريع</span>
-        </button>
-      </div>
     </div>
   </header>
 
-  <!-- ==========================================================================
-       PANEL 1: THE FULL BUNBITE-STYLE MENU (Active by default)
-       ========================================================================== -->
-  <main id="panel-menu" class="main-tab-panel active">
-    <!-- Golden Marquee Ticker Ribbon -->
-    <div class="ticker-ribbon">
-      <div class="ticker-track">
-        <div class="ticker-item">
-          <span class="ticker-star">✦</span>
-          <span>كريب هشام فؤاد</span>
-          <span class="ticker-star">✦</span>
-          <span>خلطة سرية وتتبيلة خاصة</span>
-          <span class="ticker-star">✦</span>
-          <span>أضخم حجم في أسيوط</span>
-          <span class="ticker-star">✦</span>
-          <span>شلال جبنة شيدر وموتزاريلا</span>
-          <span class="ticker-star">✦</span>
-          <span>خصم 15% طوال الافتتاح</span>
-          <span class="ticker-star">✦</span>
-          <span>دجاج ولحوم بلدي طازجة</span>
-          <span class="ticker-star">✦</span>
-          <span>توصيل سريع لجميع المناطق</span>
+  <!-- Dedicated Standalone Landing Hero (100vh Viewport) -->
+  <main class="landing-hero-wrapper">
+    <!-- Atmospheric Ambient Background -->
+    <div class="landing-hero-bg"></div>
+    <div class="landing-hero-vignette"></div>
+
+    <div class="container landing-hero-container">
+      
+      <!-- Centered Brand Card -->
+      <div class="landing-brand-card">
+        <div class="landing-tag-badge">
+          <span class="tag-dot"></span>
+          <span class="tag-text">HESHAM FOUAD • KING OF CREPE</span>
         </div>
-        <div class="ticker-item">
-          <span class="ticker-star">✦</span>
-          <span>كريب هشام فؤاد</span>
-          <span class="ticker-star">✦</span>
-          <span>خلطة سرية وتتبيلة خاصة</span>
-          <span class="ticker-star">✦</span>
-          <span>أضخم حجم في أسيوط</span>
-          <span class="ticker-star">✦</span>
-          <span>شلال جبنة شيدر وموتزاريلا</span>
-          <span class="ticker-star">✦</span>
-          <span>خصم 15% طوال الافتتاح</span>
-          <span class="ticker-star">✦</span>
-          <span>دجاج ولحوم بلدي طازجة</span>
-          <span class="ticker-star">✦</span>
-          <span>توصيل سريع لجميع المناطق</span>
+
+        <h1 class="landing-title">هشام فؤاد</h1>
+        <p class="landing-catchphrase">
+          <i class="fas fa-crown" style="color:var(--accent-gold);margin-left:6px;"></i>
+          ملك الكريب في محافظة أسيوط
+        </p>
+        <p class="landing-description">أضخم كريب معمول بحب وعناية في أسيوط، بأعلى جودة حشو طازج يومياً وخلطات تتبيلة خاصة وشلال أجبان سايحة</p>
+
+        <!-- Two Distinct Action Buttons -->
+        <div class="landing-actions-row">
+          <a href="menu.html" class="btn-landing-order" id="landingMenuBtn">
+            <span class="btn-main-text">تصفح المنيو</span>
+            <span class="btn-sub-text">استعراض كافة الأصناف والأسعار</span>
+          </a>
+          <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A" target="_blank" class="btn-landing-browse" id="landingOrderBtn">
+            <span class="btn-main-text">اطلب دليفري سريع</span>
+            <span class="btn-sub-text">مباشرة عبر واتساب المطعم</span>
+          </a>
         </div>
       </div>
+
+      <!-- Bottom Info Strip -->
+      <div class="landing-bottom-strip">
+        <div class="strip-card">
+          <div class="strip-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="3" width="15" height="13"></rect>
+              <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+              <circle cx="5.5" cy="18.5" r="2.5"></circle>
+              <circle cx="18.5" cy="18.5" r="2.5"></circle>
+            </svg>
+          </div>
+          <div class="strip-info">
+            <h3 class="strip-title">خدمة التوصيل بأسيوط</h3>
+            <p class="strip-subtitle">توصيل سريع وساخن: 01554006656 / 01038945555</p>
+          </div>
+        </div>
+
+        <div class="strip-card">
+          <div class="strip-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+          </div>
+          <div class="strip-info">
+            <h3 class="strip-title">ساعات العمل</h3>
+            <p class="strip-subtitle">يومياً من 12:00 ظهراً حتى 3:00 فجراً</p>
+          </div>
+        </div>
+
+        <div class="strip-card">
+          <div class="strip-icon-circle">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="strip-info">
+            <h3 class="strip-title">عنوان المحل</h3>
+            <p class="strip-subtitle">أسيوط — شارع المحافظة بجوار الفانوس أمام مستشفى طيبة</p>
+          </div>
+        </div>
+      </div>
+
     </div>
-
-    <!-- 1. BEST SELLERS (3 Colorful Cards with Pop-out Food) -->
-    <section class="section-best-sellers">
-      <div class="container">
-        <div class="sec-head-row">
-          <div>
-            <h2 class="sec-title-chunky">الأكثر مبيعاً</h2>
-            <p class="sec-subtitle-clean">الأصناف الأكثر طلباً وشهرة لدى زبائننا في محافظة أسيوط</p>
-          </div>
-        </div>
-
-        <div class="best-sellers-grid">
-          <!-- Card 1: Theme Gold (كريب الوحش) -->
-          <div class="bs-card theme-gold">
-            <div class="bs-card-img-pop">
-              <img src="assets/images/hesham-holding-crepe.png" alt="كريب الوحش">
-            </div>
-            <div>
-              <div class="bs-stars">★★★★★</div>
-              <h3 class="bs-title">كريب الوحش المخصوص</h3>
-              <p class="bs-desc">مكس استيك مشوي + شيش طاووق + كفتة مشوية + روز بيف مدخن وصوص تكساس الأصلي.</p>
-            </div>
-            <div>
-              <div class="bs-price-tag">150 ج.م</div>
-              <button class="btn-card-add" onclick="window.HeshamFouadApp.openCustomizer('hesham-fouad-signature')">
-                <i class="fas fa-shopping-bag"></i>
-                <span>أضف للسلة</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 2: Theme Red (كريب زنجر سوبر سوبريم) -->
-          <div class="bs-card theme-red">
-            <div class="bs-card-img-pop">
-              <img src="assets/images/crispy-chicken-crepe.png" alt="كريب زنجر">
-            </div>
-            <div>
-              <div class="bs-stars" style="color: #FED788;">★★★★★</div>
-              <h3 class="bs-title">كريب زنجر سوبر سوبريم</h3>
-              <p class="bs-desc">قطع دجاج زنجر مقرمشة سبايسي مع تركي مدخن وصوص شيدر سايح وصوص مايونيز باربكيو.</p>
-            </div>
-            <div>
-              <div class="bs-price-tag">115 ج.م</div>
-              <button class="btn-card-add" onclick="window.HeshamFouadApp.openCustomizer('chicken-zinger-supreme')">
-                <i class="fas fa-shopping-bag"></i>
-                <span>أضف للسلة</span>
-              </button>
-            </div>
-          </div>
-
-          <!-- Card 3: Theme Teal (كريب ميلانو الفاخر) -->
-          <div class="bs-card theme-teal">
-            <div class="bs-card-img-pop">
-              <img src="assets/images/trio-crepe.png" alt="كريب ميلانو">
-            </div>
-            <div>
-              <div class="bs-stars">★★★★★</div>
-              <h3 class="bs-title">كريب ميلانو الفاخر</h3>
-              <p class="bs-desc">استربس كرسبي مع هوت دوج فرانكفورتر وتركي مدخن وشاورما دجاج سوري وميكس أجبان.</p>
-            </div>
-            <div>
-              <div class="bs-price-tag">130 ج.م</div>
-              <button class="btn-card-add" onclick="window.HeshamFouadApp.openCustomizer('mix-milano')">
-                <i class="fas fa-shopping-bag"></i>
-                <span>أضف للسلة</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 2. DISCOVER OUR MENUS (Exact Match to BunBite Accordion Showcase) -->
-    <section class="section-menus-accordion">
-      <div class="container">
-        <div style="text-align: center; max-width: 650px; margin: 0 auto 3rem;">
-          <h2 class="sec-title-chunky" style="color: var(--teal-deep);">استكشف قائمة الطعام</h2>
-          <p class="sec-subtitle-clean" style="color: var(--text-muted-dark);">اختر القسم المطلوب لتصفح أشهى الكريبات مع الأسعار والإضافات</p>
-        </div>
-
-        <div class="accordion-container">
-          <!-- Dynamic Accordion Menu rendered by app.js -->
-          <div id="category-accordion-wrapper" class="cat-pill-bar">
-            <!-- Filled dynamically -->
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
-  <!-- ==========================================================================
-       PANEL 2: DIRECT DELIVERY ORDER & CONTACT (اطلب دليفري سريع)
-       ========================================================================== -->
-  <section id="panel-order" class="main-tab-panel section-order-delivery">
-    <div class="container">
-      <div class="order-box-card">
-        <div class="order-box-grid">
-          <!-- Order Form -->
-          <div>
-            <h2 style="font-family: var(--font-display); font-size: 2rem; color: var(--teal-deep); margin-bottom: 0.5rem;">
-              طلب دليفري مباشر في أسيوط
-            </h2>
-            <p style="color: var(--text-muted-dark); font-size: 0.95rem; margin-bottom: 1.75rem;">
-              املأ بياناتك وسيتم تجهيز رسالة واتساب فورية منسقة بطلبك ومكان توصيلك
-            </p>
-
-            <form id="quick-delivery-form" onsubmit="event.preventDefault(); submitDirectWhatsApp();">
-              <div class="form-group-custom">
-                <label>الاسم بالكامل *</label>
-                <input type="text" id="direct-cust-name" placeholder="اكتب اسمك ثلاثي" required>
-              </div>
-
-              <div class="form-group-custom">
-                <label>رقم الموبايل *</label>
-                <input type="tel" id="direct-cust-phone" placeholder="01xxxxxxxxx" required>
-              </div>
-
-              <div class="form-group-custom">
-                <label>عنوان التوصيل بالتفصيل بأسيوط *</label>
-                <input type="text" id="direct-cust-address" placeholder="اسم الشارع، رقم العمارة، علامة مميزة" required>
-              </div>
-
-              <div class="form-group-custom">
-                <label>الأصناف المطلوبة أو ملاحظات للشيف</label>
-                <input type="text" id="direct-cust-notes" placeholder="مثال: 2 كريب الوحش + 1 كريب زنجر سبايسي...">
-              </div>
-
-              <button type="submit" class="btn-submit-wa-order">
-                <i class="fab fa-whatsapp" style="font-size: 1.4rem;"></i>
-                <span>إرسال الطلب عبر واتساب للشيف مباشرة</span>
-              </button>
-            </form>
-          </div>
-
-          <!-- Location & Phones Info -->
-          <div style="border-right: 1px solid var(--cream-border); padding-right: 2rem;">
-            <span style="background: var(--accent-gold); color: #000; padding: 0.25rem 0.85rem; border-radius: var(--radius-full); font-family: var(--font-display); font-size: 0.82rem; font-weight: 800;">فرع أسيوط</span>
-            <h3 style="font-family: var(--font-display); font-size: 1.6rem; color: var(--teal-deep); margin: 0.85rem 0 1.25rem;">
-              معلومات التوصيل والفرع
-            </h3>
-
-            <div style="margin-bottom: 1.25rem;">
-              <h4 style="font-family: var(--font-display); font-size: 1.1rem; color: var(--teal-deep);"><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> العنوان:</h4>
-              <p style="color: var(--text-muted-dark); font-size: 0.92rem; margin-top: 2px;">أسيوط — شارع المحافظة بجوار الفانوس أمام مستشفى طيبة</p>
-            </div>
-
-            <div style="margin-bottom: 1.25rem;">
-              <h4 style="font-family: var(--font-display); font-size: 1.1rem; color: var(--teal-deep);"><i class="fas fa-clock" style="color: var(--accent-gold);"></i> مواعيد العمل:</h4>
-              <p style="color: var(--text-muted-dark); font-size: 0.92rem; margin-top: 2px;">يومياً من 12:00 ظهراً حتى 3:00 فجراً</p>
-            </div>
-
-            <div style="margin-bottom: 1.5rem;">
-              <h4 style="font-family: var(--font-display); font-size: 1.1rem; color: var(--teal-deep);"><i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i> أرقام الدليفري السريع:</h4>
-              <div style="display: flex; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap;">
-                <a href="tel:01554006656" class="nav-phone-link" style="background: var(--cream-surface); color: var(--teal-deep);">01554006656</a>
-                <a href="tel:01038945555" class="nav-phone-link" style="background: var(--cream-surface); color: var(--teal-deep);">01038945555</a>
-              </div>
-            </div>
-
-            <img src="assets/images/hesham-storefront.png" alt="محل هشام فؤاد" style="width: 100%; border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ==========================================================================
-       FOOTER
-       ========================================================================== -->
-  <footer class="footer-bunbite">
-    <div class="container">
-      <div class="footer-top-grid">
-        <div class="footer-brand-col">
-          <h2>هشام فؤاد — ملك الكريب</h2>
-          <p>
-            أجود تجربة كريب في محافظة أسيوط. أضخم حجم كريب، أعلى نسبة حشو من اللحوم والدجاج البلدي الطازج، وصوصات مبتكرة تقدم لكم بأعلى معايير النظافة والاحترافية.
-          </p>
-        </div>
-
-        <div class="footer-col">
-          <h3>أقسام المنيو</h3>
-          <ul>
-            <li>كريب الوحش والميكسات</li>
-            <li>كريب الدجاج المقرمش</li>
-            <li>كريب اللحوم والستيك</li>
-            <li>كريب الحلو والنوتيلا</li>
-          </ul>
-        </div>
-
-        <div class="footer-col">
-          <h3>تواصل معنا بأسيوط</h3>
-          <ul>
-            <li>شارع المحافظة بجوار الفانوس</li>
-            <li>01554006656 / 01038945555</li>
-            <li>توصيل سريع طوال اليوم</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="footer-bottom-bar">
-        <p>جميع الحقوق محفوظة © 2026 مطعم هشام فؤاد ملك الكريب — أسيوط</p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Customization Modal (Addons, Sauces & Notes) -->
-  <div id="customizer-modal" class="modal-overlay">
-    <div class="modal-content">
-      <span class="modal-close"><i class="fas fa-times"></i></span>
-
-      <div style="margin-bottom: 1.25rem; border-bottom: 1px solid var(--cream-border); padding-bottom: 1rem;">
-        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem;">
-          <h3 id="modal-item-name" style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 800; color: var(--teal-deep); line-height: 1.2;">اسم الصنف</h3>
-          <span id="modal-item-price" style="font-size: 1.4rem; font-weight: 900; color: var(--accent-gold-dark); font-family: var(--font-numbers); flex-shrink: 0;">0 ج.م</span>
-        </div>
-        <p id="modal-item-desc" style="font-size: 0.9rem; color: var(--text-muted-dark); line-height: 1.6; margin-top: 0.5rem; margin-bottom: 0;"></p>
-      </div>
-
-      <h4 class="modal-sec-title"><i class="fas fa-plus-circle"></i> إكسترا وحشو إضافي</h4>
-      <div id="modal-addons-list"></div>
-
-      <h4 class="modal-sec-title"><i class="fas fa-pepper-hot"></i> الصوصات الإضافية</h4>
-      <div id="modal-sauces-list"></div>
-
-      <h4 class="modal-sec-title"><i class="fas fa-pen"></i> ملاحظات خاصة للشيف</h4>
-      <input type="text" id="modal-notes" placeholder="مثال: تسوية مقرمشة، بدون بصل، صوص إضافي..." style="width: 100%; padding: 0.85rem 1rem; background: var(--cream-surface); border: 1px solid var(--cream-border); border-radius: var(--radius-sm); color: var(--text-dark); font-family: inherit; font-size: 0.92rem; outline: none;">
-
-      <div class="modal-total-bar">
-        <div>
-          <span style="font-size: 0.82rem; color: var(--text-muted-dark); display: block;">الإجمالي للصنف:</span>
-          <span id="modal-total-calc" style="font-size: 1.7rem; font-weight: 900; color: var(--accent-gold-dark); font-family: var(--font-numbers);">0 ج.م</span>
-        </div>
-        <button class="btn-card-add" onclick="window.HeshamFouadApp.confirmAddToCart()" style="background: var(--teal-deep); color: var(--text-cream); width: auto; padding: 0.75rem 1.75rem;">
-          <i class="fas fa-shopping-bag"></i>
-          <span>إضافة إلى السلة</span>
-        </button>
-      </div>
-    </div>
-  </div>
+  <!-- Floating WhatsApp Action -->
+  <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A" target="_blank" class="floating-whatsapp" aria-label="طلب دليفري عبر واتساب">
+    <i class="fab fa-whatsapp"></i>
+    <span>طلب دليفري عبر واتساب</span>
+  </a>
 
   <!-- Scripts -->
-  <script src="js/menuData.js"></script>
+  <script src="js/api.js"></script>
   <script src="js/cart.js"></script>
-  <script src="js/app.js"></script>
-
   <script>
-    // Tab switching between "تصفح المنيو" and "اطلب دليفري سريع"
-    function switchMainTab(tab) {
-      const btnMenu = document.getElementById('tab-btn-menu');
-      const btnOrder = document.getElementById('tab-btn-order');
-      const panelMenu = document.getElementById('panel-menu');
-      const panelOrder = document.getElementById('panel-order');
+    document.addEventListener('DOMContentLoaded', () => {
+      initNavAuthState();
+    });
 
-      if (tab === 'menu') {
-        btnMenu.classList.add('active');
-        btnOrder.classList.remove('active');
-        panelMenu.classList.add('active');
-        panelOrder.classList.remove('active');
-        panelMenu.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    function initNavAuthState() {
+      if (typeof window.HeshamFouadAPI === 'undefined') return;
+      const authContainer = document.getElementById('navAuthContainer');
+      if (!authContainer) return;
+
+      if (window.HeshamFouadAPI.isLoggedIn()) {
+        const user = window.HeshamFouadAPI.getUser();
+        const displayName = user ? (user.displayName || user.username) : 'حسابي';
+
+        authContainer.innerHTML = `
+          <div class="nav-user-dropdown" id="navUserDropdownWrap">
+            <button type="button" class="nav-auth-btn" id="navUserBtn" aria-label="قائمة الحساب">
+              <i class="fas fa-crown" style="color:var(--accent-gold);"></i>
+              <span>${displayName}</span>
+              <i class="fas fa-chevron-down" style="font-size:0.75rem;"></i>
+            </button>
+            <div class="user-dropdown-menu" id="userDropdownMenu">
+              <a href="orders.html" class="dropdown-item">
+                <i class="fas fa-receipt" style="color:var(--accent-gold);"></i>
+                <span>طلباتي</span>
+              </a>
+              <button type="button" class="dropdown-item" id="btnChangePwModal">
+                <i class="fas fa-key" style="color:var(--primary-light);"></i>
+                <span>تغيير كلمة المرور</span>
+              </button>
+              <button type="button" class="dropdown-item logout-item" id="btnLogoutCustomer">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>تسجيل الخروج</span>
+              </button>
+            </div>
+          </div>
+        `;
+
+        const userBtn = document.getElementById('navUserBtn');
+        const menu = document.getElementById('userDropdownMenu');
+        const wrap = document.getElementById('navUserDropdownWrap');
+
+        if (userBtn && menu) {
+          userBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            menu.classList.toggle('show');
+          });
+
+          document.getElementById('btnChangePwModal')?.addEventListener('click', () => {
+            menu.classList.remove('show');
+            window.HeshamFouadAPI.openChangePasswordModal();
+          });
+
+          document.getElementById('btnLogoutCustomer')?.addEventListener('click', () => {
+            window.HeshamFouadAPI.logout();
+          });
+
+          document.addEventListener('click', (e) => {
+            if (wrap && !wrap.contains(e.target)) {
+              menu.classList.remove('show');
+            }
+          });
+        }
       } else {
-        btnOrder.classList.add('active');
-        btnMenu.classList.remove('active');
-        panelOrder.classList.add('active');
-        panelMenu.classList.remove('active');
-        panelOrder.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        authContainer.innerHTML = `
+          <a href="auth.html" class="nav-auth-btn" id="navAuthBtn" aria-label="تسجيل الدخول">
+            <i class="fas fa-user"></i>
+            <span>دخول</span>
+          </a>
+        `;
       }
     }
 
-    function submitDirectWhatsApp() {
-      const name = document.getElementById('direct-cust-name').value.trim();
-      const phone = document.getElementById('direct-cust-phone').value.trim();
-      const address = document.getElementById('direct-cust-address').value.trim();
-      const notes = document.getElementById('direct-cust-notes').value.trim();
-
-      if (!name || !phone || !address) {
-        alert('من فضلك املأ الاسم ورقم الموبايل وعنوان التوصيل بأسيوط.');
-        return;
+    // Update cart badge if any items exist
+    try {
+      if (window.HeshamFouadCart) {
+        const cart = window.HeshamFouadCart.getCart();
+        const badge = document.getElementById('cartBadge');
+        if (badge && cart.length > 0) {
+          const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+          badge.textContent = totalQty;
+          badge.style.display = 'inline-flex';
+        }
       }
+    } catch (e) {}
 
-      let msg = `*طلب دليفري جديد — هشام فؤاد ملك الكريب*\n`;
-      msg += `------------------------------------\n`;
-      msg += `*الاسم:* ${name}\n`;
-      msg += `*الموبايل:* ${phone}\n`;
-      msg += `*العنوان بأسيوط:* ${address}\n`;
-      if (notes) {
-        msg += `*الطلب والملاحظات:* ${notes}\n`;
-      }
-      msg += `------------------------------------\n`;
-      msg += `*خصم 15% مشمول في طلبات الافتتاح*`;
-
-      const encoded = encodeURIComponent(msg);
-      window.open(`https://wa.me/201554006656?text=${encoded}`, '_blank');
-    }
+    // Mouse Spotlight Tracking
+    window.addEventListener('mousemove', (e) => {
+      document.documentElement.style.setProperty('--mouse-x', `${e.clientX}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
+    });
   </script>
 </body>
 </html>

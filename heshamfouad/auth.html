@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>تسجيل الدخول وحساب جديد — هشام فؤاد ملك الكريب | أسيوط</title>
+  <meta name="description" content="تسجيل الدخول أو إنشاء حساب جديد في مطعم هشام فؤاد ملك الكريب بأسيوط لتأكيد وتتبع طلباتك بدقة.">
+  <meta name="theme-color" content="#031215">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/logo.png">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;600;700;800;900&family=Cairo:wght@400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Main & Auth Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body class="menu-page-body">
+
+  <!-- Minimal Navbar -->
+  <header class="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="nav-brand" aria-label="هشام فؤاد الرئيسية">
+        <div class="brand-crepe-icon">
+          <img src="assets/images/logo.png" alt="لوجو هشام فؤاد ملك الكريب" class="brand-logo-img">
+        </div>
+        <div class="brand-names">
+          <span class="brand-ar">هشام فؤاد</span>
+          <span class="brand-en"><i class="fas fa-crown" style="color:var(--accent-gold);margin-left:4px;"></i> KING OF CREPE</span>
+        </div>
+      </a>
+
+      <div class="nav-actions">
+        <a href="menu.html" class="auth-nav-link">
+          <i class="fas fa-arrow-right"></i>
+          <span>الرجوع للمنيو</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Auth Main Container -->
+  <main class="auth-main">
+    <div class="auth-card">
+
+      <!-- Brand Header -->
+      <div class="auth-brand-badge">
+        <div class="badge-icon">
+          <i class="fas fa-crown"></i>
+        </div>
+        <h2>حساب عميل هشام فؤاد</h2>
+        <p>سجل دخولك لتأكيد طلبك وتتبع الدليفري وحفظ بياناتك بدقة</p>
+      </div>
+
+      <!-- Tab Switcher -->
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="loginTab" data-tab="login">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>تسجيل الدخول</span>
+        </button>
+        <button type="button" class="auth-tab" id="registerTab" data-tab="register">
+          <i class="fas fa-user-plus"></i>
+          <span>إنشاء حساب جديد</span>
+        </button>
+      </div>
+
+      <!-- Login Form -->
+      <form class="auth-form" id="loginForm">
+        <div class="form-group">
+          <label for="loginUsername">
+            <i class="fas fa-user"></i>
+            <span>اسم المستخدم</span>
+          </label>
+          <input type="text" id="loginUsername" name="username" placeholder="أدخل اسم المستخدم" required autocomplete="username" minlength="3" maxlength="30">
+        </div>
+
+        <div class="form-group">
+          <label for="loginPassword">
+            <i class="fas fa-lock"></i>
+            <span>كلمة المرور</span>
+          </label>
+          <div class="password-input-wrapper">
+            <input type="password" id="loginPassword" name="password" placeholder="أدخل كلمة المرور" required minlength="6">
+            <button type="button" class="btn-toggle-pw" aria-label="إظهار/إخفاء كلمة المرور" onclick="togglePasswordVisibility('loginPassword', this)">
+              <i class="fas fa-eye eye-open"></i>
+              <i class="fas fa-eye-slash eye-closed" style="display:none;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-error" id="loginError"></div>
+
+        <button type="submit" class="auth-submit-btn" id="loginSubmitBtn">
+          <span class="btn-text">
+            <i class="fas fa-sign-in-alt"></i>
+            <span>دخول للحساب</span>
+          </span>
+          <span class="btn-loading" style="display:none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>جاري الدخول...</span>
+          </span>
+        </button>
+      </form>
+
+      <!-- Register Form -->
+      <form class="auth-form" id="registerForm" style="display: none;">
+        <div class="form-group">
+          <label for="regDisplayName">
+            <i class="fas fa-id-card"></i>
+            <span>الاسم بالكامل (ثلاثي) <span class="required">*</span></span>
+          </label>
+          <input type="text" id="regDisplayName" name="displayName" placeholder="مثال: أحمد محمد علي" required maxlength="50">
+        </div>
+
+        <div class="form-group">
+          <label for="regPhone">
+            <i class="fas fa-phone-alt"></i>
+            <span>رقم الموبايل للتواصل (11 رقم) <span class="required">*</span></span>
+          </label>
+          <input type="tel" id="regPhone" name="phone" placeholder="01xxxxxxxxx" required dir="ltr" pattern="^01[0125][0-9]{8}$" title="يرجى إدخال رقم موبايل مصري صحيح مكون من 11 رقماً">
+        </div>
+
+        <div class="form-group">
+          <label for="regAddress">
+            <i class="fas fa-map-marker-alt"></i>
+            <span>عنوان التوصيل بالتفصيل بأسيوط <span class="required">*</span></span>
+          </label>
+          <input type="text" id="regAddress" name="address" placeholder="المنطقة، الشارع، رقم العمارة، الشقة، علامة مميزة" required minlength="5" maxlength="200">
+        </div>
+
+        <div class="form-group">
+          <label for="regUsername">
+            <i class="fas fa-user-tag"></i>
+            <span>اسم المستخدم <span class="required">*</span></span>
+          </label>
+          <input type="text" id="regUsername" name="username" placeholder="اختر اسم مستخدم بالإنجليزية أو العربية" required autocomplete="username" minlength="3" maxlength="30">
+        </div>
+
+        <div class="form-group">
+          <label for="regPassword">
+            <i class="fas fa-lock"></i>
+            <span>كلمة المرور (6 خانات فأكثر) <span class="required">*</span></span>
+          </label>
+          <div class="password-input-wrapper">
+            <input type="password" id="regPassword" name="password" placeholder="اختر كلمة مرور قوية" required minlength="6">
+            <button type="button" class="btn-toggle-pw" aria-label="إظهار/إخفاء كلمة المرور" onclick="togglePasswordVisibility('regPassword', this)">
+              <i class="fas fa-eye eye-open"></i>
+              <i class="fas fa-eye-slash eye-closed" style="display:none;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="regConfirmPassword">
+            <i class="fas fa-check-double"></i>
+            <span>تأكيد كلمة المرور <span class="required">*</span></span>
+          </label>
+          <div class="password-input-wrapper">
+            <input type="password" id="regConfirmPassword" name="confirmPassword" placeholder="أعد كتابة كلمة المرور" required minlength="6">
+            <button type="button" class="btn-toggle-pw" aria-label="إظهار/إخفاء كلمة المرور" onclick="togglePasswordVisibility('regConfirmPassword', this)">
+              <i class="fas fa-eye eye-open"></i>
+              <i class="fas fa-eye-slash eye-closed" style="display:none;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-error" id="registerError"></div>
+
+        <button type="submit" class="auth-submit-btn" id="registerSubmitBtn">
+          <span class="btn-text">
+            <i class="fas fa-user-check"></i>
+            <span>إنشاء الحساب والمتابعة</span>
+          </span>
+          <span class="btn-loading" style="display:none;">
+            <i class="fas fa-spinner fa-spin"></i>
+            <span>جاري إنشاء الحساب...</span>
+          </span>
+        </button>
+      </form>
+
+    </div>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
