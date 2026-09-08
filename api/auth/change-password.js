@@ -57,7 +57,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({
       success: true,
-      message: 'تم تغيير كلمة المرور بنجاح ✅'
+      message: 'تم تغيير كلمة المرور بنجاح'
     });
   } catch (error) {
     if (error.statusCode) {

@@ -201,14 +201,14 @@
 
     const total = CrepeAPI.getCartTotal();
 
-    let message = `مرحباً مطعم كريب حكاية 🌯، أريد تأكيد طلب جديد:\n\n`;
-    message += `👤 *العميل:* ${customerName}\n`;
-    message += `📞 *الهاتف:* ${cleanPhone}\n`;
-    message += `📍 *العنوان:* ${deliveryAddress}\n`;
+    let message = `مرحباً مطعم كريب حكاية، أريد تأكيد طلب جديد:\n\n`;
+    message += `*العميل:* ${customerName}\n`;
+    message += `*الهاتف:* ${cleanPhone}\n`;
+    message += `*العنوان:* ${deliveryAddress}\n`;
     if (mapLocation) {
-      message += `🗺️ *الموقع بالـ GPS:* ${mapLocation}\n`;
+      message += `*الموقع بالـ GPS:* ${mapLocation}\n`;
     }
-    message += `\n🛒 *الأصناف المطلوبة:*\n`;
+    message += `\n*الأصناف المطلوبة:*\n`;
 
     cart.forEach((item, index) => {
       const variantText = item.variantLabel ? ` (${item.variantLabel})` : '';
@@ -216,10 +216,10 @@
       message += `${index + 1}. *${item.name}*${variantText} × ${item.quantity} = ${lineTotal} جنيه\n`;
     });
 
-    message += `\n💰 *الإجمالي الكلي:* ${total} جنيه\n`;
-    message += `💵 *طريقة الدفع:* الدفع كاش عند الاستلام\n`;
+    message += `\n*الإجمالي الكلي:* ${total} جنيه\n`;
+    message += `*طريقة الدفع:* الدفع كاش عند الاستلام\n`;
     if (notes) {
-      message += `📝 *ملاحظات خاصة:* ${notes}\n`;
+      message += `*ملاحظات خاصة:* ${notes}\n`;
     }
 
     const whatsappUrl = `https://wa.me/201064319292?text=${encodeURIComponent(message)}`;
@@ -256,7 +256,7 @@
       navigator.geolocation.getCurrentPosition(
         (pos) => {
           btnGps.disabled = false;
-          btnGps.innerHTML = `<i class="fas fa-check"></i> <span>تم تحديد موقعك ✓</span>`;
+          btnGps.innerHTML = `<i class="fas fa-check"></i> <span>تم تحديد موقعك</span>`;
 
           const lat = pos.coords.latitude;
           const lng = pos.coords.longitude;

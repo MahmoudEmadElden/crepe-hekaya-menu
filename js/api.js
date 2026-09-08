@@ -292,7 +292,7 @@
         <div class="ch-pw-modal-card">
           <button type="button" class="ch-pw-close" aria-label="إغلاق">&times;</button>
           <div class="ch-pw-header">
-            <div class="ch-pw-icon">🔑</div>
+            <div class="ch-pw-icon"><i class="fa-solid fa-key" style="color:var(--color-primary);font-size:1.6rem;"></i></div>
             <h3 class="ch-pw-title">تغيير كلمة المرور</h3>
             <p class="ch-pw-sub">أدخل كلمة المرور الحالية وكلمة المرور الجديدة</p>
           </div>
@@ -345,7 +345,7 @@
 
         try {
           const res = await apiChangePassword(currentPw, newPw);
-          showToast(res.message || 'تم تغيير كلمة المرور بنجاح ✅', 'success');
+          showToast(res.message || 'تم تغيير كلمة المرور بنجاح', 'success');
           form.reset();
           closeModal();
         } catch (err) {

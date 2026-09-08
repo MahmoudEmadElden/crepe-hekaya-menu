@@ -4,7 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>تتبع طلباتي — كريب حكاية | Crepe Hekaya</title>
-  <meta name="theme-color" content="#0C0C0E">
+  <meta name="theme-color" content="#E65100">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="كريب حكاية">
+  <link rel="icon" type="image/jpeg" href="assets/images/logo.jpeg">
+  <link rel="shortcut icon" type="image/jpeg" href="assets/images/logo.jpeg">
+  <link rel="apple-touch-icon" href="assets/images/logo.jpeg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -25,7 +32,7 @@
         </div>
       </a>
       <div class="nav-actions" style="display:flex;align-items:center;gap:0.75rem;">
-        <button type="button" class="auth-nav-link" id="btnUserChangePw" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:inherit;display:inline-flex;align-items:center;gap:0.35rem;">🔑 تغيير كلمة المرور</button>
+        <button type="button" class="auth-nav-link" id="btnUserChangePw" style="background:none;border:none;cursor:pointer;font-family:inherit;font-size:inherit;display:inline-flex;align-items:center;gap:0.35rem;"><i class="fa-solid fa-key"></i> تغيير كلمة المرور</button>
         <a href="/menu.html" class="auth-nav-link">← الرجوع للمنيو</a>
       </div>
     </div>
@@ -53,5 +60,29 @@
 
   <script src="js/api.js"></script>
   <script src="js/orders.js"></script>
+
+  <!-- Mobile App Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="شريط الملاحة لتطبيق الموبايل">
+    <a href="/index.html" class="mobile-nav-item">
+      <i class="fas fa-home"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="/menu.html" class="mobile-nav-item">
+      <i class="fas fa-utensils"></i>
+      <span>المنيو</span>
+    </a>
+    <a href="/cart.html" class="mobile-nav-item">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="mobile-nav-cart-badge">0</span>
+      <span>السلة</span>
+    </a>
+    <a href="/orders.html" class="mobile-nav-item active">
+      <i class="fas fa-receipt"></i>
+      <span>طلباتي</span>
+    </a>
+  </nav>
+
+  <!-- PWA Client Controller -->
+  <script src="/js/pwa.js"></script>
 </body>
 </html>

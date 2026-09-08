@@ -156,8 +156,8 @@
 
     if (soundEnabled) {
       soundBtn.classList.add('sound-active');
-      soundIcon.textContent = '\uD83D\uDD0A';
-      soundLabel.textContent = '\u0627\u0644\u0635\u0648\u062a \u0645\u0641\u0639\u0644';
+      soundIcon.innerHTML = '<i class="fa-solid fa-volume-high"></i>';
+      soundLabel.textContent = 'الصوت مفعل';
 
       // Play a short test beep to confirm it works
       if (audioContext) {
@@ -174,8 +174,8 @@
       }
     } else {
       soundBtn.classList.remove('sound-active');
-      soundIcon.textContent = '\uD83D\uDD07';
-      soundLabel.textContent = '\u062a\u0641\u0639\u064a\u0644 \u0627\u0644\u0635\u0648\u062a';
+      soundIcon.innerHTML = '<i class="fa-solid fa-volume-xmark"></i>';
+      soundLabel.textContent = 'تفعيل الصوت';
     }
   });
 
@@ -206,26 +206,26 @@
       win.innerHTML = `
         <div class="notif-win-header">
           <div class="notif-win-badge">
-            <span class="bell">🔔</span>
+            <i class="fa-solid fa-bell"></i>
             <span>طلب جديد</span>
             <span class="notif-win-num">#${order.orderNumber}</span>
           </div>
           <button class="notif-win-close" title="إغلاق النافذة">&times;</button>
         </div>
         <div class="notif-win-body">
-          <div class="notif-win-customer">👤 <strong>${order.customerName || 'عميل'}</strong> ${order.customerPhone ? ' — ' + order.customerPhone : ''}</div>
-          <div class="notif-win-items" title="${itemsSummary}">🍽️ ${itemsSummary || 'الأصناف'}</div>
-          <div class="notif-win-total">💰 الإجمالي: ${order.totalAmount} جنيه</div>
+          <div class="notif-win-customer"><i class="fa-solid fa-user"></i> <strong>${order.customerName || 'عميل'}</strong> ${order.customerPhone ? ' — ' + order.customerPhone : ''}</div>
+          <div class="notif-win-items" title="${itemsSummary}"><i class="fa-solid fa-utensils"></i> ${itemsSummary || 'الأصناف'}</div>
+          <div class="notif-win-total"><i class="fa-solid fa-coins"></i> الإجمالي: ${order.totalAmount} جنيه</div>
         </div>
         <div class="notif-win-actions">
           <button class="notif-btn-print" data-order-id="${order._id}">
-            <span>🖨️</span> قبول وطباعة
+            <i class="fa-solid fa-print"></i> قبول وطباعة
           </button>
           <button class="notif-btn-view" data-order-id="${order._id}">
-            <span>🔍</span> عرض
+            <i class="fa-solid fa-eye"></i> عرض
           </button>
           <button class="notif-btn-dismiss">
-            فهمت ✓
+            <i class="fa-solid fa-check"></i> فهمت
           </button>
         </div>
       `;
@@ -255,7 +255,7 @@
         } catch (err) {
           alert(err.message || 'حدث خطأ أثناء قبول الطلب');
           btn.disabled = false;
-          btn.innerHTML = '<span>🖨️</span> قبول وطباعة';
+          btn.innerHTML = '<i class="fa-solid fa-print"></i> قبول وطباعة';
         }
       });
 
@@ -443,11 +443,11 @@
     }
 
     const { label, startDate, endDate } = getDateRangeForPeriod();
-    let text = `<span>📅 أنت تستعرض الآن: <strong>${label}</strong></span>`;
+    let text = `<span><i class="fa-regular fa-calendar" style="margin-left:0.35rem;"></i> أنت تستعرض الآن: <strong>${label}</strong></span>`;
     if (currentPeriod === 'custom' && startDate) {
       const sStr = new Date(startDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' });
       const eStr = endDate ? new Date(endDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : 'الآن';
-      text = `<span>📅 استعراض طلبات وإيرادات الفترة من <strong>${sStr}</strong> إلى <strong>${eStr}</strong></span>`;
+      text = `<span><i class="fa-regular fa-calendar" style="margin-left:0.35rem;"></i> استعراض طلبات وإيرادات الفترة من <strong>${sStr}</strong> إلى <strong>${eStr}</strong></span>`;
     }
     activeFilterBanner.innerHTML = text;
     activeFilterBanner.style.display = 'flex';
@@ -642,7 +642,7 @@
 
         if (s !== 'delivered' && s !== 'cancelled') {
           if (s === 'pending') {
-            actions.push({ action: 'accept_print', label: '🖨️ قبول وطباعة', cls: 'accept-print' });
+            actions.push({ action: 'accept_print', label: 'قبول وطباعة', cls: 'accept-print' });
             actions.push({ action: 'accepted', label: 'قبول فقط', cls: 'accept' });
           }
           if (s === 'accepted') actions.push({ action: 'preparing', label: 'بدأ التحضير', cls: 'prepare' });
@@ -652,7 +652,7 @@
         }
 
         // Always provide thermal print action
-        actions.push({ action: 'print_only', label: '🖨️ طباعة الفاتورة', cls: 'print' });
+        actions.push({ action: 'print_only', label: 'طباعة الفاتورة', cls: 'print' });
 
         actionsHtml = `<div class="order-status-actions">
           ${actions.map(a => `<button class="status-action-btn status-action-btn--${a.cls}" data-order-id="${order._id}" data-action="${a.action}">${a.label}</button>`).join('')}
@@ -824,7 +824,7 @@
       // 2. Clear notifications dock & orders list immediately
       if (notificationsDock) notificationsDock.innerHTML = '';
       if (ordersList) {
-        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">بدأت وردية جديدة. في انتظار الطلبات الجديدة... ⏳</p>';
+        ordersList.innerHTML = '<p style="text-align:center;color:var(--color-text-muted);padding:2rem;">بدأت وردية جديدة. في انتظار الطلبات الجديدة...</p>';
       }
 
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));
@@ -835,7 +835,7 @@
       updateActiveFilterBanner();
       await loadStats();
       await loadOrders();
-      CrepeAPI.showToast('تم تصفير الوردية وبدء شيفت جديد بنجاح! 🚀', 'success');
+      CrepeAPI.showToast('تم تصفير الوردية وبدء شيفت جديد بنجاح', 'success');
     });
   }
 

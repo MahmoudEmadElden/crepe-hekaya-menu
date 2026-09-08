@@ -608,13 +608,16 @@ function updateNavAuthState() {
       menu.id = 'userDropdownMenu';
       menu.innerHTML = `
         <a href="/orders.html" class="dropdown-item">
-          <span>📦 طلباتي</span>
+          <i class="fa-solid fa-receipt"></i>
+          <span>طلباتي</span>
         </a>
         <button type="button" class="dropdown-item" id="navChangePwBtn">
-          <span>🔑 تغيير كلمة المرور</span>
+          <i class="fa-solid fa-key"></i>
+          <span>تغيير كلمة المرور</span>
         </button>
         <button type="button" class="dropdown-item logout-item" id="navLogoutBtn">
-          <span>🚪 تسجيل الخروج</span>
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+          <span>تسجيل الخروج</span>
         </button>
       `;
       wrap.appendChild(menu);
