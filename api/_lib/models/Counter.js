@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 
 const counterSchema = new mongoose.Schema({
   _id: { type: String, required: true },
-  sequenceValue: { type: Number, default: 1000 }
-});
+  sequenceValue: { type: Number, default: 1000 },
+  shiftStart: { type: Date },
+  resetBy: { type: String },
+  resetAt: { type: Date }
+}, { strict: false });
 
 /**
  * Get the next value in a sequence (atomic increment).
