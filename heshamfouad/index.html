@@ -7,8 +7,9 @@
   <meta name="description" content="أجود وأضخم كريب في محافظة أسيوط معمول بحب وعناية. استمتع بأشهى كريبات الوحش والدجاج واللحوم والأجبان السايحة.">
   <meta name="theme-color" content="#031215">
 
-  <!-- Favicon -->
+  <!-- Favicon & PWA Manifest -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="manifest" href="manifest.json">
 
   <!-- Google Fonts (Cairo & Outfit) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -47,13 +48,13 @@
           <span class="time-text-digits">12:00 م - 3:00 ص</span>
         </div>
 
-        <a href="tel:01554006656" class="nav-phone-btn" title="اتصل بالمطعم">
+        <a href="tel:01038945555" class="nav-phone-btn" title="اتصل بالمطعم">
           <i class="fas fa-phone-alt"></i>
-          <span>01554006656</span>
+          <span>01038945555</span>
         </a>
 
-        <!-- Cart Icon -->
-        <a href="cart.html" class="nav-cart-btn" aria-label="السلة">
+        <!-- Cart Icon (Hidden for guests on landing page, visible when logged in) -->
+        <a href="cart.html" class="nav-cart-btn" id="landingNavCartBtn" aria-label="السلة" style="display: none;">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="9" cy="21" r="1"></circle>
             <circle cx="20" cy="21" r="1"></circle>
@@ -96,18 +97,95 @@
         </p>
         <p class="landing-description">أضخم كريب معمول بحب وعناية في أسيوط، بأعلى جودة حشو طازج يومياً وخلطات تتبيلة خاصة وشلال أجبان سايحة</p>
 
-        <!-- Two Distinct Action Buttons -->
-        <div class="landing-actions-row">
-          <a href="menu.html" class="btn-landing-order" id="landingMenuBtn">
-            <span class="btn-main-text">تصفح المنيو</span>
-            <span class="btn-sub-text">استعراض كافة الأصناف والأسعار</span>
+        <!-- 3 Distinct Action Cards (تصفح المنيو • اطلب أونلاين • اطلب دليفري سريع) -->
+        <div class="landing-actions-grid-3">
+          <!-- Action 1: Menu -->
+          <a href="menu.html" class="landing-action-card card-menu" id="landingMenuBtn">
+            <div class="action-card-icon">
+              <i class="fas fa-book-open"></i>
+            </div>
+            <div class="action-card-content">
+              <span class="action-card-title">تصفح المنيو</span>
+              <span class="action-card-desc">استعراض كافة الأصناف والأسعار</span>
+            </div>
           </a>
-          <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A" target="_blank" class="btn-landing-browse" id="landingOrderBtn">
-            <span class="btn-main-text">اطلب دليفري سريع</span>
-            <span class="btn-sub-text">مباشرة عبر واتساب المطعم</span>
+
+          <!-- Action 2: Direct Online Order -->
+          <a href="menu.html" class="landing-action-card card-online" id="landingOnlineBtn">
+            <div class="action-card-icon">
+              <i class="fas fa-utensils"></i>
+            </div>
+            <div class="action-card-content">
+              <span class="action-card-title">اطلب أونلاين</span>
+              <span class="action-card-desc" id="landingOnlineSubText">إرسال فوري لواتساب المحل 💬</span>
+            </div>
+          </a>
+
+          <!-- Action 3: Fast Delivery -->
+          <a href="https://wa.me/201554006656?text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D9%8B%20%D9%85%D9%84%D9%83%20%D8%A7%D9%84%D9%83%D8%B1%D9%8A%D8%A8%D8%8C%20%D8%B9%D8%A7%D9%8A%D8%B2%20%D8%A3%D8%B9%D9%85%D9%84%20%D8%A3%D9%88%D8%B1%D8%AF%D8%B1%20%D8%AF%D9%84%D9%8A%D9%81%D8%B1%D9%8A" target="_blank" class="landing-action-card card-delivery" id="landingDeliveryBtn">
+            <div class="action-card-icon">
+              <i class="fas fa-motorcycle"></i>
+            </div>
+            <div class="action-card-content">
+              <span class="action-card-title">اطلب دليفري سريع</span>
+              <span class="action-card-desc">واتساب 01554006656 • دليفري 01038945555</span>
+            </div>
           </a>
         </div>
       </div>
+
+      <!-- 3 Video Reels Showcase (Side-by-side / Touch-scroll carousel on mobile) -->
+      <section class="landing-reels-showcase" aria-label="فيديوهات كواليس تحضير كريب هشام فؤاد">
+        <div class="landing-reels-header">
+          <div class="reels-tag">
+            <i class="fas fa-fire" style="color:var(--accent-gold);"></i>
+            <span>كواليس ملك الكريب</span>
+          </div>
+          <h2 class="reels-main-heading">كريب أصلي.. سرعة وجودة وتتبيلة لا تُقاوم</h2>
+          <p class="reels-sub-text">شاهد كواليس تحضير أضخم كريبات في أسيوط بحشو طازج وشلالات جبنة موزاريلا</p>
+        </div>
+
+        <div class="reels-grid-row">
+          <!-- Reel 1 -->
+          <div class="reel-item-card">
+            <div class="reel-video-box">
+              <video src="assets/videos/reel-1.mp4" poster="assets/images/crunchy-chicken-cheese.png" playsinline webkit-playsinline loop muted autoplay preload="auto"></video>
+              <div class="reel-center-play" aria-hidden="true"><i class="fas fa-play"></i></div>
+              <button class="btn-reel-audio-toggle" aria-label="تشغيل / كتم الصوت"><i class="fas fa-volume-mute"></i></button>
+              <button class="btn-reel-play-pause" aria-label="تشغيل / إيقاف"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="reel-caption-bar">
+              <h4 style="margin:0;font-size:1.05rem;font-weight:800;color:#fff;">كريب سوبر كرانشي موتزاريلا</h4>
+            </div>
+          </div>
+
+          <!-- Reel 2 -->
+          <div class="reel-item-card">
+            <div class="reel-video-box">
+              <video src="assets/videos/reel-2.mp4" poster="assets/images/crepe-cone-loaded.png" playsinline webkit-playsinline loop muted autoplay preload="auto"></video>
+              <div class="reel-center-play" aria-hidden="true"><i class="fas fa-play"></i></div>
+              <button class="btn-reel-audio-toggle" aria-label="تشغيل / كتم الصوت"><i class="fas fa-volume-mute"></i></button>
+              <button class="btn-reel-play-pause" aria-label="تشغيل / إيقاف"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="reel-caption-bar">
+              <h4 style="margin:0;font-size:1.05rem;font-weight:800;color:#fff;">شاورما لحم ومكس لحوم غرقان</h4>
+            </div>
+          </div>
+
+          <!-- Reel 3 -->
+          <div class="reel-item-card">
+            <div class="reel-video-box">
+              <video src="assets/videos/reel-3.mp4" poster="assets/images/crepe-cross-section.png" playsinline webkit-playsinline loop muted autoplay preload="auto"></video>
+              <div class="reel-center-play" aria-hidden="true"><i class="fas fa-play"></i></div>
+              <button class="btn-reel-audio-toggle" aria-label="تشغيل / كتم الصوت"><i class="fas fa-volume-mute"></i></button>
+              <button class="btn-reel-play-pause" aria-label="تشغيل / إيقاف"><i class="fas fa-play"></i></button>
+            </div>
+            <div class="reel-caption-bar">
+              <h4 style="margin:0;font-size:1.05rem;font-weight:800;color:#fff;">كريب ميكس جبن وشيدر صوص</h4>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- Bottom Info Strip -->
       <div class="landing-bottom-strip">
@@ -168,14 +246,39 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       initNavAuthState();
+      initVideoReels();
+      initOnlineOrderBtn();
     });
+
+    function initOnlineOrderBtn() {
+      const onlineBtn = document.getElementById('landingOnlineBtn');
+      const subText = document.getElementById('landingOnlineSubText');
+      if (!onlineBtn) return;
+
+      const isLoggedIn = typeof window.HeshamFouadAPI !== 'undefined' && window.HeshamFouadAPI.isLoggedIn();
+      if (isLoggedIn) {
+        onlineBtn.href = 'menu.html';
+        if (subText) subText.textContent = 'طلب مباشر للمستخدم';
+      } else {
+        onlineBtn.href = 'auth.html?returnTo=menu.html';
+        if (subText) subText.textContent = 'تسجيل الدخول للطلب الفوري';
+      }
+    }
 
     function initNavAuthState() {
       if (typeof window.HeshamFouadAPI === 'undefined') return;
       const authContainer = document.getElementById('navAuthContainer');
+      const cartBtn = document.getElementById('landingNavCartBtn');
+      const isLoggedIn = window.HeshamFouadAPI.isLoggedIn();
+
+      // Cart button in navbar: ONLY displayed if user is logged in
+      if (cartBtn) {
+        cartBtn.style.display = isLoggedIn ? 'inline-flex' : 'none';
+      }
+
       if (!authContainer) return;
 
-      if (window.HeshamFouadAPI.isLoggedIn()) {
+      if (isLoggedIn) {
         const user = window.HeshamFouadAPI.getUser();
         const displayName = user ? (user.displayName || user.username) : 'حسابي';
 
@@ -239,15 +342,126 @@
       }
     }
 
-    // Update cart badge if any items exist
+    // Video Reels Interactivity (Autoplay muted + audio & play/pause controls + Tap to Play)
+    function initVideoReels() {
+      const reelCards = document.querySelectorAll('.reel-item-card');
+      reelCards.forEach(card => {
+        const video = card.querySelector('video');
+        const videoBox = card.querySelector('.reel-video-box');
+        const audioBtn = card.querySelector('.btn-reel-audio-toggle');
+        const playBtn = card.querySelector('.btn-reel-play-pause');
+        if (!video || !videoBox) return;
+
+        // Ensure muted by default for autoplay compliance
+        video.muted = true;
+        video.setAttribute('muted', '');
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+
+        // Video state event synchronization
+        video.addEventListener('play', () => {
+          videoBox.classList.add('playing');
+          if (playBtn) playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+        });
+
+        video.addEventListener('pause', () => {
+          videoBox.classList.remove('playing');
+          if (playBtn) playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+
+        video.addEventListener('ended', () => {
+          videoBox.classList.remove('playing');
+          if (playBtn) playBtn.innerHTML = '<i class="fas fa-play"></i>';
+        });
+
+        // Tap anywhere on video box to toggle play/pause
+        videoBox.addEventListener('click', (e) => {
+          if (e.target.closest('.btn-reel-audio-toggle')) return;
+          if (video.paused) {
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        });
+
+        // Mouse hover play preview for desktop
+        card.addEventListener('mouseenter', () => {
+          if (video.paused) {
+            video.play().catch(() => {});
+          }
+        });
+
+        if (playBtn) {
+          playBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (video.paused) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        }
+
+        if (audioBtn) {
+          audioBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            // Mute all other videos
+            document.querySelectorAll('.reel-item-card video').forEach(v => {
+              if (v !== video) {
+                v.muted = true;
+                const b = v.parentElement.querySelector('.btn-reel-audio-toggle');
+                if (b) {
+                  b.innerHTML = '<i class="fas fa-volume-mute"></i>';
+                  b.classList.remove('active');
+                }
+              }
+            });
+
+            video.muted = !video.muted;
+            if (!video.muted) {
+              video.play().catch(() => {});
+              audioBtn.innerHTML = '<i class="fas fa-volume-up"></i>';
+              audioBtn.classList.add('active');
+            } else {
+              audioBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
+              audioBtn.classList.remove('active');
+            }
+          });
+        }
+
+        // Try autoplay on load
+        video.play().catch(() => {});
+      });
+
+      // Intersection observer for viewport autoplay
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const video = entry.target.querySelector('video');
+            if (!video) return;
+            if (entry.isIntersecting) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        }, { threshold: 0.4 });
+
+        reelCards.forEach(card => observer.observe(card));
+      }
+    }
+
+    // Update cart badge if items exist
     try {
       if (window.HeshamFouadCart) {
         const cart = window.HeshamFouadCart.getCart();
-        const badge = document.getElementById('cartBadge');
-        if (badge && cart.length > 0) {
+        const badges = document.querySelectorAll('.cart-badge, .mobile-nav-cart-badge');
+        if (cart.length > 0) {
           const totalQty = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-          badge.textContent = totalQty;
-          badge.style.display = 'inline-flex';
+          badges.forEach(b => {
+            b.textContent = totalQty;
+            b.style.display = 'inline-flex';
+          });
         }
       }
     } catch (e) {}
@@ -258,5 +472,29 @@
       document.documentElement.style.setProperty('--mouse-y', `${e.clientY}px`);
     });
   </script>
+
+  <!-- Mobile App Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="شريط الملاحة لتطبيق الموبايل">
+    <a href="index.html" class="mobile-nav-item active">
+      <i class="fas fa-home"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="menu.html" class="mobile-nav-item">
+      <i class="fas fa-utensils"></i>
+      <span>المنيو</span>
+    </a>
+    <a href="cart.html" class="mobile-nav-item">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="mobile-nav-cart-badge" style="display:none;">0</span>
+      <span>السلة</span>
+    </a>
+    <a href="orders.html" class="mobile-nav-item">
+      <i class="fas fa-receipt"></i>
+      <span>طلباتي</span>
+    </a>
+  </nav>
+
+  <!-- PWA Client Controller -->
+  <script src="js/pwa.js"></script>
 </body>
 </html>

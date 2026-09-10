@@ -1,5 +1,5 @@
 /**
- * Auth Page Client Logic — Hesham Fouad King of Crepe
+ * Auth Page Client Logic - Hesham Fouad King of Crepe
  */
 
 // Global password visibility toggle
@@ -20,9 +20,14 @@ window.togglePasswordVisibility = function (inputId, btn) {
   'use strict';
 
   // If already logged in, redirect
-  if (window.HeshamFouadAPI && window.HeshamFouadAPI.isLoggedIn()) {
+  if (window.HeshamFouadAPI && window.HeshamFouadAPI.isAuthenticated()) {
     const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-    window.location.href = returnTo || 'index.html';
+    // Validate returnTo to prevent open redirect - only allow relative paths or same origin
+    if (returnTo && isSafeRedirectUrl(returnTo)) {
+      window.location.href = returnTo;
+    } else {
+      window.location.href = 'index.html';
+    }
     return;
   }
 
@@ -36,16 +41,16 @@ window.togglePasswordVisibility = function (inputId, btn) {
   /* ---- Tab Switching ---- */
   function switchTab(tab) {
     if (tab === 'login') {
-      loginTab.classList.add('active');
-      registerTab.classList.remove('active');
-      loginForm.style.display = 'flex';
-      registerForm.style.display = 'none';
+      if (loginTab) loginTab.classList.add('active');
+      if (registerTab) registerTab.classList.remove('active');
+      if (loginForm) loginForm.style.display = 'flex';
+      if (registerForm) registerForm.style.display = 'none';
       hideError(loginError);
     } else {
-      registerTab.classList.add('active');
-      loginTab.classList.remove('active');
-      registerForm.style.display = 'flex';
-      loginForm.style.display = 'none';
+      if (registerTab) registerTab.classList.add('active');
+      if (loginTab) loginTab.classList.remove('active');
+      if (registerForm) registerForm.style.display = 'flex';
+      if (loginForm) loginForm.style.display = 'none';
       hideError(registerError);
     }
   }
@@ -86,10 +91,25 @@ window.togglePasswordVisibility = function (inputId, btn) {
   function redirectAfterAuth() {
     const params = new URLSearchParams(window.location.search);
     const returnTo = params.get('returnTo');
-    if (returnTo) {
+    if (returnTo && isSafeRedirectUrl(returnTo)) {
       window.location.href = returnTo;
     } else {
       window.location.href = 'menu.html';
+    }
+  }
+
+  // Prevent open redirect - only allow relative URLs or same-origin URLs
+  function isSafeRedirectUrl(url) {
+    try {
+      // Allow relative paths (starting with /, ./, ../, or just a filename)
+      if (!url.includes('://') && !url.startsWith('//')) {
+        return true;
+      }
+      // Allow same-origin absolute URLs
+      const parsed = new URL(url);
+      return parsed.origin === window.location.origin;
+    } catch {
+      return false;
     }
   }
 
@@ -175,7 +195,7 @@ window.togglePasswordVisibility = function (inputId, btn) {
       }
 
       if (password !== confirmPassword) {
-        showError(registerError, 'كلمتا المرور غير متطابقتين، يرجى إعادة التأكد');
+        showError(registerError, 'كلمتا المرور غير متطابقتين، يرجىعادة التأكد');
         document.getElementById('regConfirmPassword').focus();
         return;
       }

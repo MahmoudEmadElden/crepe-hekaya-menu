@@ -1,0 +1,57 @@
+{
+  "name": "كريب حكاية — Crepe Hekaya",
+  "short_name": "كريب حكاية",
+  "description": "تطبيق مطعم كريب حكاية الرسمي — تصفح المنيو واطلب أشهى كريب أونلاين ودليفري سريع.",
+  "start_url": "/index.html",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#121216",
+  "theme_color": "#E65100",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["food", "shopping"],
+  "icons": [
+    {
+      "src": "assets/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "قائمة الطعام",
+      "short_name": "المنيو",
+      "description": "تصفح منيو كريب حكاية والأسعار",
+      "url": "/menu.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "سلة المشتريات",
+      "short_name": "السلة",
+      "description": "متابعة الطلب وإتمام الدفع والتوصيل",
+      "url": "/cart.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "متابعة طلباتي",
+      "short_name": "طلباتي",
+      "description": "تتبع حالة الأوردر مباشرة",
+      "url": "/orders.html",
+      "icons": [{ "src": "assets/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

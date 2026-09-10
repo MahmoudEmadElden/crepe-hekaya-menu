@@ -1,0 +1,14 @@
+{
+  "name": "hesham-fouad-menu",
+  "version": "2.0.0",
+  "description": "Hesham Fouad — King of Crepe Digital Menu & Cashier System",
+  "private": true,
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

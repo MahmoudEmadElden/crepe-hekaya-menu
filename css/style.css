@@ -2451,3 +2451,191 @@ body.landing-page-body .navbar {
 }
 
 
+
+/* ============================================================
+   CREPE HEKAYA — PWA MOBILE APP DESIGN SYSTEM
+   Mobile Bottom Navigation Bar, Safe Insets & Install Banner
+   ============================================================ */
+
+.mobile-bottom-nav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  body {
+    padding-bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .floating-whatsapp {
+    bottom: calc(85px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  .mobile-bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: calc(65px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: rgba(18, 18, 22, 0.96);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 9999;
+    align-items: center;
+    justify-content: space-around;
+    box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.5);
+  }
+
+  .mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    position: relative;
+    transition: var(--transition-fast);
+    flex: 1;
+    text-align: center;
+  }
+
+  .mobile-nav-item i,
+  .mobile-nav-item svg {
+    font-size: 1.25rem;
+    width: 22px;
+    height: 22px;
+    transition: var(--transition-fast);
+  }
+
+  .mobile-nav-item.active,
+  .mobile-nav-item:hover {
+    color: var(--color-primary);
+  }
+
+  .mobile-nav-item.active i,
+  .mobile-nav-item.active svg {
+    transform: translateY(-2px);
+    color: var(--color-primary);
+  }
+
+  .mobile-nav-cart-badge {
+    position: absolute;
+    top: 2px;
+    left: 50%;
+    transform: translateX(-18px);
+    background: var(--color-primary);
+    color: #FFF;
+    font-family: var(--font-latin);
+    font-size: 0.7rem;
+    font-weight: 900;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    border: 2px solid var(--color-bg-deep);
+  }
+}
+
+.pwa-install-banner {
+  position: fixed;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-120%);
+  width: 92%;
+  max-width: 500px;
+  background: rgba(30, 30, 36, 0.98);
+  border: 1px solid var(--color-border-hover);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius-lg);
+  padding: 0.85rem 1.15rem;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  z-index: 10000;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  direction: rtl;
+}
+
+.pwa-install-banner.active {
+  transform: translateX(-50%) translateY(0);
+}
+
+.pwa-banner-content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.pwa-banner-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.pwa-banner-text h4 {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #FFF;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.pwa-banner-text p {
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+  margin: 2px 0 0;
+  line-height: 1.3;
+}
+
+.pwa-banner-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+}
+
+.btn-pwa-install {
+  background: var(--color-primary);
+  color: #FFF;
+  font-family: var(--font-family);
+  font-weight: 800;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(230, 81, 0, 0.4);
+  transition: var(--transition-fast);
+}
+
+.btn-pwa-install:hover {
+  background: var(--color-primary-light);
+  transform: scale(1.03);
+}
+
+.btn-pwa-dismiss {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0.2rem;
+}
+
+.btn-pwa-dismiss:hover {
+  color: #FFF;
+}

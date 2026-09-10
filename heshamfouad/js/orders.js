@@ -29,6 +29,16 @@
     cancelled: '#EF4444'
   };
 
+  function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   function renderStepper(status) {
     if (status === 'cancelled') {
       return `
@@ -97,19 +107,19 @@
         const itemsHtml = (order.items || []).map(item => {
           let customNotes = '';
           if (item.selectedAddons && item.selectedAddons.length > 0) {
-            customNotes += ` (+ إضافات: ${item.selectedAddons.map(a => a.name).join('، ')})`;
+            customNotes += ' (+ اضافات: ' + item.selectedAddons.map(a => escapeHtml(a.name)).join('، ') + ')';
           }
           if (item.selectedSauces && item.selectedSauces.length > 0) {
-            customNotes += ` (+ صوصات: ${item.selectedSauces.map(s => s.name).join('، ')})`;
+            customNotes += ' (+ صوصات: ' + item.selectedSauces.map(s => escapeHtml(s.name)).join('، ') + ')';
           }
           if (item.notes) {
-            customNotes += ` [${item.notes}]`;
+            customNotes += ' [' + escapeHtml(item.notes) + ']';
           }
 
           return `
             <div class="order-item-row">
               <div>
-                <strong>${item.name}</strong> × ${item.quantity}
+                <strong>${escapeHtml(item.name)}</strong> × ${item.quantity}
                 ${customNotes ? `<div style="font-size:0.78rem; color:var(--text-muted);">${customNotes}</div>` : ''}
               </div>
               <div style="font-family:'Outfit'; font-weight:800; color:#fff;">${item.totalPrice} ج.م</div>
@@ -117,13 +127,13 @@
           `;
         }).join('');
 
-        return `
+return `
           <div class="order-card">
             <div class="order-card-header">
               <div>
                 <div class="order-number-title">
                   <i class="fas fa-receipt"></i>
-                  <span>أوردر #${order.orderNumber || '0000'}</span>
+                  <span>اوردر #${escapeHtml(order.orderNumber || '0000')}</span>
                 </div>
                 <div class="order-date-text">
                   <i class="fas fa-clock" style="margin-left:4px;"></i>
@@ -153,8 +163,8 @@
 
             <!-- Delivery info -->
             <div style="margin-top:0.85rem; font-size:0.82rem; color:var(--text-muted); display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
-              <span><i class="fas fa-map-marker-alt" style="color:var(--accent-gold); margin-left:4px;"></i> ${order.deliveryAddress}</span>
-              <span><i class="fas fa-phone-alt" style="color:var(--accent-gold); margin-left:4px;"></i> ${order.customerPhone}</span>
+              <span><i class="fas fa-map-marker-alt" style="color:var(--accent-gold); margin-left:4px;"></i> ${escapeHtml(order.deliveryAddress)}</span>
+              <span><i class="fas fa-phone-alt" style="color:var(--accent-gold); margin-left:4px;"></i> ${escapeHtml(order.customerPhone)}</span>
             </div>
           </div>
         `;

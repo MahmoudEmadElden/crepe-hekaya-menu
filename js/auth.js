@@ -51,6 +51,17 @@ window.togglePasswordVisibility = function (inputId, btn) {
     }
   }
 
+  function safeReturnTo(value) {
+    if (!value) return '/';
+    try {
+      const url = new URL(value, window.location.origin);
+      if (url.origin !== window.location.origin || !url.pathname.startsWith('/')) return '/';
+      return url.pathname + url.search + url.hash;
+    } catch (error) {
+      return '/';
+    }
+  }
+
   loginTab.addEventListener('click', () => switchTab('login'));
   registerTab.addEventListener('click', () => switchTab('register'));
 
@@ -82,8 +93,7 @@ window.togglePasswordVisibility = function (inputId, btn) {
       if (user && user.role === 'admin') {
         window.location.href = '/admin.html';
       } else {
-        const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-        window.location.href = returnTo || '/';
+        window.location.href = safeReturnTo(new URLSearchParams(window.location.search).get('returnTo'));
       }
     } catch (error) {
       loginError.textContent = error.message || 'حصل مشكلة. جرب تاني.';
@@ -146,8 +156,7 @@ window.togglePasswordVisibility = function (inputId, btn) {
 
     try {
       await CrepeAPI.apiRegister(username, password, displayName, address, cleanPhone);
-      const returnTo = new URLSearchParams(window.location.search).get('returnTo');
-      window.location.href = returnTo || '/';
+      window.location.href = safeReturnTo(new URLSearchParams(window.location.search).get('returnTo'));
     } catch (error) {
       registerError.textContent = error.message || 'حصل مشكلة. جرب تاني.';
       setLoading(btn, false);

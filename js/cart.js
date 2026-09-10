@@ -16,13 +16,21 @@
 
   /* ---- Render Cart ---- */
   function renderCart() {
-    const cart = CrepeAPI.getCart();
+    const rawCart = CrepeAPI.getCart();
+    const cart = Array.isArray(rawCart)
+      ? rawCart.filter(item => item && typeof item === 'object' && item.itemId !== undefined && Number.isFinite(Number(item.quantity)) && Number(item.quantity) > 0 && Number.isFinite(Number(item.unitPrice)))
+      : [];
+    if (!Array.isArray(rawCart) || cart.length !== rawCart.length) {
+      CrepeAPI.saveCart(cart);
+    }
 
     if (cart.length === 0) {
+      cartItemsList.replaceChildren();
       cartItemsList.style.display = 'none';
       cartFooter.style.display = 'none';
       cartEmpty.style.display = 'flex';
       cartItemsCount.textContent = '0 أصناف';
+      cartTotalNum.textContent = '0';
       return;
     }
 
@@ -30,33 +38,59 @@
     cartItemsList.style.display = 'flex';
     cartFooter.style.display = 'flex';
 
-    const totalItems = cart.reduce((s, i) => s + i.quantity, 0);
+    const totalItems = cart.reduce((sum, item) => sum + Math.min(50, Math.floor(Number(item.quantity))), 0);
+    const total = cart.reduce((sum, item) => sum + (Number(item.unitPrice) * Math.min(50, Math.floor(Number(item.quantity)))), 0);
     cartItemsCount.textContent = `${totalItems} صنف`;
-    cartTotalNum.textContent = CrepeAPI.getCartTotal();
+    cartTotalNum.textContent = total;
+    cartItemsList.replaceChildren();
 
-    cartItemsList.innerHTML = cart.map(item => {
-      const lineTotal = item.unitPrice * item.quantity;
-      return `
-        <div class="cart-item" data-item-id="${item.itemId}" data-variant="${item.variant}">
-          <div class="cart-item-info">
-            <div class="cart-item-name">${item.name}</div>
-            ${item.variantLabel ? `<div class="cart-item-variant">${item.variantLabel} — ${item.unitPrice} ج</div>` : `<div class="cart-item-variant">${item.unitPrice} ج</div>`}
-          </div>
-          <div class="cart-item-qty">
-            <button class="qty-btn qty-minus" aria-label="أقل">−</button>
-            <span class="qty-num">${item.quantity}</span>
-            <button class="qty-btn qty-plus" aria-label="أكثر">+</button>
-          </div>
-          <span class="cart-item-price">${lineTotal} ج</span>
-          <button class="cart-item-remove" aria-label="حذف الصنف">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
-        </div>
-      `;
-    }).join('');
+    cart.forEach(item => {
+      const quantity = Math.min(50, Math.floor(Number(item.quantity)));
+      const unitPrice = Number(item.unitPrice);
+      const lineTotal = unitPrice * quantity;
+      const row = document.createElement('div');
+      row.className = 'cart-item';
+      row.dataset.itemId = String(item.itemId);
+      row.dataset.variant = String(item.variant || '');
+
+      const info = document.createElement('div');
+      info.className = 'cart-item-info';
+      const name = document.createElement('div');
+      name.className = 'cart-item-name';
+      name.textContent = String(item.name || 'صنف');
+      const variant = document.createElement('div');
+      variant.className = 'cart-item-variant';
+      variant.textContent = item.variantLabel ? `${item.variantLabel} — ${unitPrice} ج` : `${unitPrice} ج`;
+      info.append(name, variant);
+
+      const quantityControls = document.createElement('div');
+      quantityControls.className = 'cart-item-qty';
+      const minus = document.createElement('button');
+      minus.className = 'qty-btn qty-minus';
+      minus.type = 'button';
+      minus.setAttribute('aria-label', 'أقل');
+      minus.textContent = '−';
+      const quantityLabel = document.createElement('span');
+      quantityLabel.className = 'qty-num';
+      quantityLabel.textContent = String(quantity);
+      const plus = document.createElement('button');
+      plus.className = 'qty-btn qty-plus';
+      plus.type = 'button';
+      plus.setAttribute('aria-label', 'أكثر');
+      plus.textContent = '+';
+      quantityControls.append(minus, quantityLabel, plus);
+
+      const price = document.createElement('span');
+      price.className = 'cart-item-price';
+      price.textContent = `${lineTotal} ج`;
+      const remove = document.createElement('button');
+      remove.className = 'cart-item-remove';
+      remove.type = 'button';
+      remove.setAttribute('aria-label', 'حذف الصنف');
+      remove.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
+      row.append(info, quantityControls, price, remove);
+      cartItemsList.append(row);
+    });
   }
 
   /* ---- Cart Events ---- */

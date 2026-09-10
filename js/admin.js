@@ -16,6 +16,7 @@
   // Notification elements
   const soundBtn = document.getElementById('adminSoundBtn');
   const soundIcon = document.getElementById('soundIcon');
+  const soundLabel = document.getElementById('soundLabel');
   const notificationsDock = document.getElementById('adminNotificationsDock');
 
   let currentFilter = '';
@@ -63,6 +64,34 @@
     delivered: '#6B7280',
     cancelled: '#EF4444'
   };
+
+  function escapeHtml(value) {
+    if (value === null || value === undefined) return '';
+    return String(value)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function safeHttpUrl(value) {
+    if (!value) return '';
+    try {
+      const url = new URL(String(value), window.location.origin);
+      return url.protocol === 'http:' || url.protocol === 'https:' ? url.href : '';
+    } catch (e) {
+      return '';
+    }
+  }
+
+  function formatWhatsAppPhone(phone) {
+    const digits = String(phone || '').replace(/\D/g, '');
+    if (digits.startsWith('20')) return digits;
+    if (digits.startsWith('0')) return '20' + digits.slice(1);
+    if (digits.length === 10 && digits.startsWith('1')) return '20' + digits;
+    return digits;
+  }
 
   /* ============================================================
      NOTIFICATION SOUND SYSTEM (Web Audio API)
@@ -187,11 +216,9 @@
     if (!newOrders || newOrders.length === 0 || !notificationsDock) return;
     if (currentPeriod !== 'shift' || isSwitchingPeriod) return;
 
-    // Play attention sound
     playNotificationSound();
 
     newOrders.forEach((order, idx) => {
-      // Avoid duplicate windows for the same order
       if (document.getElementById(`notifWin_${order._id}`)) return;
 
       const win = document.createElement('div');
@@ -199,52 +226,89 @@
       win.id = `notifWin_${order._id}`;
       win.style.animationDelay = `${idx * 0.12}s`;
 
+      const header = document.createElement('div');
+      header.className = 'notif-win-header';
+      const badge = document.createElement('div');
+      badge.className = 'notif-win-badge';
+      const bell = document.createElement('i');
+      bell.className = 'fa-solid fa-bell';
+      const title = document.createElement('span');
+      title.textContent = 'طلب جديد';
+      const number = document.createElement('span');
+      number.className = 'notif-win-num';
+      number.textContent = `#${order.orderNumber || '0000'}`;
+      badge.append(bell, title, number);
+      const close = document.createElement('button');
+      close.className = 'notif-win-close';
+      close.type = 'button';
+      close.title = 'إغلاق النافذة';
+      close.setAttribute('aria-label', 'إغلاق النافذة');
+      close.textContent = '×';
+      header.append(badge, close);
+
+      const body = document.createElement('div');
+      body.className = 'notif-win-body';
+      const customer = document.createElement('div');
+      customer.className = 'notif-win-customer';
+      const customerIcon = document.createElement('i');
+      customerIcon.className = 'fa-solid fa-user';
+      const customerName = document.createElement('strong');
+      customerName.textContent = order.customerName || 'عميل';
+      customer.append(customerIcon, customerName);
+      if (order.customerPhone) {
+        const phone = document.createElement('span');
+        phone.textContent = ` — ${order.customerPhone}`;
+        customer.appendChild(phone);
+      }
+      const items = document.createElement('div');
+      items.className = 'notif-win-items';
+      const itemsIcon = document.createElement('i');
+      itemsIcon.className = 'fa-solid fa-utensils';
       const itemsSummary = (order.items || [])
-        .map(it => `${it.quantity}× ${it.name}${it.variantLabel ? ' (' + it.variantLabel + ')' : ''}`)
+        .map(it => `${it.quantity || 0}× ${it.name || 'صنف'}${it.variantLabel ? ` (${it.variantLabel})` : ''}`)
         .join(' ، ');
+      const itemsText = document.createElement('span');
+      itemsText.textContent = itemsSummary || 'الأصناف';
+      items.title = itemsSummary || 'الأصناف';
+      items.append(itemsIcon, itemsText);
+      const total = document.createElement('div');
+      total.className = 'notif-win-total';
+      const totalIcon = document.createElement('i');
+      totalIcon.className = 'fa-solid fa-coins';
+      const totalText = document.createElement('span');
+      totalText.textContent = `الإجمالي: ${order.totalAmount || 0} جنيه`;
+      total.append(totalIcon, totalText);
+      body.append(customer, items, total);
 
-      win.innerHTML = `
-        <div class="notif-win-header">
-          <div class="notif-win-badge">
-            <i class="fa-solid fa-bell"></i>
-            <span>طلب جديد</span>
-            <span class="notif-win-num">#${order.orderNumber}</span>
-          </div>
-          <button class="notif-win-close" title="إغلاق النافذة">&times;</button>
-        </div>
-        <div class="notif-win-body">
-          <div class="notif-win-customer"><i class="fa-solid fa-user"></i> <strong>${order.customerName || 'عميل'}</strong> ${order.customerPhone ? ' — ' + order.customerPhone : ''}</div>
-          <div class="notif-win-items" title="${itemsSummary}"><i class="fa-solid fa-utensils"></i> ${itemsSummary || 'الأصناف'}</div>
-          <div class="notif-win-total"><i class="fa-solid fa-coins"></i> الإجمالي: ${order.totalAmount} جنيه</div>
-        </div>
-        <div class="notif-win-actions">
-          <button class="notif-btn-print" data-order-id="${order._id}">
-            <i class="fa-solid fa-print"></i> قبول وطباعة
-          </button>
-          <button class="notif-btn-view" data-order-id="${order._id}">
-            <i class="fa-solid fa-eye"></i> عرض
-          </button>
-          <button class="notif-btn-dismiss">
-            <i class="fa-solid fa-check"></i> فهمت
-          </button>
-        </div>
-      `;
+      const actions = document.createElement('div');
+      actions.className = 'notif-win-actions';
+      const printBtn = document.createElement('button');
+      printBtn.className = 'notif-btn-print';
+      printBtn.type = 'button';
+      printBtn.dataset.orderId = order._id;
+      printBtn.textContent = 'قبول وطباعة';
+      const viewBtn = document.createElement('button');
+      viewBtn.className = 'notif-btn-view';
+      viewBtn.type = 'button';
+      viewBtn.dataset.orderId = order._id;
+      viewBtn.textContent = 'عرض';
+      const dismissBtn = document.createElement('button');
+      dismissBtn.className = 'notif-btn-dismiss';
+      dismissBtn.type = 'button';
+      dismissBtn.textContent = 'فهمت';
+      actions.append(printBtn, viewBtn, dismissBtn);
+      win.append(header, body, actions);
 
-      // Handlers
       const closeWin = () => {
         win.classList.add('removing');
         setTimeout(() => win.remove(), 300);
       };
+      close.addEventListener('click', closeWin);
+      dismissBtn.addEventListener('click', closeWin);
 
-      // Close & Dismiss buttons
-      win.querySelector('.notif-win-close').addEventListener('click', closeWin);
-      win.querySelector('.notif-btn-dismiss').addEventListener('click', closeWin);
-
-      // Print & Accept button directly from the window!
-      win.querySelector('.notif-btn-print').addEventListener('click', async () => {
-        const btn = win.querySelector('.notif-btn-print');
-        btn.disabled = true;
-        btn.innerHTML = 'جارٍ الطباعة...';
+      printBtn.addEventListener('click', async () => {
+        printBtn.disabled = true;
+        printBtn.textContent = 'جارٍ الطباعة...';
         try {
           await CrepeAPI.apiUpdateOrderStatus(order._id, 'accepted');
           order.status = 'accepted';
@@ -254,14 +318,14 @@
           loadOrders();
         } catch (err) {
           alert(err.message || 'حدث خطأ أثناء قبول الطلب');
-          btn.disabled = false;
-          btn.innerHTML = '<i class="fa-solid fa-print"></i> قبول وطباعة';
+          printBtn.disabled = false;
+          printBtn.textContent = 'قبول وطباعة';
         }
       });
 
-      // View & Highlight in main list
-      win.querySelector('.notif-btn-view').addEventListener('click', () => {
-        const orderCard = document.querySelector(`[data-card-order-id="${order._id}"]`);
+      viewBtn.addEventListener('click', () => {
+        const orderCard = Array.from(document.querySelectorAll('[data-card-order-id]'))
+          .find(card => card.dataset.cardOrderId === order._id);
         if (orderCard) {
           orderCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
           orderCard.classList.add('new-order-highlight');
@@ -312,6 +376,7 @@
     knownOrderIds.clear();
     loadStats();
     loadOrders();
+    if (refreshInterval) clearInterval(refreshInterval);
     // Auto-refresh every 10 seconds (was 30s before)
     refreshInterval = setInterval(() => {
       loadStats();
@@ -455,13 +520,19 @@
     }
 
     const { label, startDate, endDate } = getDateRangeForPeriod();
-    let text = `<span><i class="fa-regular fa-calendar" style="margin-left:0.35rem;"></i> أنت تستعرض الآن: <strong>${label}</strong></span>`;
+    activeFilterBanner.replaceChildren();
+    const content = document.createElement('span');
+    const icon = document.createElement('i');
+    icon.className = 'fa-regular fa-calendar';
+    icon.style.marginLeft = '0.35rem';
+    content.append(icon, document.createTextNode(` أنت تستعرض الآن: ${label}`));
     if (currentPeriod === 'custom' && startDate) {
       const sStr = new Date(startDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' });
       const eStr = endDate ? new Date(endDate).toLocaleString('ar-EG', { dateStyle: 'short', timeStyle: 'short' }) : 'الآن';
-      text = `<span><i class="fa-regular fa-calendar" style="margin-left:0.35rem;"></i> استعراض طلبات وإيرادات الفترة من <strong>${sStr}</strong> إلى <strong>${eStr}</strong></span>`;
+      content.replaceChildren();
+      content.append(icon, document.createTextNode(` استعراض طلبات وإيرادات الفترة من ${sStr} إلى ${eStr}`));
     }
-    activeFilterBanner.innerHTML = text;
+    activeFilterBanner.append(content);
     activeFilterBanner.style.display = 'flex';
   }
 
@@ -508,28 +579,48 @@
       hour: '2-digit', minute: '2-digit'
     });
 
-    // 1. Kitchen Ticket (No Prices, Large bold text, items + variations + notes)
     document.getElementById('ktOrderNum').textContent = '#' + (order.orderNumber || '0');
     document.getElementById('ktTime').textContent = timeStr;
     document.getElementById('ktCustomer').textContent = 'العميل: ' + (order.customerName || 'عميل') + (order.customerPhone ? ' (' + order.customerPhone + ')' : '');
 
-    const ktItemsHtml = (order.items || []).map(item => {
-      const variantStr = item.variantLabel ? `<div class="kitchen-item-notes">الحجم/النوع: ${item.variantLabel}</div>` : '';
-      const optionsStr = item.selectedOptions && item.selectedOptions.length
-        ? `<div class="kitchen-item-notes">إضافات: ${item.selectedOptions.join(' + ')}</div>`
-        : '';
-      return `
-        <div class="kitchen-item-row">
-          <div><span class="item-qty">${item.quantity}×</span> <strong>${item.name}</strong></div>
-          ${variantStr}
-          ${optionsStr}
-        </div>
-      `;
-    }).join('');
-    document.getElementById('ktItems').innerHTML = ktItemsHtml;
-    document.getElementById('ktNotes').innerHTML = order.notes ? `<strong>ملاحظات العميل:</strong> ${order.notes}` : '';
+    const ktItems = document.getElementById('ktItems');
+    ktItems.replaceChildren();
+    (order.items || []).forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'kitchen-item-row';
+      const line = document.createElement('div');
+      const qty = document.createElement('span');
+      qty.className = 'item-qty';
+      qty.textContent = `${Number(item.quantity) || 0}×`;
+      const name = document.createElement('strong');
+      name.textContent = item.name || 'صنف';
+      line.append(qty, name);
+      row.append(line);
+      if (item.variantLabel) {
+        const variant = document.createElement('div');
+        variant.className = 'kitchen-item-notes';
+        variant.textContent = `الحجم/النوع: ${item.variantLabel}`;
+        row.append(variant);
+      }
+      if (Array.isArray(item.selectedOptions) && item.selectedOptions.length > 0) {
+        const options = document.createElement('div');
+        options.className = 'kitchen-item-notes';
+        options.textContent = `إضافات: ${item.selectedOptions.join(' + ')}`;
+        row.append(options);
+      }
+      ktItems.append(row);
+    });
 
-    // 2. Cashier Ticket (Full Breakdown with Prices & Total)
+    const ktNotes = document.getElementById('ktNotes');
+    ktNotes.replaceChildren();
+    if (order.notes) {
+      const label = document.createElement('strong');
+      label.textContent = 'ملاحظات العميل:';
+      const notes = document.createElement('span');
+      notes.textContent = order.notes;
+      ktNotes.append(label, document.createTextNode(' '), notes);
+    }
+
     document.getElementById('ctOrderNum').textContent = '#' + (order.orderNumber || '0');
     document.getElementById('ctTime').textContent = timeStr;
     document.getElementById('ctCustomer').textContent = order.customerName || 'عميل';
@@ -538,34 +629,56 @@
 
     const ctMapRow = document.getElementById('ctMapRow');
     const ctMap = document.getElementById('ctMap');
-    if (order.mapLocation) {
+    const mapUrl = safeHttpUrl(order.mapLocation);
+    ctMap.replaceChildren();
+    if (mapUrl) {
       ctMapRow.style.display = 'block';
-      ctMap.innerHTML = `<a href="${order.mapLocation}" target="_blank" style="color:#000;text-decoration:underline;">فتح موقع GPS في جوجل ماب</a>`;
+      const link = document.createElement('a');
+      link.href = mapUrl;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.style.color = '#000';
+      link.style.textDecoration = 'underline';
+      link.textContent = 'فتح موقع GPS في جوجل ماب';
+      ctMap.append(link);
     } else {
       ctMapRow.style.display = 'none';
     }
 
-    const ctItemsHtml = (order.items || []).map(item => {
-      const optStr = item.selectedOptions && item.selectedOptions.length
-        ? `<div style="font-size:10px;color:#555;">+ ${item.selectedOptions.join(', ')}</div>`
-        : '';
-      return `
-        <div class="receipt-item-row">
-          <div style="flex:2;">
-            <strong>${item.name}</strong> ${item.variantLabel ? '(' + item.variantLabel + ')' : ''}
-            ${optStr}
-          </div>
-          <div style="flex:1;text-align:center;">${item.quantity}</div>
-          <div style="flex:1;text-align:left;font-weight:bold;">${item.totalPrice} ج</div>
-        </div>
-      `;
-    }).join('');
-    document.getElementById('ctItems').innerHTML = ctItemsHtml;
-    document.getElementById('ctSubtotal').textContent = `${order.totalAmount || 0} ج`;
-    document.getElementById('ctDelivery').textContent = `0 ج`;
-    document.getElementById('ctTotal').textContent = `${order.totalAmount || 0} ج`;
+    const ctItems = document.getElementById('ctItems');
+    ctItems.replaceChildren();
+    (order.items || []).forEach(item => {
+      const row = document.createElement('div');
+      row.className = 'receipt-item-row';
+      const name = document.createElement('div');
+      name.style.flex = '2';
+      const itemName = document.createElement('strong');
+      itemName.textContent = item.name || 'صنف';
+      name.append(itemName);
+      if (item.variantLabel) name.append(document.createTextNode(` (${item.variantLabel})`));
+      if (Array.isArray(item.selectedOptions) && item.selectedOptions.length > 0) {
+        const options = document.createElement('div');
+        options.style.fontSize = '10px';
+        options.style.color = '#555';
+        options.textContent = `+ ${item.selectedOptions.join(', ')}`;
+        name.append(options);
+      }
+      const qty = document.createElement('div');
+      qty.style.flex = '1';
+      qty.style.textAlign = 'center';
+      qty.textContent = String(Number(item.quantity) || 0);
+      const total = document.createElement('div');
+      total.style.flex = '1';
+      total.style.textAlign = 'left';
+      total.style.fontWeight = 'bold';
+      total.textContent = `${Number(item.totalPrice) || 0} ج`;
+      row.append(name, qty, total);
+      ctItems.append(row);
+    });
+    document.getElementById('ctSubtotal').textContent = `${Number(order.totalAmount) || 0} ج`;
+    document.getElementById('ctDelivery').textContent = '0 ج';
+    document.getElementById('ctTotal').textContent = `${Number(order.totalAmount) || 0} ج`;
 
-    // Trigger native print dialog (compatible with Windows print & Chrome --kiosk-printing)
     setTimeout(() => {
       window.print();
     }, 150);
@@ -612,9 +725,7 @@
 
         if (newOrders.length > 0) {
           newOrders.forEach(o => alertedOrderIds.add(o._id));
-          if (soundEnabled) {
-            showOrderNotifications(newOrders);
-          }
+          showOrderNotifications(newOrders);
         }
       }
 
@@ -639,15 +750,14 @@
           month: 'short', day: 'numeric',
           hour: '2-digit', minute: '2-digit'
         });
-
-        const itemsHtml = order.items.map(item =>
+        const items = order.items || [];
+        const itemsHtml = items.map(item =>
           `<div class="order-item-row">
-            <span>${item.name} ${item.variantLabel ? '(' + item.variantLabel + ')' : ''} \u00D7 ${item.quantity}</span>
-            <span>${item.totalPrice} \u062C</span>
+            <span>${escapeHtml(item.name)} ${item.variantLabel ? `(${escapeHtml(item.variantLabel)})` : ''} × ${escapeHtml(item.quantity)}</span>
+            <span>${escapeHtml(item.totalPrice)} ج</span>
           </div>`
         ).join('');
 
-        // Status action buttons based on current status
         let actionsHtml = '';
         const s = order.status;
         const actions = [];
@@ -663,55 +773,56 @@
           actions.push({ action: 'cancelled', label: 'إلغاء', cls: 'cancel' });
         }
 
-        // Always provide thermal print action
         actions.push({ action: 'print_only', label: 'طباعة الفاتورة', cls: 'print' });
 
         actionsHtml = `<div class="order-status-actions">
-          ${actions.map(a => `<button class="status-action-btn status-action-btn--${a.cls}" data-order-id="${order._id}" data-action="${a.action}">${a.label}</button>`).join('')}
+          ${actions.map(a => `<button class="status-action-btn status-action-btn--${escapeHtml(a.cls)}" data-order-id="${escapeHtml(order._id)}" data-action="${escapeHtml(a.action)}">${escapeHtml(a.label)}</button>`).join('')}
         </div>`;
 
-        // Add highlight class for new orders
         const highlightClass = newOrderIdSet.has(order._id) ? ' new-order-highlight' : '';
+        const phoneDigits = String(order.customerPhone || '').replace(/\D/g, '');
+        const whatsappPhone = formatWhatsAppPhone(order.customerPhone);
+        const mapUrl = safeHttpUrl(order.mapLocation);
 
         return `
-          <div class="admin-order-card${highlightClass}" data-card-order-id="${order._id}">
+          <div class="admin-order-card${highlightClass}" data-card-order-id="${escapeHtml(order._id)}">
             <div class="order-card-header">
               <div>
-                <span class="order-num">#${order.orderNumber}</span>
-                <span class="order-customer"> \u2014 ${order.customerName || '\u0639\u0645\u064a\u0644'}</span>
+                <span class="order-num">#${escapeHtml(order.orderNumber)}</span>
+                <span class="order-customer"> — ${escapeHtml(order.customerName || 'عميل')}</span>
               </div>
-              <span class="order-status-badge" style="background:${statusColors[order.status] || '#6B7280'};">${statusLabels[order.status] || order.status}</span>
+              <span class="order-status-badge" style="background:${escapeHtml(statusColors[order.status] || '#6B7280')};">${escapeHtml(statusLabels[order.status] || order.status)}</span>
             </div>
             <div class="order-items-list">${itemsHtml}</div>
             
             <div class="order-customer-details">
-              ${order.customerPhone ? `
+              ${phoneDigits ? `
                 <div class="order-detail-line">
-                  <span>\u0627\u0644\u0647\u0627\u062a\u0641:</span>
-                  <a href="tel:${order.customerPhone}" class="detail-link">${order.customerPhone}</a>
-                  <a href="https://wa.me/2${order.customerPhone.replace(/^0/, '')}" target="_blank" class="detail-wa-btn">\u0648\u0627\u062a\u0633\u0627\u0628</a>
+                  <span>الهاتف:</span>
+                  <a href="tel:${phoneDigits}" class="detail-link">${escapeHtml(order.customerPhone)}</a>
+                  ${whatsappPhone ? `<a href="https://wa.me/${whatsappPhone}" target="_blank" rel="noopener noreferrer" class="detail-wa-btn">واتساب</a>` : ''}
                 </div>
               ` : ''}
               ${order.deliveryAddress ? `
                 <div class="order-detail-line">
-                  <span>\u0627\u0644\u0639\u0646\u0648\u0627\u0646:</span>
-                  <span style="color:var(--color-text);font-weight:600;">${order.deliveryAddress}</span>
+                  <span>العنوان:</span>
+                  <span style="color:var(--color-text);font-weight:600;">${escapeHtml(order.deliveryAddress)}</span>
                 </div>
               ` : ''}
-              ${order.mapLocation ? `
+              ${mapUrl ? `
                 <div class="order-detail-line">
                   <span>الموقع بالخريطة:</span>
-                  <a href="${order.mapLocation}" target="_blank" class="detail-map-btn">
+                  <a href="${mapUrl}" target="_blank" rel="noopener noreferrer" class="detail-map-btn">
                     <i class="fa-solid fa-location-dot"></i> موقع العميل GPS
                   </a>
                 </div>
               ` : ''}
             </div>
 
-            ${order.notes ? `<div class="order-notes">\u0645\u0644\u0627\u062d\u0638\u0627\u062a: ${order.notes}</div>` : ''}
+            ${order.notes ? `<div class="order-notes">ملاحظات: ${escapeHtml(order.notes)}</div>` : ''}
             <div class="order-card-footer">
-              <span class="order-total">${order.totalAmount} \u062c\u0646\u064a\u0647</span>
-              <span class="order-time">${timeStr}</span>
+              <span class="order-total">${escapeHtml(order.totalAmount)} جنيه</span>
+              <span class="order-time">${escapeHtml(timeStr)}</span>
             </div>
             ${actionsHtml}
           </div>
@@ -723,7 +834,11 @@
         showLogin();
         return;
       }
-      ordersList.innerHTML = `<p style="text-align:center;color:#FF4D4D;padding:2rem;">${error.message || '\u062d\u0635\u0644 \u0645\u0634\u0643\u0644\u0629'}</p>`;
+      ordersList.replaceChildren();
+      const message = document.createElement('p');
+      message.style.cssText = 'text-align:center;color:#FF4D4D;padding:2rem;';
+      message.textContent = error.message || 'حصل مشكلة';
+      ordersList.append(message);
     }
   }
 
@@ -830,6 +945,7 @@
       currentPeriod = 'shift';
       isSwitchingPeriod = true;
       knownOrderIds.clear();
+      alertedOrderIds.clear();
 
       // 1. Instantly zero out stats optimistically
       const statTotalOrders = document.getElementById('statTotalOrders');
@@ -883,12 +999,30 @@
   // Apply Custom Date/Time Range
   if (btnApplyCustomDt) {
     btnApplyCustomDt.addEventListener('click', () => {
-      if (!dtStart.value) {
+      const startValue = dtStart.value;
+      if (!startValue) {
         alert('يرجى تحديد تاريخ وساعة البداية أولاً');
         return;
       }
-      customStartDate = new Date(dtStart.value).toISOString();
-      customEndDate = dtEnd.value ? new Date(dtEnd.value).toISOString() : null;
+      const startDate = new Date(startValue);
+      if (isNaN(startDate.getTime())) {
+        alert('تاريخ وساعة البداية غير صحيحين');
+        return;
+      }
+      let endDate = null;
+      if (dtEnd.value) {
+        endDate = new Date(dtEnd.value);
+        if (isNaN(endDate.getTime())) {
+          alert('تاريخ وساعة النهاية غير صحيحين');
+          return;
+        }
+        if (endDate < startDate) {
+          alert('يجب أن يكون تاريخ النهاية بعد تاريخ البداية أو مساوياً له');
+          return;
+        }
+      }
+      customStartDate = startDate.toISOString();
+      customEndDate = endDate ? endDate.toISOString() : null;
       currentPeriod = 'custom';
       isSwitchingPeriod = true;
       document.querySelectorAll('.period-tab').forEach(t => t.classList.remove('active'));

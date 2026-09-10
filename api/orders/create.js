@@ -101,8 +101,6 @@ module.exports = async function handler(req, res) {
         if (addon) {
           itemName = addon.name;
           authoritativeUnitPrice = addon.price;
-        } else if (typeof item.unitPrice === 'number' && item.unitPrice > 0) {
-          authoritativeUnitPrice = item.unitPrice;
         } else {
           return res.status(400).json({
             success: false,

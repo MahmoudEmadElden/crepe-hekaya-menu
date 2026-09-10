@@ -35,6 +35,10 @@
     localStorage.setItem(USER_KEY, JSON.stringify(user));
   }
 
+  function isAuthenticated() {
+    return !!getToken();
+  }
+
   function isLoggedIn() {
     return !!getToken();
   }
@@ -46,6 +50,10 @@
 
   function logout() {
     removeToken();
+    // Clear cart on logout for security
+    if (window.HeshamFouadCart && typeof window.HeshamFouadCart.clearCart === 'function') {
+      window.HeshamFouadCart.clearCart();
+    }
     window.location.href = 'index.html';
   }
 
@@ -75,10 +83,12 @@
         if (res.status === 401 && !endpoint.includes('/auth/login') && !endpoint.includes('/auth/register')) {
           removeToken();
           const isAdminPage = window.location.pathname.includes('admin.html');
-          if (isAdminPage) {
-            window.location.href = 'admin.html';
-          } else if (window.location.pathname.includes('orders.html')) {
-            window.location.href = 'auth.html?returnTo=orders.html';
+          const isOrdersPage = window.location.pathname.includes('orders.html');
+          
+          // Redirect to login with returnTo to prevent redirect loops
+          if (isAdminPage || isOrdersPage) {
+            const returnTo = window.location.pathname + window.location.search;
+            window.location.href = `auth.html?returnTo=${encodeURIComponent(returnTo)}`;
           }
         }
         throw new Error(data.message || 'حدث خطأ في الاتصال بالسيرفر');
@@ -144,6 +154,7 @@
     if (params.page) query.set('page', params.page);
     if (params.limit) query.set('limit', params.limit);
     if (params.status) query.set('status', params.status);
+    if (params.period) query.set('period', params.period);
     if (params.startDate) query.set('startDate', params.startDate);
     if (params.endDate) query.set('endDate', params.endDate);
     if (params.all) query.set('all', params.all);
@@ -165,12 +176,21 @@
 
   async function getStats(params = {}) {
     const query = new URLSearchParams();
+    if (params.period) query.set('period', params.period);
     if (params.startDate) query.set('startDate', params.startDate);
     if (params.endDate) query.set('endDate', params.endDate);
     if (params.all) query.set('all', params.all);
 
     const qs = query.toString();
     return await request(`/orders/stats${qs ? '?' + qs : ''}`);
+  }
+
+  async function resetShift() {
+    return await request('/orders/shift', { method: 'POST' });
+  }
+
+  async function getShift() {
+    return await request('/orders/shift', { method: 'GET' });
   }
 
   /* ===========================
@@ -291,7 +311,7 @@
     removeToken,
     getUser,
     setUser,
-    isLoggedIn,
+    isAuthenticated,
     isAdmin,
     logout,
     login,
@@ -303,6 +323,8 @@
     getOrders,
     getOrderById,
     updateOrderStatus,
-    getStats
+    getStats,
+    resetShift,
+    getShift
   };
 })();

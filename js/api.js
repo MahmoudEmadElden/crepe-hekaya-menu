@@ -51,28 +51,43 @@
 
   function logout() {
     removeToken();
-    window.location.href = '/';
+    window.location.href = 'index.html';
   }
 
   /* ===========================
      CART HELPERS
      =========================== */
 
+  function sanitizeCart(rawCart) {
+    if (!Array.isArray(rawCart)) return [];
+    return rawCart
+      .filter(item => item && typeof item === 'object' && item.itemId !== undefined && Number.isFinite(Number(item.unitPrice)) && Number(item.unitPrice) >= 0 && Number.isFinite(Number(item.quantity)) && Number(item.quantity) > 0)
+      .map(item => ({
+        itemId: String(item.itemId),
+        name: String(item.name || ''),
+        variant: String(item.variant || ''),
+        variantLabel: String(item.variantLabel || ''),
+        quantity: Math.min(50, Math.max(1, Math.floor(Number(item.quantity)))),
+        unitPrice: Number(item.unitPrice)
+      }));
+  }
+
   function getCart() {
     try {
       const raw = localStorage.getItem(CART_KEY);
-      return raw ? JSON.parse(raw) : [];
+      return raw ? sanitizeCart(JSON.parse(raw)) : [];
     } catch {
       return [];
     }
   }
 
   function saveCart(cart) {
-    localStorage.setItem(CART_KEY, JSON.stringify(cart));
+    localStorage.setItem(CART_KEY, JSON.stringify(sanitizeCart(cart)));
     updateCartBadge();
   }
 
   function addToCart(item) {
+    if (!item || item.itemId === undefined || !Number.isFinite(Number(item.unitPrice)) || Number(item.unitPrice) < 0) return getCart();
     const cart = getCart();
     // Check if same item with same variant already exists
     const existingIdx = cart.findIndex(
@@ -132,12 +147,12 @@
   }
 
   function updateCartBadge() {
-    const badge = document.getElementById('cartBadge');
-    if (badge) {
-      const count = getCartCount();
+    const badges = document.querySelectorAll('#cartBadge, .mobile-nav-cart-badge');
+    const count = getCartCount();
+    badges.forEach(badge => {
       badge.textContent = count;
       badge.style.display = count > 0 ? 'flex' : 'none';
-    }
+    });
   }
 
   /* ===========================
@@ -169,13 +184,18 @@
         if (response.status === 401) {
           removeToken();
         }
-        throw { status: response.status, message: data.message || 'حصل مشكلة', data };
+        const err = new Error(data.message || 'حصل مشكلة في العملية');
+        err.status = response.status;
+        err.data = data;
+        throw err;
       }
 
       return data;
     } catch (error) {
-      if (error.status) throw error; // Re-throw API errors
-      throw { status: 0, message: 'مفيش اتصال بالسيرفر. تأكد من الإنترنت وجرب تاني.' };
+      if (error instanceof Error) throw error;
+      const netErr = new Error('مفيش اتصال بالسيرفر. تأكد من الإنترنت وجرب تاني.');
+      netErr.status = 0;
+      throw netErr;
     }
   }
 

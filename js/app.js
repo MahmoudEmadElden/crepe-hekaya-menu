@@ -15,6 +15,16 @@ const state = {
   currentPhotoIdx: 0
 };
 
+function escapeHtml(value) {
+  if (value === null || value === undefined) return '';
+  return String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // Video Playlist
 const videos = [
   { src: 'assets/videos/cheese-bomb.mp4', poster: 'assets/images/gallery/photo-6.jpeg' },
@@ -54,6 +64,7 @@ const elements = {
   // Details Modal
   itemModal: document.getElementById('itemModal'),
   modalCloseBtn: document.getElementById('modalCloseBtn'),
+  modalItemImg: document.getElementById('modalItemImg'),
   modalItemName: document.getElementById('modalItemName'),
   modalDesc: document.getElementById('modalDesc'),
   modalIngredientsSection: document.getElementById('modalIngredientsSection'),
@@ -176,7 +187,7 @@ function renderGalleryShowcase() {
   // Render Thumbnails cleanly without number overlays
   elements.galleryThumbStrip.innerHTML = galleryPhotos.map((photoSrc, idx) => `
     <div class="gallery-strip-item ${idx === state.currentPhotoIdx ? 'active' : ''}" data-pidx="${idx}">
-      <img src="${photoSrc}" alt="صورة من مطعم كريب حكاية ${idx + 1}" loading="lazy">
+      <img src="${escapeHtml(photoSrc)}" alt="صورة من مطعم كريب حكاية ${idx + 1}" loading="lazy">
     </div>
   `).join('');
 
@@ -235,8 +246,8 @@ function renderCategories() {
   elements.categoryNav.innerHTML = categories.map(cat => {
     const isActive = cat.id === state.activeCategory;
     return `
-      <button class="category-tab ${isActive ? 'active' : ''}" data-category-id="${cat.id}">
-        <span>${cat.name}</span>
+      <button class="category-tab ${isActive ? 'active' : ''}" data-category-id="${escapeHtml(cat.id)}">
+        <span>${escapeHtml(cat.name)}</span>
       </button>
     `;
   }).join('');
@@ -280,6 +291,62 @@ function renderCurrentItems() {
   }
 }
 
+// Food Photography & Badges for Luxury Display
+const itemImageMap = {
+  'ch-1': 'assets/images/gallery/photo-13.jpeg',
+  'ch-2': 'assets/images/gallery/photo-6.jpeg',
+  'ch-3': 'assets/images/gallery/photo-14.jpeg',
+  'ch-4': 'assets/images/gallery/photo-11.jpeg',
+  'ch-5': 'assets/images/gallery/photo-8.jpeg',
+  'ch-6': 'assets/images/gallery/photo-16.jpeg',
+  'ch-7': 'assets/images/gallery/photo-6.jpeg',
+  'ch-8': 'assets/images/gallery/photo-15.jpeg',
+  'm-1': 'assets/images/gallery/photo-4.jpeg',
+  'm-2': 'assets/images/gallery/photo-16.jpeg',
+  'm-3': 'assets/images/gallery/photo-4.jpeg',
+  'm-4': 'assets/images/gallery/photo-16.jpeg',
+  'm-5': 'assets/images/gallery/photo-4.jpeg',
+  'm-6': 'assets/images/gallery/photo-16.jpeg',
+  'mix-1': 'assets/images/gallery/photo-10.jpeg',
+  'mix-2': 'assets/images/gallery/photo-9.jpeg',
+  'mix-3': 'assets/images/gallery/photo-10.jpeg',
+  'mix-4': 'assets/images/gallery/photo-9.jpeg',
+  'mix-5': 'assets/images/gallery/photo-10.jpeg',
+  'sw-1': 'assets/images/gallery/photo-3.jpeg',
+  'sw-2': 'assets/images/gallery/photo-7.jpeg',
+  'sw-3': 'assets/images/gallery/photo-3.jpeg',
+  'sw-4': 'assets/images/gallery/photo-7.jpeg',
+  'sw-5': 'assets/images/gallery/photo-3.jpeg',
+  'ps-1': 'assets/images/gallery/photo-5.jpeg',
+  'ps-2': 'assets/images/gallery/photo-12.jpeg',
+  'ps-3': 'assets/images/gallery/photo-5.jpeg',
+  'c-1': 'assets/images/gallery/photo-2.jpeg',
+  'new-1': 'assets/images/gallery/photo-9.jpeg',
+  'new-2': 'assets/images/gallery/photo-10.jpeg'
+};
+
+const categoryFallbacks = {
+  'chicken': 'assets/images/gallery/photo-6.jpeg',
+  'meat': 'assets/images/gallery/photo-4.jpeg',
+  'mixes': 'assets/images/gallery/photo-10.jpeg',
+  'new-special': 'assets/images/gallery/photo-9.jpeg',
+  'custom': 'assets/images/gallery/photo-2.jpeg',
+  'potatoes-seafood': 'assets/images/gallery/photo-5.jpeg',
+  'sweet': 'assets/images/gallery/photo-3.jpeg',
+  'cheese-addons': 'assets/images/gallery/photo-1.jpeg'
+};
+
+const categoryBadgeLabels = {
+  'chicken': 'فراخ كرسبي',
+  'meat': 'لحم بلدي',
+  'mixes': 'ميكس حكاية',
+  'new-special': 'NEW جديد',
+  'custom': 'على كيفك',
+  'potatoes-seafood': 'بطاطس وسي فود',
+  'sweet': 'حلو وطاقة',
+  'cheese-addons': 'جبن وإضافات'
+};
+
 /**
  * رسم بطاقات الأصناف
  */
@@ -296,12 +363,15 @@ function renderMenuItems(items) {
 
       const labels = item.variantLabels || { plain: 'سادة', roumi: 'رومي', mozzarella: 'موزاريلا' };
       const variantButtonsHtml = Object.keys(item.variants).map(vKey => `
-        <button class="variant-btn ${selectedVariant === vKey ? 'active' : ''}" data-variant="${vKey}">${labels[vKey] || vKey}</button>
+        <button class="variant-btn ${selectedVariant === vKey ? 'active' : ''}" data-variant="${escapeHtml(vKey)}">${escapeHtml(labels[vKey] || vKey)}</button>
       `).join('');
 
       variantSwitcherHtml = `
-        <div class="variant-switcher" data-item-id="${item.id}">
-          ${variantButtonsHtml}
+        <div class="variant-switcher-bar" data-item-id="${item.id}">
+          <span class="variant-label-prefix"><i class="fas fa-layer-group"></i> الخلطة:</span>
+          <div class="variant-switcher">
+            ${variantButtonsHtml}
+          </div>
         </div>
       `;
     }
@@ -316,39 +386,49 @@ function renderMenuItems(items) {
       `;
     }
 
+    const itemImg = item.image || itemImageMap[item.id] || categoryFallbacks[item.category] || 'assets/images/gallery/photo-6.jpeg';
+    const catBadge = categoryBadgeLabels[item.category] || 'كريب حكاية';
+
     return `
       <article class="menu-card fade-in" id="card-${item.id}">
-        <div class="card-top">
-          <h3 class="item-name">${item.name}</h3>
+        <div class="card-media-wrapper">
+          <img src="${itemImg}" alt="${item.name}" class="card-media-img" loading="lazy">
+          <span class="card-cat-badge">${catBadge}</span>
         </div>
 
-        <p class="item-desc">${item.description || ''}</p>
-        
-        ${ingredientsHtml}
-        ${variantSwitcherHtml}
-
-        <div class="card-bottom">
-          <div class="price-box">
-            <span class="price-value" id="price-${item.id}">${currentPrice}</span>
-            <span class="price-currency">جنيه</span>
+        <div class="card-content-body">
+          <div class="card-top">
+            <h3 class="item-name">${item.name}</h3>
           </div>
 
-          <div class="card-actions">
-            <button class="btn-add-cart" data-add-cart="${item.id}" aria-label="أضف ${item.name} للسلة">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-              </svg>
-              <span>أضف للسلة</span>
-            </button>
-            <button class="btn-details" data-open-modal="${item.id}" aria-label="عرض تفاصيل ${item.name}">
-              <span>المكونات</span>
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="16" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12.01" y2="8"></line>
-              </svg>
-            </button>
+          <p class="item-desc">${item.description || ''}</p>
+          
+          ${ingredientsHtml}
+          ${variantSwitcherHtml}
+
+          <div class="card-bottom">
+            <div class="price-box">
+              <span class="price-value" id="price-${item.id}">${currentPrice}</span>
+              <span class="price-currency">جنيه</span>
+            </div>
+
+            <div class="card-actions">
+              <button class="btn-add-cart" data-add-cart="${item.id}" aria-label="أضف ${item.name} للسلة">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>أضف للسلة</span>
+              </button>
+              <button class="btn-details" data-open-modal="${item.id}" aria-label="عرض تفاصيل ${item.name}">
+                <span>المكونات</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="10" r="10"></circle>
+                  <line x1="12" y1="16" x2="12" y2="12"></line>
+                  <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
       </article>
@@ -434,6 +514,13 @@ function openItemModal(itemId) {
   elements.modalItemName.textContent = item.name;
   elements.modalDesc.textContent = item.description || 'صنف فاخر ومحضر طازج بأعلى جودة وأفضل المكونات.';
   
+  const itemImg = item.image || itemImageMap[item.id] || categoryFallbacks[item.category] || 'assets/images/gallery/photo-6.jpeg';
+  if (elements.modalItemImg) {
+    elements.modalItemImg.src = itemImg;
+    elements.modalItemImg.alt = item.name;
+    elements.modalItemImg.style.display = 'block';
+  }
+
   const priceNumElem = document.getElementById('modalPriceNum');
   if (priceNumElem) {
     priceNumElem.textContent = currentPrice;
@@ -457,6 +544,9 @@ function closeItemModal() {
   if (!elements.itemModal) return;
   elements.itemModal.classList.remove('active');
   document.body.style.overflow = '';
+  if (elements.modalItemImg) {
+    elements.modalItemImg.style.display = 'none';
+  }
 }
 
 /**
@@ -519,10 +609,10 @@ function setupEventListeners() {
     elements.menuGrid.addEventListener('click', e => {
       const variantBtn = e.target.closest('.variant-btn');
       if (variantBtn) {
-        const switcher = variantBtn.closest('.variant-switcher');
-        const itemId = switcher.dataset.itemId;
+        const switcher = variantBtn.closest('[data-item-id]');
+        const itemId = switcher ? switcher.dataset.itemId : null;
         const variant = variantBtn.dataset.variant;
-        handleVariantChange(itemId, variant);
+        if (itemId) handleVariantChange(itemId, variant);
         return;
       }
 

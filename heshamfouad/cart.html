@@ -479,17 +479,12 @@
               </div>
             </div>
 
-            <!-- Dual Action Buttons -->
+            <!-- Single Primary WhatsApp Checkout Button (Zero Friction) -->
             <div class="checkout-actions-row">
-              <button type="button" class="btn-checkout-online" id="btnOnlineCheckout" onclick="submitOnlineOrder()">
-                <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i>
-                <span class="btn-text">تأكيد الطلب عبر الواتساب الآن</span>
+              <button type="button" class="btn-whatsapp-order" id="btnOnlineCheckout" onclick="submitOnlineOrder()" style="width: 100%; padding: 1.15rem 1.5rem; font-size: 1.15rem; font-weight: 900; background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); color: #fff; border: none; border-radius: var(--radius-full); box-shadow: 0 10px 28px rgba(37, 211, 102, 0.45); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.75rem; transition: all 0.25s ease;">
+                <i class="fab fa-whatsapp" style="font-size: 1.45rem;"></i>
+                <span class="btn-text">إرسال وتأكيد الطلب عبر الواتساب الآن 💬</span>
                 <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> جاري فتح الواتساب وإرسال الطلب...</span>
-              </button>
-
-              <button type="button" class="btn-whatsapp-order" id="btnWhatsAppOrder" onclick="submitWhatsAppOrder()">
-                <i class="fas fa-motorcycle"></i>
-                <span>طلب دليفري سريع</span>
               </button>
             </div>
           </form>

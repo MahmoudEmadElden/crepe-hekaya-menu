@@ -7,8 +7,9 @@
   <meta name="description" content="تتبع حالة طلباتك المباشرة من مطعم هشام فؤاد ملك الكريب بأسيوط">
   <meta name="theme-color" content="#031215">
 
-  <!-- Favicon -->
+  <!-- Favicon & Manifest -->
   <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="manifest" href="manifest.json">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -229,5 +230,29 @@
 
   <script src="js/api.js"></script>
   <script src="js/orders.js"></script>
+
+  <!-- Mobile App Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" aria-label="شريط الملاحة لتطبيق الموبايل">
+    <a href="index.html" class="mobile-nav-item">
+      <i class="fas fa-home"></i>
+      <span>الرئيسية</span>
+    </a>
+    <a href="menu.html" class="mobile-nav-item">
+      <i class="fas fa-utensils"></i>
+      <span>المنيو</span>
+    </a>
+    <a href="cart.html" class="mobile-nav-item">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="mobile-nav-cart-badge" style="display:none;">0</span>
+      <span>السلة</span>
+    </a>
+    <a href="orders.html" class="mobile-nav-item active">
+      <i class="fas fa-receipt"></i>
+      <span>طلباتي</span>
+    </a>
+  </nav>
+
+  <!-- PWA Client Controller -->
+  <script src="js/pwa.js"></script>
 </body>
 </html>

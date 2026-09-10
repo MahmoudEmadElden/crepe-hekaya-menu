@@ -2,379 +2,225 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>لوحة التحكم والكاشير — هشام فؤاد ملك الكريب</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <title>لوحة التحكم والكاشير — هشام فؤاد ملك الكريب | أسيوط</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0D1518">
+
   <link rel="icon" type="image/png" href="assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
-
-  <style>
-    .admin-wrap {
-      padding: 2.5rem 0 5rem;
-    }
-    .admin-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.5rem;
-      margin-bottom: 2.5rem;
-    }
-    .stat-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-md);
-      padding: 1.5rem;
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-    }
-    .stat-icon-wrap {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-sm);
-      background: var(--primary-subtle);
-      border: 1px solid var(--border-card);
-      color: var(--primary-light);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.35rem;
-    }
-    .stat-icon-wrap.gold {
-      background: var(--accent-gold-subtle);
-      border-color: var(--border-gold);
-      color: var(--accent-gold);
-    }
-    .stat-info h5 {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      margin-bottom: 0.25rem;
-    }
-    .stat-info .stat-val {
-      font-size: 1.75rem;
-      font-weight: 900;
-      color: #fff;
-      font-family: 'Outfit';
-    }
-    .orders-panel {
-      background: var(--bg-card);
-      border: 1px solid var(--border-card);
-      border-radius: var(--radius-lg);
-      padding: 1.75rem;
-      box-shadow: var(--shadow-card);
-    }
-    .orders-table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-    }
-    .orders-table th {
-      background: var(--primary-subtle);
-      color: var(--primary-light);
-      padding: 1rem;
-      font-size: 0.9rem;
-      font-weight: 800;
-      text-align: right;
-      border-bottom: 1px solid var(--border-card);
-    }
-    .orders-table td {
-      padding: 1rem;
-      border-bottom: 1px solid var(--border-subtle);
-      font-size: 0.9rem;
-    }
-    .status-badge {
-      display: inline-block;
-      padding: 0.3rem 0.75rem;
-      border-radius: var(--radius-full);
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .status-pending { background: rgba(245, 158, 11, 0.15); color: var(--accent-gold); border: 1px solid var(--border-gold); }
-    .status-preparing { background: rgba(10, 116, 138, 0.2); color: var(--primary-light); border: 1px solid var(--primary-light); }
-    .status-ready { background: rgba(16, 185, 129, 0.15); color: var(--accent-green); border: 1px solid var(--accent-green); }
-    .status-delivered { background: rgba(148, 163, 184, 0.15); color: var(--text-muted); }
-    
-    .flash-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(13, 21, 24, 0.95);
-      z-index: 9999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      animation: alertPulse 1s infinite alternate;
-    }
-    @keyframes alertPulse {
-      0% { box-shadow: inset 0 0 80px rgba(10, 116, 138, 0.8); }
-      100% { box-shadow: inset 0 0 120px rgba(245, 158, 11, 0.8); }
-    }
-    .flash-box {
-      background: var(--bg-card);
-      border: 2px solid var(--accent-gold);
-      border-radius: var(--radius-lg);
-      padding: 2.5rem;
-      max-width: 480px;
-      text-align: center;
-      box-shadow: 0 0 50px rgba(245, 158, 11, 0.4);
-    }
-    .btn-sound-toggle {
-      background: rgba(16, 185, 129, 0.15);
-      border: 1px solid var(--accent-green);
-      color: var(--accent-green);
-      padding: 0.5rem 1.1rem;
-      border-radius: var(--radius-full);
-      font-weight: 800;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      cursor: pointer;
-    }
-    @media (max-width: 900px) {
-      .stats-row {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-  </style>
+  <link rel="stylesheet" href="css/admin.css">
 </head>
-<body>
+<body style="background: var(--color-bg-dark); color: #fff;">
 
-  <!-- Top Bar -->
-  <div class="top-bar">
-    <span class="tag">لوحة الكاشير</span>
-    <span>نظام متابعة واستلام الطلبات الفوري — فرع أسيوط</span>
-    <span>هشام فؤاد ملك الكريب</span>
-  </div>
+  <!-- Admin Login Screen -->
+  <div class="admin-login-screen" id="adminLoginScreen">
+    <div class="auth-card">
+      <div style="text-align:center;margin-bottom:1.75rem;">
+        <img src="assets/images/logo.png" alt="لوجو هشام فؤاد" style="width:72px;height:72px;border-radius:50%;border:2px solid var(--color-border-gold);margin-bottom:0.75rem;object-fit:cover;">
+        <h2 style="font-size:1.35rem;font-weight:900;color:#fff;">هشام فؤاد — ملك الكريب</h2>
+        <p style="font-size:0.85rem;color:var(--color-text-muted);margin-top:0.25rem;">لوحة إدارة الطلبات والكاشير — فرع أسيوط</p>
+      </div>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="index.html" class="brand-logo">
-        <img src="assets/images/logo.png" alt="لوجو هشام فؤاد">
-        <div class="brand-text">
-          <h1>هشام فؤاد</h1>
-          <span><i class="fas fa-crown"></i> لوحة الإدارة</span>
+      <form id="adminLoginForm" style="display:flex;flex-direction:column;gap:1.1rem;">
+        <div class="form-group">
+          <label for="adminUser">اسم المستخدم</label>
+          <input type="text" id="adminUser" placeholder="admin" required autocomplete="username">
         </div>
-      </a>
-
-      <div class="nav-actions">
-        <button id="btn-enable-audio" class="btn-sound-toggle" onclick="toggleAudioAlerts()">
-          <i class="fas fa-volume-up"></i>
-          <span id="audio-btn-text">تفعيل صوت التنبيه</span>
+        <div class="form-group">
+          <label for="adminPass">كلمة المرور</label>
+          <input type="password" id="adminPass" placeholder="كلمة المرور" required autocomplete="current-password">
+        </div>
+        <div class="form-error" id="adminLoginError"></div>
+        <button type="submit" class="auth-submit-btn">
+          <i class="fas fa-sign-in-alt"></i>
+          <span>دخول الكاشير</span>
         </button>
-        <a href="index.html" class="btn-secondary" style="font-size: 0.85rem; padding: 0.5rem 1rem;">
-          <i class="fas fa-store"></i>
-          <span>عرض الموقع</span>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Admin Main Content -->
-  <main class="admin-wrap">
-    <div class="container">
-      <div class="admin-header">
-        <div>
-          <h2 style="font-size: 1.85rem; font-weight: 900; color: #fff;">طلبات المطعم المباشرة</h2>
-          <p style="color: var(--text-muted); font-size: 0.92rem;">متابعة فورية مع تنبيه صوتي ووميض عند وصول طلب جديد</p>
-        </div>
-        <div>
-          <button class="btn-primary" onclick="simulateNewOrderDemo()" style="font-size: 0.88rem; padding: 0.6rem 1.3rem;">
-            <i class="fas fa-bell"></i>
-            <span>تجربة تنبيه صوتي فوري</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Quick Stats -->
-      <div class="stats-row">
-        <div class="stat-card">
-          <div class="stat-icon-wrap"><i class="fas fa-receipt"></i></div>
-          <div class="stat-info">
-            <h5>طلبات اليوم</h5>
-            <span class="stat-val" id="stat-count">12</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrap gold"><i class="fas fa-coins"></i></div>
-          <div class="stat-info">
-            <h5>إجمالي المبيعات</h5>
-            <span class="stat-val" id="stat-revenue">1,840 ج</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrap" style="color: var(--accent-gold); border-color: var(--border-gold);"><i class="fas fa-clock"></i></div>
-          <div class="stat-info">
-            <h5>قيد الانتظار</h5>
-            <span class="stat-val" id="stat-pending">2</span>
-          </div>
-        </div>
-        <div class="stat-card">
-          <div class="stat-icon-wrap" style="color: var(--accent-green); border-color: var(--accent-green);"><i class="fas fa-check-circle"></i></div>
-          <div class="stat-info">
-            <h5>تم التوصيل</h5>
-            <span class="stat-val" id="stat-delivered">9</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Live Orders Table Panel -->
-      <div class="orders-panel">
-        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem;">
-          <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff;">قائمة الأوردرات الحية</h3>
-          <span style="font-size: 0.85rem; color: var(--primary-light);"><i class="fas fa-sync-alt fa-spin"></i> متصل بالسيرفر</span>
-        </div>
-
-        <div style="overflow-x: auto;">
-          <table class="orders-table">
-            <thead>
-              <tr>
-                <th>رقم الطلب</th>
-                <th>اسم العميل</th>
-                <th>رقم الموبايل</th>
-                <th>عنوان أسيوط</th>
-                <th>الأصناف المطلوبة</th>
-                <th>الإجمالي</th>
-                <th>الحالة</th>
-                <th>إجراءات</th>
-              </tr>
-            </thead>
-            <tbody id="admin-orders-tbody">
-              <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2045</td>
-                <td>محمود عماد الدين</td>
-                <td>01038945555</td>
-                <td>شارع المحافظة أمام مستشفى طيبة</td>
-                <td>1× كريب الوحش + صوص شيدر</td>
-                <td style="font-weight: 900; font-family: 'Outfit';">175 ج</td>
-                <td><span class="status-badge status-pending">قيد الانتظار</span></td>
-                <td>
-                  <button class="btn-primary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;" onclick="advanceStatus(this, 'status-preparing', 'جاري التحضير')">قبول وتحضير</button>
-                </td>
-              </tr>
-              <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2044</td>
-                <td>أحمد فؤاد</td>
-                <td>01554006656</td>
-                <td>بجوار الفانوس - الدور الثالث</td>
-                <td>2× كريب زنجر + 1× كريب نوتيلا أوريو</td>
-                <td style="font-weight: 900; font-family: 'Outfit';">295 ج</td>
-                <td><span class="status-badge status-preparing">جاري التحضير</span></td>
-                <td>
-                  <button class="btn-secondary" style="padding: 0.35rem 0.8rem; font-size: 0.8rem;" onclick="advanceStatus(this, 'status-ready', 'جاهز للتوصيل')">جاهز</button>
-                </td>
-              </tr>
-              <tr>
-                <td style="font-weight: 900; font-family: 'Outfit'; color: var(--accent-gold);">#2043</td>
-                <td>كريم حسن</td>
-                <td>01221458990</td>
-                <td>شركة فريال - شارع يسري راغب</td>
-                <td>1× كريب ميلانو + 1× كريب بطاطس جبن</td>
-                <td style="font-weight: 900; font-family: 'Outfit';">210 ج</td>
-                <td><span class="status-badge status-delivered">تم التوصيل</span></td>
-                <td><span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل</span></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <!-- Flashing Overlay Notification for New Orders -->
-  <div id="new-order-overlay" class="flash-overlay">
-    <div class="flash-box">
-      <div style="font-size: 3.5rem; color: var(--accent-gold); margin-bottom: 0.5rem;"><i class="fas fa-bell"></i></div>
-      <h2 style="font-size: 1.85rem; font-weight: 900; color: #fff; margin-bottom: 0.5rem;">طلب جديد وصل للكاشير</h2>
-      <p id="overlay-order-details" style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 1.5rem;">
-        طلب رقم <strong style="color: var(--accent-gold);">#2046</strong> — كريب هشام فؤاد الوحش
-      </p>
-      <button class="btn-primary" style="padding: 0.85rem 2.25rem; font-size: 1rem;" onclick="dismissAlert()">
-        <i class="fas fa-check"></i>
-        <span>استلام وفحص الطلب</span>
-      </button>
+      </form>
     </div>
   </div>
 
-  <!-- Audio Alert Engine via Web Audio API -->
-  <script>
-    let audioContext = null;
-    let audioEnabled = false;
+  <!-- Admin Dashboard (Hidden until login) -->
+  <div class="admin-dashboard" id="adminDashboard" style="display:none;">
 
-    function initAudio() {
-      if (!audioContext) {
-        audioContext = new (window.AudioContext || window.webkitAudioContext)();
-      }
-      if (audioContext.state === 'suspended') {
-        audioContext.resume();
-      }
-      audioEnabled = true;
-      document.getElementById('audio-btn-text').textContent = 'الصوت مفعل';
-      document.getElementById('btn-enable-audio').style.borderColor = 'var(--accent-gold)';
-      document.getElementById('btn-enable-audio').style.color = 'var(--accent-gold)';
-    }
+    <!-- Top Bar Header -->
+    <header class="navbar admin-header-nav" style="position:sticky;top:0;z-index:100;background:rgba(13, 21, 24, 0.96);backdrop-filter:blur(12px);border-bottom:1px solid var(--color-border);">
+      <div class="container admin-navbar-container">
+        <div class="admin-brand-block">
+          <img src="assets/images/logo.png" alt="لوجو هشام فؤاد" class="admin-brand-img">
+          <div class="admin-brand-text">
+            <span class="admin-brand-title">هشام فؤاد</span>
+            <span class="admin-brand-role"><i class="fas fa-crown"></i> كاشير فرع أسيوط</span>
+          </div>
+        </div>
 
-    function toggleAudioAlerts() {
-      initAudio();
-      playLoudAlarm();
-    }
+        <div class="admin-header-actions">
+          <button class="admin-action-pill-btn" id="btnAdminPw" title="تغيير كلمة المرور">
+            <i class="fas fa-key"></i>
+            <span>كلمة المرور</span>
+          </button>
+          <button class="admin-sound-btn" id="adminSoundBtn" title="تفعيل صوت الإشعارات">
+            <span id="soundIcon"><i class="fas fa-volume-mute"></i></span>
+            <span id="soundLabel">تفعيل الصوت</span>
+          </button>
+          <a href="index.html" class="admin-action-pill-btn" target="_blank" title="عرض الموقع">
+            <i class="fas fa-external-link-alt"></i>
+            <span>الموقع</span>
+          </a>
+          <button class="admin-logout-btn" id="adminLogoutBtn">خروج</button>
+        </div>
+      </div>
+    </header>
 
-    function playLoudAlarm() {
-      initAudio();
-      const ctx = audioContext;
-      const now = ctx.currentTime;
+    <main class="admin-main" style="padding: 2rem 0 4rem;">
+      <div class="container">
 
-      [0, 0.25, 0.5, 0.75].forEach(timeOffset => {
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
+        <!-- Shift Control & Date Range Toolbar -->
+        <div class="shift-toolbar">
+          <div class="shift-info-row">
+            <div class="shift-badge">
+              <span class="pulse-dot-live"></span>
+              <span class="shift-title">الوردية الحالية:</span>
+              <span class="shift-time" id="shiftTimeDisplay">جاري التحميل...</span>
+            </div>
 
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(880, now + timeOffset);
-        osc.frequency.exponentialRampToValueAtTime(1200, now + timeOffset + 0.15);
+            <button type="button" class="btn-reset-shift" id="btnResetShift" title="تصفير عدادات الطلبات وبدء شيفت جديد للكاشير">
+              <i class="fas fa-sync-alt"></i>
+              <span>تصفير الوردية (بدء شيفت جديد)</span>
+            </button>
+          </div>
 
-        gain.gain.setValueAtTime(0.3, now + timeOffset);
-        gain.gain.exponentialRampToValueAtTime(0.01, now + timeOffset + 0.2);
+          <div class="period-controls">
+            <div class="period-tabs">
+              <button type="button" class="period-tab active" data-period="shift">الوردية الحالية</button>
+              <button type="button" class="period-tab" data-period="today">اليوم كاملاً</button>
+              <button type="button" class="period-tab" data-period="yesterday">أمس</button>
+              <button type="button" class="period-tab" data-period="all">كل الأوقات</button>
+              <button type="button" class="period-tab" data-period="custom" id="tabCustomPeriod">
+                <i class="fas fa-calendar-alt"></i> تاريخ / ساعة محددة
+              </button>
+            </div>
 
-        osc.connect(gain);
-        gain.connect(ctx.destination);
+            <!-- Custom DateTime Range Inputs -->
+            <div class="custom-dt-box" id="customDtBox" style="display: none;">
+              <div class="custom-dt-inputs">
+                <div class="dt-field">
+                  <label for="dtStart">من (تاريخ وساعة):</label>
+                  <input type="datetime-local" id="dtStart">
+                </div>
+                <div class="dt-field">
+                  <label for="dtEnd">إلى (تاريخ وساعة):</label>
+                  <input type="datetime-local" id="dtEnd">
+                </div>
+                <button type="button" class="btn-apply-dt" id="btnApplyCustomDt">
+                  <i class="fas fa-filter"></i> تطبيق الفلترة
+                </button>
+                <button type="button" class="btn-clear-dt" id="btnClearCustomDt">
+                  إلغاء
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        osc.start(now + timeOffset);
-        osc.stop(now + timeOffset + 0.22);
-      });
-    }
+        <!-- Active Filter Alert Banner -->
+        <div class="active-filter-banner" id="activeFilterBanner" style="display:none;"></div>
 
-    function simulateNewOrderDemo() {
-      playLoudAlarm();
-      const overlay = document.getElementById('new-order-overlay');
-      overlay.style.display = 'flex';
-    }
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+          <div class="stat-card">
+            <div class="stat-label">إجمالي الطلبات بالوردية</div>
+            <div class="stat-value" id="statTotalOrders">0</div>
+          </div>
+          <div class="stat-card gold">
+            <div class="stat-label">إجمالي الإيراد</div>
+            <div class="stat-value" id="statTotalRevenue">0 ج.م</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">طلبات في الانتظار</div>
+            <div class="stat-value" id="statPendingOrders" style="color: #F59E0B;">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">جاري التحضير بالمطبخ</div>
+            <div class="stat-value" id="statPreparingOrders" style="color: #3B82F6;">0</div>
+          </div>
+        </div>
 
-    function dismissAlert() {
-      document.getElementById('new-order-overlay').style.display = 'none';
-    }
+        <!-- Orders Table Card -->
+        <div class="orders-table-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;">
+            <h3 style="font-size:1.25rem;font-weight:900;color:#fff;">
+              <i class="fas fa-list-alt" style="color:var(--color-accent-gold);margin-left:0.4rem;"></i>
+              سجل الطلبات المباشر
+            </h3>
+            <span style="font-size:0.8rem;color:var(--color-text-muted);">تحديث تلقائي كل 6 ثوانٍ مع تنبيه صوتي للطلبات الجديدة</span>
+          </div>
 
-    function advanceStatus(btn, nextClass, nextText) {
-      const row = btn.closest('tr');
-      const badge = row.querySelector('.status-badge');
-      badge.className = `status-badge ${nextClass}`;
-      badge.textContent = nextText;
+          <div class="table-responsive">
+            <table class="admin-orders-table">
+              <thead>
+                <tr>
+                  <th>رقم الأوردر</th>
+                  <th>العميل والموبايل</th>
+                  <th>عنوان التوصيل</th>
+                  <th>الأصناف والإضافات</th>
+                  <th>الإجمالي</th>
+                  <th>الحالة</th>
+                  <th>الإجراءات والطباعة</th>
+                </tr>
+              </thead>
+              <tbody id="adminOrdersList">
+                <!-- Dynamic Orders -->
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      if (nextText === 'جاري التحضير') {
-        btn.textContent = 'جاهز للتوصيل';
-        btn.onclick = () => advanceStatus(btn, 'status-ready', 'جاهز للتوصيل');
-      } else if (nextText === 'جاهز للتوصيل') {
-        btn.textContent = 'تم التوصيل';
-        btn.onclick = () => advanceStatus(btn, 'status-delivered', 'تم التوصيل');
-      } else {
-        btn.parentElement.innerHTML = '<span style="color: var(--text-dim); font-size: 0.85rem;">مكتمل</span>';
-      }
-    }
-  </script>
+      </div>
+    </main>
+  </div>
+
+  <!-- Password Change Modal -->
+  <div class="admin-modal-overlay" id="pwModal">
+    <div class="admin-modal-box">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;border-bottom:1px solid var(--color-border);padding-bottom:0.75rem;">
+        <h3 style="margin:0;font-size:1.2rem;font-weight:800;color:#fff;">
+          <i class="fas fa-key" style="color:var(--color-accent-gold);"></i> تغيير كلمة المرور
+        </h3>
+        <button type="button" id="pwModalClose" style="background:none;border:none;color:#fff;font-size:1.5rem;cursor:pointer;">&times;</button>
+      </div>
+
+      <form id="pwForm" style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="form-group">
+          <label for="currentPw">كلمة المرور الحالية</label>
+          <input type="password" id="currentPw" required autocomplete="current-password">
+        </div>
+        <div class="form-group">
+          <label for="newPw">كلمة المرور الجديدة (6 أحرف على الأقل)</label>
+          <input type="password" id="newPw" required minlength="6" autocomplete="new-password">
+        </div>
+        <div class="form-group">
+          <label for="confirmPw">تأكيد كلمة المرور الجديدة</label>
+          <input type="password" id="confirmPw" required minlength="6" autocomplete="new-password">
+        </div>
+
+        <div id="pwError" class="form-error"></div>
+        <div id="pwSuccess" style="color: #10B981; font-size: 0.85rem; font-weight: 700; text-align: center;"></div>
+
+        <button type="submit" class="auth-submit-btn" style="margin-top:0.5rem;">حفظ كلمة المرور الجديدة</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Thermal Print Hidden Container -->
+  <div id="thermalPrintContainer"></div>
+
+  <!-- Scripts -->
+  <script src="js/api.js"></script>
+  <script src="js/admin.js"></script>
 </body>
 </html>

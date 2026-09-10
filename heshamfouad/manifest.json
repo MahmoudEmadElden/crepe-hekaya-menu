@@ -1,0 +1,51 @@
+{
+  "name": "هشام فؤاد — ملك الكريب بأسيوط",
+  "short_name": "هشام فؤاد",
+  "description": "التطبيق الرسمي لمطعم هشام فؤاد ملك الكريب بأسيوط — تصفح المنيو واطلب كريب الوحش وأشهى الميكسات أونلاين ودليفري.",
+  "start_url": "index.html",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#031215",
+  "theme_color": "#031215",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["food", "shopping"],
+  "icons": [
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "قائمة الطعام",
+      "short_name": "المنيو",
+      "description": "تصفح منيو هشام فؤاد والأسعار",
+      "url": "menu.html",
+      "icons": [{ "src": "assets/images/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "سلة المشتريات",
+      "short_name": "السلة",
+      "description": "متابعة الطلب والتوصيل في أسيوط",
+      "url": "cart.html",
+      "icons": [{ "src": "assets/images/logo.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "تتبع طلباتي",
+      "short_name": "طلباتي",
+      "description": "تتبع حالة أوردرك مباشرة",
+      "url": "orders.html",
+      "icons": [{ "src": "assets/images/logo.png", "sizes": "192x192" }]
+    }
+  ]
+}

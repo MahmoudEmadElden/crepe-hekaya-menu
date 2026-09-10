@@ -5,9 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
   <title>تسجيل الدخول — كريب حكاية | Crepe Hekaya</title>
 
-  <meta name="description" content="سجل دخولك أو أنشئ حساب جديد لتقدر تطلب من مطعم كريب حكاية أونلاين.">
-  <meta name="theme-color" content="#0C0C0E">
+  <meta name="theme-color" content="#E65100">
+  <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="كريب حكاية">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +25,7 @@
   <!-- Minimal Navbar -->
   <header class="navbar">
     <div class="container navbar-container">
-      <a href="/" class="nav-brand" aria-label="كريب حكاية الرئيسية">
+      <a href="index.html" class="nav-brand" aria-label="كريب حكاية الرئيسية">
         <div class="brand-crepe-icon">
           <img src="assets/images/logo.jpeg?v=3" alt="لوجو مطعم كريب حكاية" class="brand-logo-img">
         </div>
@@ -31,7 +35,7 @@
         </div>
       </a>
       <div class="nav-actions">
-        <a href="/menu.html" class="auth-nav-link">← الرجوع للمنيو</a>
+        <a href="menu.html" class="auth-nav-link">← الرجوع للمنيو</a>
       </div>
     </div>
   </header>
@@ -125,5 +129,6 @@
 
   <script src="js/api.js"></script>
   <script src="js/auth.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

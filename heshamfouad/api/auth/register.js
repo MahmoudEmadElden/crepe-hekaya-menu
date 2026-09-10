@@ -102,13 +102,20 @@ module.exports = async function handler(req, res) {
     });
 
     // Generate JWT
+    const jwtSecret = process.env.JWT_SECRET;
+    if (!jwtSecret || jwtSecret.trim() === '') {
+      return res.status(500).json({
+        success: false,
+        message: 'حدث خطأ في الخادم، يرجى المحاولة مرة أخرى لاحقاً'
+      });
+    }
     const token = jwt.sign(
       {
         userId: user._id,
         username: user.username,
         role: user.role
       },
-      process.env.JWT_SECRET || 'hesham_fouad_super_secure_jwt_secret_2026_king',
+      jwtSecret,
       { expiresIn: '7d' }
     );
 

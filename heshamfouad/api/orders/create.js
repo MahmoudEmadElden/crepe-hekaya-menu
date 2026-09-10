@@ -11,126 +11,25 @@ const Order = require('../_lib/models/Order');
 const Counter = require('../_lib/models/Counter');
 const User = require('../_lib/models/User');
 
-// Comprehensive Price Map for Hesham Fouad (All IDs, legacy aliases, and Arabic names)
-const PRICE_MAP = {
-  // 1. Signature & Mixes (New IDs)
-  'hesham-fouad-signature': 150,
-  'mix-toscany': 135,
-  'mix-milano': 130,
-  'mix-chicago': 130,
-  'mix-moscow': 130,
-  'mix-supreme': 130,
-  'mix-amsterdam': 125,
-  'mix-sofia': 125,
-  'mix-sujouk-kiri': 120,
-  'mix-chicken-quad': 120,
-  'mix-smoked': 120,
-  'mix-super-crunchy': 115,
+const menuData = require(path.resolve(__dirname, '../../js/menuData.js'));
 
-  // 1. Signature & Mixes (Legacy Aliases)
-  'hf-beast': 150,
-  'hf-toscanini': 135,
-  'hf-milano': 130,
-  'hf-moscow': 130,
-  'hf-chicago': 130,
-  'hf-super-supreme': 130,
-  'hf-amsterdam': 125,
-  'hf-sofia': 125,
-  'hf-sojouk-kiri': 120,
-  'hf-mix-chicken': 120,
-  'hf-mix-smoked': 120,
-  'hf-super-crunchy': 115,
+const PRICE_MAP = {};
+menuData.menuItems.forEach(item => {
+  PRICE_MAP[item.id] = Number(item.price) || 0;
+});
 
-  // 2. Chicken Crepes
-  'chk-ranch': 120,
-  'chk-bbq': 120,
-  'chk-grilled-breast': 115,
-  'chk-shish': 115,
-  'chk-fajita': 115,
-  'chk-shawarma': 105,
-  'chk-cordon-bleu': 105,
-  'chk-strips': 95,
-  'chk-zinger': 95,
-  'chk-pane': 95,
-  'chk-nuggets': 95,
+const ADDON_MAP = {};
+menuData.extraAddons.forEach(a => { ADDON_MAP[a.id] = Number(a.price) || 0; });
+menuData.extraSauces.forEach(s => { ADDON_MAP[s.id] = Number(s.price) || 0; });
+menuData.sweetSauces.forEach(s => { ADDON_MAP[s.id] = Number(s.price) || 0; });
 
-  // 3. Meat Crepes
-  'meat-steak': 120,
-  'meat-burger': 105,
-  'meat-pastrami': 100,
-  'meat-salami': 100,
-  'meat-sujouk': 95,
-  'meat-sojouk': 95,
-  'meat-kofta': 95,
-  'meat-hotdog': 90,
-  'meat-sausage': 90,
+const DELIVERY_FEE = Number(menuData.restaurantInfo.deliveryFee) || 15;
+const MIN_ORDER = Number(menuData.restaurantInfo.minOrder) || 0;
 
-  // 4. Fries & Cheese
-  'fries-mix-cheese': 80,
-  'side-mix-cheese': 80,
-  'fries-potato': 60,
-  'side-fries': 60,
-
-  // 5. Sweet Crepes
-  'swt-apple-cinnamon': 120,
-  'swt-mango': 120,
-  'swt-pineapple': 120,
-  'swt-peach': 115,
-  'swt-banana': 115,
-  'swt-nutella-oreo': 105,
-  'swt-nutella-classic': 100,
-  'swt-nutella': 100,
-  'swt-lotus': 90,
-  'swt-pistachio': 90,
-  'swt-kinder': 90
-};
-
-// Try merging dynamic menuData if reachable in environment
-try {
-  const menuData = require(path.resolve(__dirname, '../../js/menuData.js'));
-  if (menuData && Array.isArray(menuData.menuItems)) {
-    menuData.menuItems.forEach(item => {
-      if (item.id && item.price) PRICE_MAP[item.id] = Number(item.price);
-      if (item.name && item.price) PRICE_MAP[item.name.trim()] = Number(item.price);
-    });
-  }
-} catch (e) {
-  // Static map is our solid baseline
-}
-
-const ADDON_MAP = {
-  'addon-mozzarella': 25,
-  'addon-cheddar': 25,
-  'addon-turkey': 20,
-  'addon-mushroom': 20,
-  'addon-jalapeno': 15,
-  'addon-fries': 15
-};
-
-const DELIVERY_FEE = 15;
-const MIN_ORDER = 0;
-
-function resolvePrice(item) {
-  if (!item) return 0;
-  // 1. Try by itemId
-  if (item.itemId && PRICE_MAP[item.itemId]) return PRICE_MAP[item.itemId];
-  // 2. Try by normalized name
-  if (item.name) {
-    const trimmed = item.name.trim();
-    if (PRICE_MAP[trimmed]) return PRICE_MAP[trimmed];
-    // fuzzy match for toscany
-    if (trimmed.includes('توسكان')) return 135;
-    if (trimmed.includes('هشام فؤاد') || trimmed.includes('الوحش')) return 150;
-    if (trimmed.includes('ميلانو') || trimmed.includes('شيكاغو') || trimmed.includes('موسكو') || trimmed.includes('سوبريم')) return 130;
-  }
-  // 3. Fallback to client passed unitPrice if positive and reasonable
-  if (typeof item.unitPrice === 'number' && item.unitPrice > 0 && item.unitPrice <= 1000) {
-    return item.unitPrice;
-  }
-  if (typeof item.price === 'number' && item.price > 0 && item.price <= 1000) {
-    return item.price;
-  }
-  return 0;
+function resolveItemId(itemId) {
+  if (!itemId) return '';
+  if (PRICE_MAP[itemId]) return itemId;
+  return itemId;
 }
 
 module.exports = async function handler(req, res) {
@@ -173,8 +72,9 @@ module.exports = async function handler(req, res) {
     const validatedItems = [];
 
     for (const item of items) {
-      const basePrice = resolvePrice(item);
-      if (!basePrice || basePrice <= 0) {
+      const resolvedId = resolveItemId(item.itemId);
+      const basePrice = PRICE_MAP[resolvedId];
+      if (!basePrice) {
         return res.status(400).json({ success: false, message: `الصنف ${item.name || item.itemId} غير صالح أو غير مسجل في قائمة الأسعار` });
       }
       let addonsSum = 0;
@@ -182,7 +82,10 @@ module.exports = async function handler(req, res) {
       const validatedAddons = [];
       if (Array.isArray(item.selectedAddons)) {
         for (const addon of item.selectedAddons) {
-          const aPrice = ADDON_MAP[addon.id] || Number(addon.price) || 0;
+          const aPrice = ADDON_MAP[addon.id] || 0;
+          if (aPrice === 0) {
+            return res.status(400).json({ success: false, message: `إضافة ${addon.name || addon.id} غير صالحة` });
+          }
           addonsSum += aPrice;
           validatedAddons.push({
             id: addon.id,
@@ -195,7 +98,10 @@ module.exports = async function handler(req, res) {
       const validatedSauces = [];
       if (Array.isArray(item.selectedSauces)) {
         for (const sauce of item.selectedSauces) {
-          const sPrice = ADDON_MAP[sauce.id] || Number(sauce.price) || 0;
+          const sPrice = ADDON_MAP[sauce.id] || 0;
+          if (sPrice === 0) {
+            return res.status(400).json({ success: false, message: `صوص ${sauce.name || sauce.id} غير صالح` });
+          }
           addonsSum += sPrice;
           validatedSauces.push({
             id: sauce.id,
@@ -211,7 +117,7 @@ module.exports = async function handler(req, res) {
       subtotal += totalPrice;
 
       validatedItems.push({
-        itemId: item.itemId || 'item-' + Math.floor(Math.random() * 1000),
+        itemId: resolvedId,
         name: item.name || 'كريب فاخر',
         quantity: qty,
         unitPrice,
@@ -231,7 +137,6 @@ module.exports = async function handler(req, res) {
 
     const totalAmount = subtotal + DELIVERY_FEE;
 
-    // Get next order number
     const orderNumber = await Counter.getNextSequence('orderNumber');
 
     const order = new Order({
