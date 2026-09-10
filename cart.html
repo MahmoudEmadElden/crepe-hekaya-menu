@@ -28,7 +28,7 @@
   <!-- Navbar -->
   <header class="navbar">
     <div class="container navbar-container">
-      <a href="/" class="nav-brand" aria-label="كريب حكاية الرئيسية">
+      <a href="index.html" class="nav-brand" aria-label="كريب حكاية الرئيسية">
         <div class="brand-crepe-icon">
           <img src="assets/images/logo.jpeg?v=3" alt="لوجو مطعم كريب حكاية" class="brand-logo-img">
         </div>
@@ -38,7 +38,7 @@
         </div>
       </a>
       <div class="nav-actions">
-        <a href="/menu.html" class="auth-nav-link">← الرجوع للمنيو</a>
+        <a href="menu.html" class="auth-nav-link">← الرجوع للمنيو</a>
       </div>
     </div>
   </header>
@@ -72,7 +72,7 @@
         </svg>
         <h3>السلة فاضية</h3>
         <p>اختار أصناف من المنيو وضيفها للسلة</p>
-        <a href="/menu.html" class="btn-back-to-menu">تصفح المنيو</a>
+        <a href="menu.html" class="btn-back-to-menu">تصفح المنيو</a>
       </div>
 
       <!-- Cart Footer (Delivery Details + Notes + Total + Checkout) -->
@@ -139,12 +139,13 @@
 
         <div class="checkout-actions-row">
           <button class="btn-checkout" id="checkoutBtn">
-            <span class="btn-text">اطلب أونلاين الآن</span>
-            <span class="btn-loading" style="display:none;">جارٍ إرسال الطلب...</span>
+            <i class="fab fa-whatsapp" style="font-size: 1.25rem;"></i>
+            <span class="btn-text">تأكيد الطلب عبر الواتساب الآن</span>
+            <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> جاري فتح الواتساب وإرسال الطلب...</span>
           </button>
           <button type="button" class="btn-whatsapp-checkout" id="btnWhatsAppCheckout">
-            <i class="fab fa-whatsapp"></i>
-            <span>إرسال الطلب عبر الواتساب</span>
+            <i class="fas fa-motorcycle"></i>
+            <span>طلب دليفري سريع</span>
           </button>
         </div>
       </div>
@@ -156,14 +157,24 @@
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         </div>
-        <h2>تم استلام طلبك بنجاح</h2>
+        <h2>تم تجهيز طلبك بنجاح!</h2>
         <div class="confirm-order-num">
           رقم طلبك: <strong id="confirmOrderNum">#0000</strong>
         </div>
-        <p class="confirm-desc">طلبك قيد المراجعة وهيتم قبوله في أقرب وقت.</p>
+        <p class="confirm-desc">تم تحويلك إلى محادثة واتساب مطعم كريب حكاية. يرجى الضغط على زر "إرسال" داخل المحادثة لتأكيد خروج الأوردر فوراً!</p>
+
+        <!-- Direct WhatsApp CTA Box -->
+        <div id="confirmWaActionBlock" style="margin: 1.5rem auto; max-width: 440px;">
+          <a href="#" id="confirmWaDirectBtn" target="_blank" class="btn-whatsapp-checkout" style="display: flex; align-items: center; justify-content: center; gap: 0.75rem; padding: 1rem 1.5rem; font-size: 1.1rem; text-decoration: none; border-radius: var(--radius-full); box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35); background: linear-gradient(135deg, #25D366, #128C7E); color: #fff; font-weight: 800;">
+            <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+            <span>فتح محادثة الواتساب وتأكيد الطلب 💬</span>
+          </a>
+          <p style="font-size: 0.82rem; color: var(--color-text-muted); margin-top: 0.75rem; text-align: center;">إذا لم يفتح تطبيق الواتساب تلقائياً، اضغط على الزر الأخضر أعلاه لإرسال تفاصيل الأوردر لمطبخ كريب حكاية مباشرة.</p>
+        </div>
+
         <div class="confirm-actions">
-          <a href="/menu.html" class="btn-back-to-menu">الرجوع للمنيو</a>
-          <a href="/orders.html" class="btn-view-orders">طلباتي</a>
+          <a href="menu.html" class="btn-back-to-menu">الرجوع للمنيو</a>
+          <a href="orders.html" class="btn-view-orders">طلباتي</a>
         </div>
       </div>
 
@@ -176,26 +187,26 @@
 
   <!-- Mobile App Bottom Navigation Bar -->
   <nav class="mobile-bottom-nav" aria-label="شريط الملاحة لتطبيق الموبايل">
-    <a href="/index.html" class="mobile-nav-item">
+    <a href="index.html" class="mobile-nav-item">
       <i class="fas fa-home"></i>
       <span>الرئيسية</span>
     </a>
-    <a href="/menu.html" class="mobile-nav-item">
+    <a href="menu.html" class="mobile-nav-item">
       <i class="fas fa-utensils"></i>
       <span>المنيو</span>
     </a>
-    <a href="/cart.html" class="mobile-nav-item active">
+    <a href="cart.html" class="mobile-nav-item active">
       <i class="fas fa-shopping-bag"></i>
       <span class="mobile-nav-cart-badge">0</span>
       <span>السلة</span>
     </a>
-    <a href="/orders.html" class="mobile-nav-item">
+    <a href="orders.html" class="mobile-nav-item">
       <i class="fas fa-receipt"></i>
       <span>طلباتي</span>
     </a>
   </nav>
 
   <!-- PWA Client Controller -->
-  <script src="/js/pwa.js"></script>
+  <script src="js/pwa.js"></script>
 </body>
 </html>

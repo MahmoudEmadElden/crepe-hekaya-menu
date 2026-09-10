@@ -95,17 +95,8 @@
     }
   }
 
-  /* ---- Checkout ---- */
-  checkoutBtn.addEventListener('click', async () => {
-    // Check if logged in
-    if (!CrepeAPI.isLoggedIn()) {
-      CrepeAPI.showToast('لازم تسجل دخول أولاً لتأكيد طلبك', 'error');
-      setTimeout(() => {
-        window.location.href = '/auth.html?returnTo=/cart.html';
-      }, 1000);
-      return;
-    }
-
+  /* ---- Unified Instant WhatsApp Checkout (Zero Login Barrier) ---- */
+  async function handleUnifiedCheckout() {
     const cart = CrepeAPI.getCart();
     if (cart.length === 0) {
       CrepeAPI.showToast('السلة فاضية!', 'error');
@@ -141,94 +132,101 @@
 
     // Set loading state
     checkoutBtn.disabled = true;
-    checkoutBtn.querySelector('.btn-text').style.display = 'none';
-    checkoutBtn.querySelector('.btn-loading').style.display = 'inline';
+    if (checkoutBtn.querySelector('.btn-text')) checkoutBtn.querySelector('.btn-text').style.display = 'none';
+    if (checkoutBtn.querySelector('.btn-loading')) checkoutBtn.querySelector('.btn-loading').style.display = 'inline';
 
+    let orderNumber = 'CH-' + Math.floor(1000 + Math.random() * 9000);
+
+    // Background attempt to log to database if reachable
     try {
-      const data = await CrepeAPI.apiCreateOrder(cart, notes, deliveryAddress, cleanPhone, customerName, mapLocation);
-
-      if (data.success) {
-        // Clear cart
-        CrepeAPI.clearCart();
-
-        // Show confirmation
-        cartItemsList.style.display = 'none';
-        cartFooter.style.display = 'none';
-        document.querySelector('.cart-header').style.display = 'none';
-        confirmOrderNum.textContent = `#${data.order.orderNumber}`;
-        orderConfirmation.style.display = 'flex';
+      if (CrepeAPI.isLoggedIn && CrepeAPI.isLoggedIn()) {
+        const apiPromise = CrepeAPI.apiCreateOrder(cart, notes, deliveryAddress, cleanPhone, customerName, mapLocation)
+          .catch(err => { console.warn('Background sync note:', err); return null; });
+        const timeoutPromise = new Promise(resolve => setTimeout(() => resolve(null), 500));
+        const res = await Promise.race([apiPromise, timeoutPromise]);
+        if (res && res.success && res.order && res.order.orderNumber) {
+          orderNumber = res.order.orderNumber;
+        }
       }
-    } catch (error) {
-      CrepeAPI.showToast(error.message || 'حصل مشكلة في إرسال الطلب', 'error', 3000);
-      checkoutBtn.disabled = false;
-      checkoutBtn.querySelector('.btn-text').style.display = 'inline';
-      checkoutBtn.querySelector('.btn-loading').style.display = 'none';
-    }
-  });
-
-  /* ---- WhatsApp Fallback Checkout ---- */
-  function sendWhatsAppOrder() {
-    const cart = CrepeAPI.getCart();
-    if (cart.length === 0) {
-      CrepeAPI.showToast('السلة فاضية!', 'error');
-      return;
+    } catch (e) {
+      console.warn('Background order registration note:', e);
     }
 
-    const customerName = document.getElementById('orderCustomerName').value.trim();
-    const customerPhone = document.getElementById('orderCustomerPhone').value.trim();
-    const deliveryAddress = document.getElementById('orderDeliveryAddress').value.trim();
-    const notes = document.getElementById('orderNotes').value.trim();
-    const mapLocation = document.getElementById('orderMapLocation') ? document.getElementById('orderMapLocation').value.trim() : '';
-
-    if (!customerName) {
-      CrepeAPI.showToast('الاسم بالكامل مطلوب لإتمام الطلب', 'error');
-      document.getElementById('orderCustomerName').focus();
-      return;
-    }
-
-    const cleanPhone = customerPhone.replace(/[\s-]/g, '');
-    if (!cleanPhone || cleanPhone.length < 10) {
-      CrepeAPI.showToast('يرجى إدخال رقم هاتف صحيح للتواصل معك وقت التوصيل', 'error');
-      document.getElementById('orderCustomerPhone').focus();
-      return;
-    }
-
-    if (!deliveryAddress || deliveryAddress.length < 5) {
-      CrepeAPI.showToast('عنوان التوصيل بالتفصيل مطلوب (المنطقة والشارع ورقم العمارة)', 'error');
-      document.getElementById('orderDeliveryAddress').focus();
-      return;
+    // Prepare luxury WhatsApp receipt
+    let timeStr = '';
+    let dateStr = '';
+    try {
+      const now = new Date();
+      timeStr = now.toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit' });
+      dateStr = now.toLocaleDateString('ar-EG', { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric' });
+    } catch (e) {
+      timeStr = new Date().toLocaleTimeString();
     }
 
     const total = CrepeAPI.getCartTotal();
 
-    let message = `مرحباً مطعم كريب حكاية، أريد تأكيد طلب جديد:\n\n`;
-    message += `*العميل:* ${customerName}\n`;
-    message += `*الهاتف:* ${cleanPhone}\n`;
-    message += `*العنوان:* ${deliveryAddress}\n`;
-    if (mapLocation) {
-      message += `*الموقع بالـ GPS:* ${mapLocation}\n`;
+    let message = `👑 *طلب أونلاين جديد — مطعم كريب حكاية*\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `🧾 *رقم الأوردر:* #${orderNumber}\n`;
+    if (timeStr) {
+      message += `⏰ *التوقيت:* ${timeStr}${dateStr ? ' (' + dateStr + ')' : ''}\n`;
     }
-    message += `\n*الأصناف المطلوبة:*\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `👤 *بيانات العميل والتوصيل:*\n`;
+    message += `• *الاسم:* ${customerName}\n`;
+    message += `• *الهاتف:* ${cleanPhone}\n`;
+    message += `• *العنوان:* ${deliveryAddress}\n`;
+    if (mapLocation) {
+      message += `📍 *موقع GPS على الخريطة:*\n${mapLocation}\n`;
+    }
+    if (notes) {
+      message += `📝 *ملاحظات العميل:* ${notes}\n`;
+    }
+    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `🌯 *الأصناف والكميات المطلوبة:*\n`;
 
     cart.forEach((item, index) => {
       const variantText = item.variantLabel ? ` (${item.variantLabel})` : '';
       const lineTotal = item.unitPrice * item.quantity;
-      message += `${index + 1}. *${item.name}*${variantText} × ${item.quantity} = ${lineTotal} جنيه\n`;
+      message += `\n${index + 1}. *${item.name}*${variantText}\n   الكمية: ${item.quantity} × ${item.unitPrice} ج = *${lineTotal} ج*\n`;
     });
 
-    message += `\n*الإجمالي الكلي:* ${total} جنيه\n`;
-    message += `*طريقة الدفع:* الدفع كاش عند الاستلام\n`;
-    if (notes) {
-      message += `*ملاحظات خاصة:* ${notes}\n`;
-    }
+    message += `\n━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `💰 *الإجمالي الكلي المطلوب للدفع:* *${total} جنيه*\n`;
+    message += `🛵 *طريقة الدفع:* كاش عند الاستلام\n`;
+    message += `━━━━━━━━━━━━━━━━━━━━━━\n`;
+    message += `📍 كريب حكاية: شارع الأزهر بجوار مطعم بهية\n`;
+    message += `_تم إرسال هذا الطلب تلقائياً عبر موقع كريب حكاية الرسمي_`;
 
     const whatsappUrl = `https://wa.me/201064319292?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, '_blank');
+
+    // Clear Cart
+    CrepeAPI.clearCart();
+
+    // Show Confirmation View on screen
+    cartItemsList.style.display = 'none';
+    cartFooter.style.display = 'none';
+    const cartHeader = document.querySelector('.cart-header');
+    if (cartHeader) cartHeader.style.display = 'none';
+
+    if (confirmOrderNum) confirmOrderNum.textContent = `#${orderNumber}`;
+    const directWaBtn = document.getElementById('confirmWaDirectBtn');
+    if (directWaBtn) directWaBtn.href = whatsappUrl;
+
+    orderConfirmation.style.display = 'flex';
+    orderConfirmation.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    // Auto-launch WhatsApp directly on customer's phone!
+    setTimeout(() => {
+      window.location.href = whatsappUrl;
+    }, 400);
   }
+
+  checkoutBtn.addEventListener('click', handleUnifiedCheckout);
 
   const btnWhatsApp = document.getElementById('btnWhatsAppCheckout');
   if (btnWhatsApp) {
-    btnWhatsApp.addEventListener('click', sendWhatsAppOrder);
+    btnWhatsApp.addEventListener('click', handleUnifiedCheckout);
   }
 
   /* ---- Leaflet GPS Location Picker ---- */
